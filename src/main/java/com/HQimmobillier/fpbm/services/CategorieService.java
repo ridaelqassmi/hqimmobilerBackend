@@ -15,6 +15,7 @@ public interface CategorieService {
     public Categories createCategorie(Categories categories);
     public void deleteCategorie(Long id);
     public Categories update(Categories categories,Long id);
+    public Categories findById(Long id);
 
 
 }

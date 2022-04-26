@@ -34,4 +34,8 @@ public class CategorieServiceImp implements CategorieService {
         return categoriesRepo.save(categories);
 
     }
+
+    public Categories findById(Long id) {
+        return categoriesRepo.findById(id).get();
+    }
 }
