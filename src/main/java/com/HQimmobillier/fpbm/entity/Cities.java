@@ -18,8 +18,6 @@ public class Cities {
     @Column
     private String city_image;
 
-    @OneToMany(mappedBy = "cities")
-    private List<Post> post;
 
     public Cities(String cityName, String city_image) {
 

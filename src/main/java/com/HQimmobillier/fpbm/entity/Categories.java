@@ -21,8 +21,7 @@ public class Categories {
     private String categorieImage;
     @Column
     private String description;
-    @OneToMany(mappedBy = "categories")
-    private List<Post> post;
+
 
     public Categories( String categorieName, String categorieImage, String description) {
         this.categorieName = categorieName;
@@ -32,11 +31,5 @@ public class Categories {
 
 
 
-    public Categories(Long id, String categorieName, String categorieImage, String description) {
-        this.id = id;
-        this.categorieName = categorieName;
-        this.categorieImage = categorieImage;
-        this.description = description;
 
-    }
 }

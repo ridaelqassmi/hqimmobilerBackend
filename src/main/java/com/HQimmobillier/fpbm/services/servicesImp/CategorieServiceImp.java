@@ -1,4 +1,4 @@
-package com.HQimmobillier.fpbm.servicesImp;
+package com.HQimmobillier.fpbm.services.servicesImp;
 
 import com.HQimmobillier.fpbm.entity.Categories;
 import com.HQimmobillier.fpbm.repository.CategoriesRepo;

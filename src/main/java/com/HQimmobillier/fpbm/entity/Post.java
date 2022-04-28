@@ -1,5 +1,6 @@
 package com.HQimmobillier.fpbm.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -35,8 +36,7 @@ public abstract class Post {
     private boolean isClosed;
     @ManyToOne
     private Cities cities;
-    @OneToMany
-    @JoinColumn(name = "post")
+    @OneToMany(mappedBy = "post")
     private List<PostImages> images;
     @ManyToOne
     private Categories categories;

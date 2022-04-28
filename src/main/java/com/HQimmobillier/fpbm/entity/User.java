@@ -1,10 +1,12 @@
 package com.HQimmobillier.fpbm.entity;
 
+import com.HQimmobillier.fpbm.utility.CommenFunctions;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -27,10 +29,18 @@ public class User {
     private boolean is_enabled;
     @Column
     private Date creation_date;
-    @OneToMany(mappedBy = "user")
-    private List<Post> Post;
 
-    public User( String firstName, String lastName, String email,String phone, boolean is_enabled, Date creation_date) {
+    @Column
+    private String photos;
+    private byte[] photosInBytes;
+
+    public User( String firstName,
+                 String lastName,
+                 String email,
+                 String phone,
+                 boolean is_enabled,
+                 Date creation_date,
+                 String photos) {
 
         this.firstName = firstName;
         LastName = lastName;
@@ -38,6 +48,9 @@ public class User {
         this.phone = phone;
         this.is_enabled = is_enabled;
         this.creation_date = creation_date;
+        this.photos = photos;
+
     }
+
 }
 
