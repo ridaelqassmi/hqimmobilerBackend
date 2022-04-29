@@ -1,6 +1,7 @@
 package com.HQimmobillier.fpbm.entity;
 
 import com.HQimmobillier.fpbm.utility.CommenFunctions;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +21,10 @@ public class User {
     private String firstName;
     @Column
     private String LastName;
-   /* @Column(unique=true)*/
+    @JsonIgnoreProperties
+    @Column
+    private String Password;
+
     @Column
     private String email;
     @Column
@@ -32,25 +36,16 @@ public class User {
 
     @Column
     private String photos;
-    private byte[] photosInBytes;
 
-    public User( String firstName,
-                 String lastName,
-                 String email,
-                 String phone,
-                 boolean is_enabled,
-                 Date creation_date,
-                 String photos) {
-
+    public User(String firstName, String lastName, String password, String email, String phone, boolean is_enabled, Date creation_date, String photos) {
         this.firstName = firstName;
         LastName = lastName;
+        Password = password;
         this.email = email;
         this.phone = phone;
         this.is_enabled = is_enabled;
         this.creation_date = creation_date;
         this.photos = photos;
-
     }
-
 }
 

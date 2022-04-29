@@ -34,13 +34,12 @@ public class SimpleDataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        /*
+
 
 
     List<Categories> categories = new ArrayList<>();
         for(int i = 0;i<10;i++){
             Categories c  = new Categories(
-                    Long.valueOf(i),
                     faker.commerce().department(),
                     faker.commerce().department(),
                     faker.commerce().department()
@@ -52,35 +51,35 @@ public class SimpleDataLoader implements CommandLineRunner {
 
         List<Cities> cities = new ArrayList<>();
         for(int i = 0;i<100;i++){
-            Cities c  = new Cities(
-                    Long.valueOf(i),
-                    faker.address().cityName(),
-                    faker.address().citySuffix()
-
-            );
+            Cities c  = new Cities(faker.address().cityName(), faker.avatar().image());
             cities.add(c);
         }
 
+
+
+
+
+
+
         citiesRepo.saveAll(cities);
-
         List<User> users = new ArrayList<>();
-        for(int i = 0;i<100;i++){
-            User c  = new User(
-                    Long.valueOf(i),
-                    faker.name().firstName(),
+        for(int i=0;i<100;i++){
+            User user = new User(faker.name().firstName(),
                     faker.name().lastName(),
+                    " "+ faker.name().hashCode(),
                     faker.name().firstName()+"@gmail.com",
-                    ""+faker.phoneNumber(),
-                    true,
-                    faker.date().birthday()
+                    faker.phoneNumber().phoneNumber(),
+                    false,
+                    faker.date().birthday(),
+                    faker.avatar().image());
+            users.add(user);
+        };
+       userRepo.saveAll(users);
 
-            );
-            users.add(c);
-        }
 
-        userRepo.saveAll(users);
 
-         */
+
+
 
     }
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.List;
+
 
 @RestController
 public class RentingPostController {
@@ -22,10 +22,6 @@ public class RentingPostController {
                                          @RequestParam(value = "rentingPost") String rentingPost) throws IOException {
         return rentingPostService.createRentingPost(idCity,idCategorie,files,idUser,rentingPost);
 
-    }
-    @GetMapping("posts/rent")
-    public List<RentingPost> getAllRentingPosts(){
-        return rentingPostService.getAll();
     }
 
 

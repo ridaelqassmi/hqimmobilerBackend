@@ -33,6 +33,8 @@ public abstract class Post {
     @Column
     private Date date;
     @Column
+    private float areaSize;
+    @Column
     private boolean isClosed;
     @ManyToOne
     private Cities cities;
@@ -46,16 +48,4 @@ public abstract class Post {
 
 
 
-    public Post(Long id, String title, String location, int numberRoom, boolean hasAppliance, String description, Date date, boolean isClosed, Cities cities, Categories categories) {
-        this.id = id;
-        this.title = title;
-        this.location = location;
-        this.numberRoom = numberRoom;
-        this.hasAppliance = hasAppliance;
-        this.description = description;
-        this.date = date;
-        this.isClosed = isClosed;
-        this.cities = cities;
-        this.categories = categories;
-    }
 }

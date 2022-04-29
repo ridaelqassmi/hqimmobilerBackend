@@ -25,10 +25,5 @@ public class Cities {
         this.city_image = city_image;
     }
 
-    public Cities(Long id, String cityName, String city_image) {
-        this.id = id;
-        this.cityName = cityName;
-        this.city_image = city_image;
 
-    }
 }

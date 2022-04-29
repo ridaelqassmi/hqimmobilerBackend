@@ -8,23 +8,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
+@RequestMapping("api")
 public class CategorieController {
     @Autowired
     CategorieService categorieService;
-    @GetMapping("/categorie")
+    @GetMapping("/categories")
     public List<Categories> getAll(){
         return categorieService.findAll();
     }
-    @PostMapping("/categorie")
+    @PostMapping("/categories")
     public Categories create(@RequestBody Categories categories){
         return categorieService.createCategorie(categories);
     }
-    @PostMapping("/categorie/update/{id}")
+
+    @PutMapping("/categories/{id}")
     public Categories update(@RequestBody Categories categories, @PathVariable Long id){
         return categorieService.update(categories,id);
     }
-    @DeleteMapping("/categorie/{id}")
+    @DeleteMapping("/categories/{id}")
     public void deleteCategorie(@PathVariable long id){
          categorieService.deleteCategorie(id);
     }
