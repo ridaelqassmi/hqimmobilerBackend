@@ -1,26 +1,24 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
 import com.HQimmobillier.fpbm.entity.*;
-import com.HQimmobillier.fpbm.repository.BuyingPostRepo;
-import com.HQimmobillier.fpbm.repository.PostImagesRepo;
-import com.HQimmobillier.fpbm.repository.RentingPostRepo;
-import com.HQimmobillier.fpbm.repository.UserRepo;
+import com.HQimmobillier.fpbm.repository.*;
 import com.HQimmobillier.fpbm.services.CategorieService;
 import com.HQimmobillier.fpbm.services.CityService;
 import com.HQimmobillier.fpbm.services.PostImageService;
 import com.HQimmobillier.fpbm.services.PostService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 
 public class PostServiceImp implements PostService {
@@ -38,6 +36,8 @@ public class PostServiceImp implements PostService {
     PostImagesRepo postImagesRepo;
     @Autowired
     PostImageService postImageService;
+    @Autowired
+    CategoriesRepo categoriesRepo;
 
 /*********************************************RENTING POST SERVICES ****************************************/
     @Override
@@ -72,12 +72,22 @@ public class PostServiceImp implements PostService {
 
     /*SORT POSTS BY ANY FIELD */
 
-    public List<RentingPost> sortRentingPostBy(String field,String typeOfSort){
-        if(typeOfSort.toLowerCase().equals("asc")){
-            return rentingPostRepo.findAll(Sort.by(Sort.Direction.ASC,field));
+    public Page<RentingPost> sortRentingPostBy(String field, Optional<String> typeOfSort, Optional<Integer> page, int size){
+        Integer p;
+        if(page.isPresent()){
+            p=page.get();
         }else{
-            return rentingPostRepo.findAll(Sort.by(Sort.Direction.DESC,field));
+            p=0;
         }
+        Pageable sorted;
+        if(!typeOfSort.isPresent()){
+
+            sorted = PageRequest.of(p, size, Sort.by(field).ascending());
+
+        }else{
+            sorted = PageRequest.of(p, size, Sort.by(field).descending());
+        }
+        return rentingPostRepo.findAll(sorted);
 
     }
 
@@ -91,6 +101,11 @@ public class PostServiceImp implements PostService {
            return  rentingPostRepo.findAllRentingPostsByUser(user);
         }
         return null;
+    }
+    public Page<RentingPost> getRentingPostByCategories(int page,int size,long id){
+        Pageable pageRequest  = PageRequest.of(page,size);
+        Categories categories = categoriesRepo.findById(id).get();
+        return rentingPostRepo.findAllByCategories(categories,pageRequest);
     }
 
 /************************************************BUYING POST SERVICES ********************************************/

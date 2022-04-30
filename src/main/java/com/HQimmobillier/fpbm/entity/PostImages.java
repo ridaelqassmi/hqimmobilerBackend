@@ -24,9 +24,9 @@ public class PostImages{
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
 
-    public PostImages(Long id, String imageName) {
-        this.id = id;
+    public PostImages(String imageName,String imagePath) {
+
         this.imageName = imageName;
-        //this.imagePath = imagePath;
+        this.imagePath = imagePath;
     }
 }

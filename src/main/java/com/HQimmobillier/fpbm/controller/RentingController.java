@@ -4,15 +4,14 @@ import com.HQimmobillier.fpbm.entity.RentingPost;
 import com.HQimmobillier.fpbm.repository.RentingPostRepo;
 import com.HQimmobillier.fpbm.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.List;
 
+@RestController
+@CrossOrigin
 public class RentingController {
     @Autowired
     PostService postService;

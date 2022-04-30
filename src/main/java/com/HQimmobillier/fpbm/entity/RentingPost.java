@@ -22,13 +22,11 @@ public class RentingPost extends Post{
     @Column
     private float price;
 
-    public RentingPost( String duree, float price) {
-
-        this.duree = duree;
-        this.price = price;
+    public RentingPost(String title, String streetAddress, int numberBetween, boolean b, String quote, Date birthday, float v, boolean b1, Cities c, List<PostImages> generateAListOfImages, Categories ct, User u, String week, int numberBetween1) {
+        super(title, streetAddress, numberBetween, b, quote,birthday, v, b1, c,generateAListOfImages, ct, u);
+        this.duree = week;
+        this.price = numberBetween1;
     }
-
-
 
 
 }
