@@ -29,7 +29,4 @@ public class Categories {
         this.description = description;
     }
 
-
-
-
 }

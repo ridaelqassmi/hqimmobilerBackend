@@ -2,12 +2,15 @@ package com.HQimmobillier.fpbm.entity;
 
 import com.HQimmobillier.fpbm.utility.CommenFunctions;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -21,8 +24,9 @@ public class User {
     private String firstName;
     @Column
     private String LastName;
-    @JsonIgnoreProperties
+
     @Column
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String Password;
 
     @Column
@@ -37,6 +41,9 @@ public class User {
     @Column
     private String photos;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Roles> userRoles = new ArrayList<>();
+
     public User(String firstName, String lastName, String password, String email, String phone, boolean is_enabled, Date creation_date, String photos) {
         this.firstName = firstName;
         LastName = lastName;
@@ -47,5 +54,7 @@ public class User {
         this.creation_date = creation_date;
         this.photos = photos;
     }
+
+
 }
 

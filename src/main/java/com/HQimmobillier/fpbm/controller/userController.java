@@ -41,17 +41,11 @@ public class userController {
         User user = userRepo.findById(id).get();
 
         return user;
-
-
-
-
     }
     @DeleteMapping("/users/delete")
     public void deleteUserById(long id){
         //here it should check if the user has the authorization
          userRepo.deleteById(id);
-
-
     }
     @PutMapping("/users/{id}")
     public User updateUser(@PathVariable long id ,@RequestBody User user){
