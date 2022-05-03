@@ -31,7 +31,7 @@
     <!-------endship----------->
     <div border="top" class="border-top">
       <p class="mx-10 white--text">
-        {{ numberOfElements * correntPage }} of {{ totalElements }}
+        {{ (20*(correntPage-1)+ numberOfElements) }} of {{ totalElements }}
       </p>
     </div>
 
@@ -103,8 +103,7 @@ export default {
       numberOfElements: 0,
       totalElements: 0,
       categories: [],
-      categoriesSelected: false,
-      categoriesId: -1,
+      categoriesId: 0,
     };
   },
   methods: {
@@ -119,7 +118,7 @@ export default {
     },
     getPage(page) {
       console.log();
-      if (this.categoriesSelected) {
+      if (this.categoriesId != 0) {
         this.makeGetRequestToApi(
           BASE_URL +
             "rent/categorie/" +
@@ -132,18 +131,10 @@ export default {
       }
     },
     getPostByCategorie(id) {
-      
-      if(this.categoriesId == id){
-          this.categoriesSelected = !this.categoriesSelected;
-      }else{
-          this.categoriesSelected =true;
         this.categoriesId = id;
-      }
-      
-      
-      if (!this.categoriesSelected ) {
+      if (id ==0) {
         this.correntPage = 0;
-        return this.getPage(this.correntPage);
+        return this.getPage(this.correntPage+1);
       }
       this.correntPage = 0;
       this.makeGetRequestToApi(
@@ -157,7 +148,8 @@ export default {
       .get(BASE_URL + "categories")
       .then((res) => (this.categories = res.data))
       .then(() => {
-        console.log(this.categories);
+        let object  = {id:0,categorieName:"All"}
+        this.categories.unshift(object)
       });
   },
 };

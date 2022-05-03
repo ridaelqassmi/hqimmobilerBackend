@@ -44,9 +44,7 @@ public abstract class Post {
     private Categories categories;
     @ManyToOne
     private User user;
-
     public Post(String title, String location, int numberRoom, boolean hasAppliance, String description, Date date, float areaSize, boolean isClosed, Cities cities, List<PostImages> images, Categories categories, User user) {
-
         this.title = title;
         this.location = location;
         this.numberRoom = numberRoom;

@@ -1,6 +1,7 @@
 package com.HQimmobillier.fpbm.controller;
 
 import com.HQimmobillier.fpbm.entity.RentingPost;
+import com.HQimmobillier.fpbm.repository.RentingPostRepo;
 import com.HQimmobillier.fpbm.services.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,13 +14,14 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Optional;
 
-
-
-
 @RestController
 @RequestMapping("api/")
 @CrossOrigin
 public class RentingPostController {
+    @Autowired
+    PostService postService;
+    @Autowired
+    RentingPostRepo rentingPostRepo;
     @Autowired
     PostService rentingPostService;
     @PostMapping("rent")
@@ -51,6 +53,19 @@ public class RentingPostController {
     @GetMapping("/rent/categorie/{id}/page/{idPage}")
     public Page<RentingPost> getPostsByCategorie(@PathVariable(name = "idPage") int page,@PathVariable(name = "id") long id){
         return rentingPostService.getRentingPostByCategories(page,20,id);
+    }
+
+    @PutMapping("rent/{id}")
+    public RentingPost update(@PathVariable long id, @RequestBody RentingPost rentingPost){
+        RentingPost post = postService.findRentingPostById(id);
+        post.setTitle(rentingPost.getTitle());
+        post.setDuree(rentingPost.getDuree());
+        post.setPrice(rentingPost.getPrice());
+        post.setAreaSize(rentingPost.getAreaSize());
+        post.setCategories(rentingPost.getCategories());
+        post.setNumberRoom(rentingPost.getNumberRoom());
+        return rentingPostRepo.save(post);
+
     }
 
 
