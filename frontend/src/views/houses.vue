@@ -30,7 +30,9 @@
     </v-row>
     <!-------endship----------->
     <div border="top" class="border-top">
+
       <p class="mx-10 black--text">
+
         {{ (20*(correntPage-1)+ numberOfElements) }} of {{ totalElements }}
       </p>
     </div>
