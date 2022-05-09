@@ -1,8 +1,8 @@
 <template>
-  <v-container fluid class="blue darken-3 py-10">
+  <v-container fluid class="py-10 background-container">
     <v-row justify="center" class="">
       <v-col cols="12" md="9" sm="8" xs="12">
-        <p class="display-2 font-weight-bold white--text py-8 text-center">
+        <p class="text-h3 font-weight-bold white--text py-8 text-center">
           {{ postType }}
         </p>
 
@@ -12,13 +12,15 @@
               @click="toggleShowBuy()"
               :class="{ 'indigo  white--text': buy }"
               block
-              >buy</v-btn
+              class="text-button font-weight-bold"
+              >sell</v-btn
             >
           </v-col>
           <v-col cols="6">
             <v-btn
+            
               @click="toggleShowRent()"
-              :class="{ 'indigo  white--text': rent }"
+              :class="{ 'indigo   white--text': rent }"
               block
               >Rent</v-btn
             >
@@ -62,4 +64,7 @@ export default {
 </script>
 
 <style scoped>
+.background-container{
+  background: #003BDE !important
+}
 </style>

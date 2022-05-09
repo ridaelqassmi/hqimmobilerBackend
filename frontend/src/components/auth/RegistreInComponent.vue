@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog"  max-height="800px" max-width="500px">
       <v-card>
         <v-card-title class="justify-center pa-8" >
-          <span class="text-h6 white--text rounded-sm  indigo darken-2  elevation-4 Costume-color px-8 py-1 "> Registre In</span>
+          <span class="text-h5 grey--text text--darken-2  font-weight-bold rounded-lg   px-8 py-1 "> Registre In</span>
         </v-card-title>
         <v-card-text>
           <v-container>

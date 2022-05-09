@@ -66,8 +66,8 @@
           clearable
         ></v-text-field>
       </v-col>
-        <v-col cols="6" class="my-0">
-            <v-select
+      <v-col cols="6" class="my-0">
+        <v-select
           filled
           background-color="white"
           :items="items"
@@ -76,14 +76,13 @@
           :menu-props="{ buttom: true, offsetY: true }"
           label="durée "
         ></v-select>
-
       </v-col>
-      <v-col cols="12" >
-          <p class="white--text">appareils électroménagers</p>
-          <hr>
-          <v-row dense>
-              <v-col cols="6" v-for="appliance in appliances" :key="appliance">
-                  <v-checkbox 
+      <v-col cols="12">
+        <p class="white--text">appareils électroménagers</p>
+        <hr />
+        <v-row dense>
+          <v-col cols="6" v-for="appliance in appliances" :key="appliance">
+            <v-checkbox
               v-model="ex4"
               :label="appliance"
               color="white"
@@ -92,13 +91,9 @@
               class="white--text"
               multiple
               dark
-              
             ></v-checkbox>
-              </v-col>
-          </v-row>
-          
-            
-
+          </v-col>
+        </v-row>
       </v-col>
       <v-col cols="12">
         <p class="h6 py-0 white--text">Adresse</p>
@@ -106,8 +101,6 @@
         <v-autocomplete
           :items="items"
           v-model="city"
-          
-          
           color="white"
           hide-no-data
           hide-selected
@@ -118,21 +111,26 @@
           background-color="white"
           height="30"
         ></v-autocomplete>
-        <l-map style="height: 350px" class="map" app :zoom="zoom" :center="center" @click="AddMarker">
-      <l-tile-layer :url="url" :attribution="attribution" ></l-tile-layer>
-      <l-marker v-if="markerLatLng" :lat-lng="markerLatLng"  >
-        <l-icon
-            :icon-size="dynamicSize"
-          :icon-anchor="dynamicAnchor"
-          
-          :icon-url="iconUrl"
-        />
-        
-      </l-marker>
-      <v-locatecontrol/>
-    </l-map>
+        <l-map
+          style="height: 350px"
+          class="map"
+          app
+          :zoom="zoom"
+          :center="center"
+          @click="AddMarker"
+        >
+          <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
+          <l-marker v-if="markerLatLng" :lat-lng="markerLatLng">
+            <l-icon
+              :icon-size="dynamicSize"
+              :icon-anchor="dynamicAnchor"
+              :icon-url="iconUrl"
+            />
+          </l-marker>
+          <v-locatecontrol />
+        </l-map>
       </v-col>
-      
+
       <v-col>
         <p class="h6 py-0 white--text">media</p>
         <hr />
@@ -144,13 +142,15 @@
             contain
             :key="i"
           >
-          <v-container fill-height>
-            <v-row justify="center">
-            <v-col cols="1"  ><v-btn  fab @click="deleteImg(url,i)"><v-icon>mdi-delete</v-icon></v-btn></v-col>
-          </v-row>
-          </v-container>
-          
-         
+            <v-container fill-height>
+              <v-row justify="center">
+                <v-col cols="1"
+                  ><v-btn fab @click="deleteImg(url, i)"
+                    ><v-icon>mdi-delete</v-icon></v-btn
+                  ></v-col
+                >
+              </v-row>
+            </v-container>
           </v-carousel-item>
         </v-carousel>
 
@@ -167,24 +167,24 @@
         />
       </v-col>
       <v-col cols="12">
-        <v-btn block class="white--text purple " @click="submitHandler()">submit</v-btn>
+        <v-btn block class="white--text purple" @click="submitHandler()"
+          >submit</v-btn
+        >
       </v-col>
     </v-row>
-    
   </div>
 </template>
 
 <script>
-import { LMap, LTileLayer,LMarker,LIcon } from "vue2-leaflet";
-import Vue2LeafletLocatecontrol from 'vue2-leaflet-locatecontrol'
+import { LMap, LTileLayer, LMarker, LIcon } from "vue2-leaflet";
+import Vue2LeafletLocatecontrol from "vue2-leaflet-locatecontrol";
 export default {
   components: {
     LMap,
     LTileLayer,
-     'v-locatecontrol': Vue2LeafletLocatecontrol,
-     LMarker,
-     LIcon
-
+    "v-locatecontrol": Vue2LeafletLocatecontrol,
+    LMarker,
+    LIcon,
   },
   data() {
     return {
@@ -197,30 +197,31 @@ export default {
         '&copy; <a target="_blank" href="http://osm.org/copyright">OpenStreetMap</a> contributors',
       zoom: 8,
       center: [47.31322, -1.319482],
-      markerLatLng:0,
-      iconSize:32,
-      iconUrl:require('../../assets/location-pin.png'),
-      selectedFiles:[],
-      appliances:['freezer','air conditioning','footoy','etc'],
-      city:"",
-      title:"",
-      description:"",
-      categorie:"",
-      area:"",
-      chambre :"",
-      prix :"",
-      duree:"",
-      adresse:"",
-      ex4:""
+      markerLatLng: 0,
+      iconSize: 32,
+      iconUrl: require("../../assets/location-pin.png"),
+      selectedFiles: [],
+      appliances: ["freezer", "air conditioning", "footoy", "etc"],
+      city: "",
+      title: "",
+      description: "",
+      categorie: "",
+      area: "",
+      chambre: "",
+      prix: "",
+      duree: "",
+      adresse: "",
+      ex4: "",
     };
   },
-   computed: {
+  computed: {
     dynamicSize() {
       return [this.iconSize, this.iconSize * 1.15];
     },
     dynamicAnchor() {
       return [this.iconSize / 2, this.iconSize * 1.15];
-    }},
+    },
+  },
   methods: {
     onFileChange(e) {
       const file = e.target.files;
@@ -229,26 +230,21 @@ export default {
       for (let i = 0; i < file.length; i++) {
         this.urls.push(URL.createObjectURL(file[i]));
         this.selectedFiles.push(file[i]);
-        
-      }console.log(this.selectedFiles);
+      }
+      console.log(this.selectedFiles);
     },
-    AddMarker(e){
-      
-        this.markerLatLng = [e.latlng.lat,e.latlng.lng];
-        console.log(this.markerLatLng)
+    AddMarker(e) {
+      this.markerLatLng = [e.latlng.lat, e.latlng.lng];
+      console.log(this.markerLatLng);
     },
-    deleteImg(url,i){
-      this.urls = this.urls.filter(u=>u != url);
-      console.log(i+"before and the new  file is ");
+    deleteImg(url, i) {
+      this.urls = this.urls.filter((u) => u != url);
+      console.log(i + "before and the new  file is ");
       this.selectedFiles.splice(i, 1);
       console.log(this.selectedFiles);
-      
     },
-    submitHandler(){
-
-    }
+    submitHandler() {},
   },
-  
 };
 </script>
 
@@ -273,7 +269,7 @@ label {
   height: 100px;
   width: 100px;
 }
-.map{
+.map {
   z-index: 0;
 }
 </style>

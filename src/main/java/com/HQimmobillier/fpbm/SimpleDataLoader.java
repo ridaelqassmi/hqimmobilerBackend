@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-/*@Component*/
+@Component
 public class SimpleDataLoader implements CommandLineRunner {
     @Autowired
     private final BuyingPostRepo buyingPostRepo;

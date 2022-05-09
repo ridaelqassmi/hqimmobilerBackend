@@ -37,8 +37,8 @@
       </p>
     </div>
 
-    <v-row class="mx-6">
-      <v-col v-for="post in posts" :key="post.id" cols="12" md="3">
+    <v-row class="mx-6" justify="center" tile>
+      <v-col v-for="post in posts" :key="post.id" cols="11" md="3" lg="3" sm="12" xs="12">
         <v-card class="">
           <v-img
             class="white--text align-end"
