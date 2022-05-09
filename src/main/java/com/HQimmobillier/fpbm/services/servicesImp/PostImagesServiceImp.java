@@ -31,8 +31,6 @@ public class PostImagesServiceImp implements PostImageService {
 
             CommenFunctions.saveFile(uploadDir, fileName, o);
             postImages.add(postImage);
-
-
         }
         postImagesRepo.saveAll(postImages);
     }

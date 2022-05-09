@@ -34,7 +34,7 @@ public class RentingPostController {
 
     }
 
-    @GetMapping(value = {"/rent", "/rent/{id}"})
+    @GetMapping(value = {"/rent", "/rent/page/{id}"})
     public Page<RentingPost> findAll(@PathVariable(required = false) Integer id){
         if(id == null){
             return rentingPostService.getRentingPostWithPagination(1,20);
@@ -58,8 +58,11 @@ public class RentingPostController {
     @PutMapping("rent/{id}")
     public RentingPost update(@PathVariable long id, @RequestBody RentingPost rentingPost){
         RentingPost post = postService.findRentingPostById(id);
-        post.setTitle(rentingPost.getTitle());
+
+
         post.setDuree(rentingPost.getDuree());
+        post.setTitle(rentingPost.getTitle());
+
         post.setPrice(rentingPost.getPrice());
         post.setAreaSize(rentingPost.getAreaSize());
         post.setCategories(rentingPost.getCategories());
@@ -68,6 +71,9 @@ public class RentingPostController {
 
     }
 
-
+   @GetMapping("rent/{id}")
+    public RentingPost getRentingPostById(@PathVariable long id){
+        return rentingPostRepo.findById(id).get();
+   }
 
 }

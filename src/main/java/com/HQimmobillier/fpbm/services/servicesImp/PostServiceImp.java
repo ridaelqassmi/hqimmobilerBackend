@@ -107,7 +107,6 @@ public class PostServiceImp implements PostService {
         Categories categories = categoriesRepo.findById(id).get();
         return rentingPostRepo.findAllByCategories(categories,pageRequest);
     }
-
 /************************************************BUYING POST SERVICES ********************************************/
 
 

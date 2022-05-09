@@ -2,7 +2,7 @@
   <div class="py-16">
     <h1
       class="
-        white--text
+        grey--text
         font-weight-bold
         text-capitalize text-h2 text-center
         headingCustom
@@ -30,7 +30,9 @@
     </v-row>
     <!-------endship----------->
     <div border="top" class="border-top">
-      <p class="mx-10 white--text">
+
+      <p class="mx-10 black--text">
+
         {{ (20*(correntPage-1)+ numberOfElements) }} of {{ totalElements }}
       </p>
     </div>
@@ -60,9 +62,8 @@
           </v-card-text>
 
           <v-card-actions>
-            <v-btn color="orange" text> Share </v-btn>
-
-            <v-btn color="orange" text> Explore </v-btn>
+            <v-btn color="orange" text > Share </v-btn>
+              <router-link  style="routerlink" :to="{ name: 'showPOST', params: { postId: post.id }}"> <v-btn color="orange" text >Explore</v-btn></router-link>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -158,5 +159,8 @@ export default {
 <style scoped>
 .headingCustom {
   font-variation-settings: "wght" 900;
+}
+a{
+  text-decoration: none !important;
 }
 </style>
