@@ -1,17 +1,18 @@
 package com.HQimmobillier.fpbm.exception;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import org.springframework.http.HttpStatus;
 
-import java.util.function.Supplier;
 
 
-public class ApiRequestException extends RuntimeException {
+@Data
+public class ApiRequestException extends Throwable {
 
     private HttpStatus status;
+    private String msg;
     public ApiRequestException(String message, HttpStatus status) {
-        super(message);
+        this.msg=message;
         this.status = status;
     }
 

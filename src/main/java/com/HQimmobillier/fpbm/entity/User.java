@@ -42,7 +42,7 @@ public class User {
     private String photos;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    private Collection<Roles> userRoles = new ArrayList<>();
+    private List<Roles> userRoles = new ArrayList<>();
 
     public User(String firstName, String lastName, String password, String email, String phone, boolean is_enabled, Date creation_date, String photos) {
         this.firstName = firstName;
