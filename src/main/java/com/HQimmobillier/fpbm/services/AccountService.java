@@ -16,5 +16,7 @@ public interface AccountService {
     User loadUserByEmail(String email);
     List<User> listUsers();
 
+    public User getAuthenticatedUser();
+
 
 }

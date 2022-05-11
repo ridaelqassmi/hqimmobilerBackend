@@ -25,6 +25,7 @@ public class AccountRestController {
 
     @GetMapping(path="/users")
     public List<User> appUsers(){
+
         return accountService.listUsers();
     }
     @PostMapping(path="/register")

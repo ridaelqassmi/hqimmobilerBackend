@@ -92,7 +92,7 @@
 
 <script>
 import axios from "axios";
-const BASE_URL = "http://localhost:8080/api/";
+
 export default {
   data() {
     return {
@@ -121,14 +121,14 @@ export default {
       console.log();
       if (this.categoriesId != 0) {
         this.makeGetRequestToApi(
-          BASE_URL +
-            "rent/categorie/" +
+          
+            "api/rent/categorie/" +
             this.categoriesId +
             "/page/" +
             this.correntPage
         );
       } else {
-        this.makeGetRequestToApi(BASE_URL + "rent/" + page);
+        this.makeGetRequestToApi( "api/rent/" + page);
       }
     },
     getPostByCategorie(id) {
@@ -139,14 +139,14 @@ export default {
       }
       this.correntPage = 0;
       this.makeGetRequestToApi(
-        BASE_URL + "rent/categorie/" + id + "/page/" + this.correntPage
+         "api/rent/categorie/" + id + "/page/" + this.correntPage
       );
     },
   },
   mounted() {
-    this.makeGetRequestToApi(BASE_URL + "rent");
+    this.makeGetRequestToApi("api/rent");
     axios
-      .get(BASE_URL + "categories")
+      .get("api/categories")
       .then((res) => (this.categories = res.data))
       .then(() => {
         let object  = {id:0,categorieName:"All"}

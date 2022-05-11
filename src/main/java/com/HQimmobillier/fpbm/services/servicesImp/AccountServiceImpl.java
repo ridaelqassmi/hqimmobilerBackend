@@ -9,10 +9,12 @@ import com.HQimmobillier.fpbm.security.JwtProvider;
 import com.HQimmobillier.fpbm.services.AccountService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -32,6 +34,12 @@ public class AccountServiceImpl implements AccountService {
         this.jwtProvider = jwtProvider;
     }
 
+
+
+    @Override
+    public User getAuthenticatedUser() {
+        Principal principal = SecurityContextHolder.getContext().getAuthentication();
+        return userRepo.findByEmail(principal.getName());}
     public String login(LoginRequestDto loginRequestDto){
          authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(),loginRequestDto.getPassword()));
         return jwtProvider.createToken(loginRequestDto.getEmail(), userRepo.findByEmail(loginRequestDto.getEmail()).getUserRoles());

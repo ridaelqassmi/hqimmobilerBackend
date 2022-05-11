@@ -28,9 +28,9 @@ public class RentingPostController {
     public RentingPost createRentingPost(@RequestParam(value = "idCity") long idCity,
                                          @RequestParam(value = "idCategorie") long idCategorie,
                                          @RequestPart("file") MultipartFile[] files,
-                                         @RequestParam(value = "idUser") long idUser,
+
                                          @RequestParam(value = "rentingPost") String rentingPost) throws IOException {
-        return rentingPostService.createRentingPost(idCity,idCategorie,files,idUser,rentingPost);
+        return rentingPostService.createRentingPost(idCity,idCategorie,files,rentingPost);
 
     }
 

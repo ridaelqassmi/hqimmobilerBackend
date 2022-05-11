@@ -3,6 +3,7 @@ package com.HQimmobillier.fpbm.config;
 
 import com.HQimmobillier.fpbm.security.CustumeUserDetailImp;
 import com.HQimmobillier.fpbm.security.JwtAuthenticationFilter;
+import com.google.common.collect.ImmutableList;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +18,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 @Configuration
@@ -47,14 +50,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
+        http.cors().disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.cors().disable();
+
         http.authorizeRequests().antMatchers("/api/rent").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll();
-
-
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore( jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
@@ -69,4 +71,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerbean() throws Exception {
         return super.authenticationManagerBean();
     }
+
+
+
+
 }

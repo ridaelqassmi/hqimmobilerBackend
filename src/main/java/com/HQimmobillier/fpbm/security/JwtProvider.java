@@ -15,7 +15,7 @@ import java.util.List;
 @Service
 public class JwtProvider {
     private String SecretKey="rida";
-    private final long validityInMilliseconds = 3600000;
+    private final long validityInMilliseconds = 8*3600000;
     private final CustumeUserDetailImp userDetailImp;
 
     public JwtProvider(CustumeUserDetailImp userDetailImp) {

@@ -2,12 +2,8 @@ package com.HQimmobillier.fpbm.services.servicesImp;
 
 import com.HQimmobillier.fpbm.entity.*;
 import com.HQimmobillier.fpbm.repository.*;
-import com.HQimmobillier.fpbm.services.CategorieService;
-import com.HQimmobillier.fpbm.services.CityService;
-import com.HQimmobillier.fpbm.services.PostImageService;
-import com.HQimmobillier.fpbm.services.PostService;
+import com.HQimmobillier.fpbm.services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,34 +18,46 @@ import java.util.Optional;
 @Service
 
 public class PostServiceImp implements PostService {
-    @Autowired
-    RentingPostRepo rentingPostRepo;
-    @Autowired
-    BuyingPostRepo buyingPostRepo;
-    @Autowired
-    CategorieService categorieService;
-    @Autowired
-    CityService cityService;
-    @Autowired
-    UserRepo userRepo;
-    @Autowired
-    PostImagesRepo postImagesRepo;
-    @Autowired
-    PostImageService postImageService;
-    @Autowired
-    CategoriesRepo categoriesRepo;
 
-/*********************************************RENTING POST SERVICES ****************************************/
+    private final RentingPostRepo rentingPostRepo;
+
+    private final BuyingPostRepo buyingPostRepo;
+
+    private final CategorieService categorieService;
+
+    private final CityService cityService;
+
+    private final UserRepo userRepo;
+
+    private final PostImagesRepo postImagesRepo;
+
+    private final PostImageService postImageService;
+
+    private final CategoriesRepo categoriesRepo;
+    private final AccountService accountService;
+
+    public PostServiceImp(RentingPostRepo rentingPostRepo, BuyingPostRepo buyingPostRepo, CategorieService categorieService, CityService cityService, UserRepo userRepo, PostImagesRepo postImagesRepo, PostImageService postImageService, CategoriesRepo categoriesRepo, AccountService accountService) {
+        this.rentingPostRepo = rentingPostRepo;
+        this.buyingPostRepo = buyingPostRepo;
+        this.categorieService = categorieService;
+        this.cityService = cityService;
+        this.userRepo = userRepo;
+        this.postImagesRepo = postImagesRepo;
+        this.postImageService = postImageService;
+        this.categoriesRepo = categoriesRepo;
+        this.accountService = accountService;
+    }
+
+    /*********************************************RENTING POST SERVICES ****************************************/
     @Override
     public RentingPost createRentingPost(long id_city,
                                          long id_categorie,
                                          MultipartFile[] file,
-                                         long id_user,
                                          String RentingPost1) throws IOException {
 
         RentingPost rentingPost = new ObjectMapper().readValue(RentingPost1, RentingPost.class);
         rentingPost.setCities(cityService.findById(id_city));
-        rentingPost.setUser(userRepo.findById(id_user).get());
+        rentingPost.setUser(accountService.getAuthenticatedUser());
         RentingPost rentingPost1 = rentingPostRepo.save(rentingPost);
         postImageService.saveImages(file,rentingPost1);
 

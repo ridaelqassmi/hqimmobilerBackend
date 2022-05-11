@@ -13,7 +13,6 @@ public interface PostService {
     public RentingPost createRentingPost(long id_city,
                                          long id_categorie,
                                          MultipartFile[] file,
-                                         long id_user,
                                          String RentingPost) throws IOException;
 
 

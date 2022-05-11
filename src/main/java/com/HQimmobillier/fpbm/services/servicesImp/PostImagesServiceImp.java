@@ -16,8 +16,13 @@ import java.util.List;
 
 @Service
 public class PostImagesServiceImp implements PostImageService {
-    @Autowired
-    PostImagesRepo postImagesRepo;
+
+    private final PostImagesRepo postImagesRepo;
+
+    public PostImagesServiceImp(PostImagesRepo postImagesRepo) {
+        this.postImagesRepo = postImagesRepo;
+    }
+
     public void saveImages(MultipartFile[] file, RentingPost rentingPost1) throws IOException {
         List<PostImages> postImages = new ArrayList<>();
         for (MultipartFile o : file) {

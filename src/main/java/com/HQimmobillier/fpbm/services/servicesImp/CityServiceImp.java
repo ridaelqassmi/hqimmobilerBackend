@@ -3,14 +3,18 @@ package com.HQimmobillier.fpbm.services.servicesImp;
 import com.HQimmobillier.fpbm.entity.Cities;
 import com.HQimmobillier.fpbm.repository.CitiesRepo;
 import com.HQimmobillier.fpbm.services.CityService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
 public class CityServiceImp implements CityService {
-    @Autowired
-    CitiesRepo citiesRepo;
+
+    private final CitiesRepo citiesRepo;
+
+    public CityServiceImp(CitiesRepo citiesRepo) {
+        this.citiesRepo = citiesRepo;
+    }
+
     @Override
     public List<Cities> findAll() {
         return citiesRepo.findAll();
