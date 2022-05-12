@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid class="py-10 background-container">
+  <v-container fluid class="py-10 is-fullhd background-container">
     <v-row justify="center" class="">
       <v-col cols="12" md="9" sm="8" xs="12">
         <p class="text-h3 font-weight-bold white--text py-8 text-center">
