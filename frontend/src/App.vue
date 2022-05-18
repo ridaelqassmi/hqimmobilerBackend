@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-navigation-drawer app v-model="drawer" class="blue darken-4">
+    <v-navigation-drawer app v-model="drawer" class="#F5F5F5" disable-resize-watcher>
       <v-list dense class="ml-2">
         <v-list-item
           v-for="(item, i) in items"
@@ -10,49 +10,47 @@
         >
           <v-list-item-icon>
             <v-icon
-              class="white--text font-weight-bold"
+            color="#4A4A4A"
+              class=" font-weight-bold"
               v-text="item.icon"
             ></v-icon>
           </v-list-item-icon>
           <v-list-item-content>
             <v-list-item-title
-              class="white--text font-weight-bold text-capitalized"
+            color="#4A4A4A"
+              class=" font-weight-bold text-capitalized"
               v-text="item.text"
             ></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar app elevation="0" color="#003BDE">
+    <v-app-bar app elevation="0"  color="white">
       <v-app-bar-nav-icon
         class="pa-0"
-        color="white"
+        color="grey"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
 
       <v-toolbar-title
-        class="white--text text--darken-2 font-weight-bold Heading"
+        class="grey--text text--darken-2 font-weight- Heading"
       >
-        HQimmobilier</v-toolbar-title
+       <span class="font-weight-bold ">HQ</span>immobilier</v-toolbar-title
       >
       <v-spacer></v-spacer>
 
       <v-form class="hidden-sm-and-down">
         <v-btn to="/createPost"
-          class="white--text white--text elevation-0 transparent text-capitalize font-weight-bold"
+          class=" light-blue accent-4 white--text rounded-pill px-8 font-weight-meduim elevation-0  text-capitalize "
           
-          >ajouter un post
+          >ajouter une post
         </v-btn>
-        
+       
+     
         <v-btn
-          class="white--text white--text elevation-0 transparent text-capitalize font-weight-bold"
-          @click="showLoginComponent = !showLoginComponent"
-          >Sing in
-        </v-btn>
-        <v-btn
-          class="white--text white--text elevation-0 transparent text-capitalize font-weight-bold"
+          class=" black--text elevation-0 transparent text-capitalize font-weight-bold"
           @click="showRegistreInComponent = !showRegistreInComponent"
-          >signUp</v-btn
+          >authentifie vous</v-btn
         >
       </v-form>
     </v-app-bar>

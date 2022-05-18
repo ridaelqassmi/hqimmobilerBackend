@@ -1,60 +1,63 @@
 <template>
-  <v-container  fluid class="pa-0 is-fullhd" >
-    <div class="hero">
-      <v-container fill-height class="is-fullhd">
-        <v-row justify="center" dense class="pa-0" >
-        <v-col justify-center cols="12" md="8" lg="8" sm="8" xm="12" class="pa-4 v-colCostume">
-          <v-row dense>
-            <v-col cols="12" xm="12" class="mb-0 pa-2 ">
-              <v-text-field class="mb-0 pa-0"
-                  label="search"
-                  placeholder="search"
-                  outlined
-                  dark
-                  color="white"
-                  prepend-inner-icon="mdi-magnify"
-                ></v-text-field></v-col>
-          <v-col cols="12" md="4"><v-btn block color="#014982" to="/createPost" class="white--text ">Post a post</v-btn></v-col>
-          <v-col cols="12" md="4"><v-btn block color="#014982" to="/rent" class="white--text">rent post</v-btn></v-col>
-          <v-col cols="12" md="4"> <v-btn block color="#014982"  to="sell" class="white--text">buy post</v-btn></v-col>
-          <v-col  cols="12" md="4" ><div class="buttons">
-            <b-button tag="router-link"
-                to="/create" type="is-primary" expanded>
-                motherfucker
-            </b-button>
-        </div></v-col>
-            
-          </v-row>
-         
-
-        </v-col>
-      </v-row>
-      </v-container>
-      
+<div class="container-parent is-fullhd">
+  <div class="container1 " >
+    <div class="logo-container">
+      <p class="text-h3">HQimmobilier</p>
     </div>
-  </v-container>
+     <b-field position="is-centered"  class="input1 px-0  mx-0 " >
+      <b-input placeholder="Search..." 
+                type="search"
+                
+              style="width:80%" icon="magnify">
+            </b-input>
+              <p class="control">
+                <b-button type="is-primary" label="Search" />
+            </p>
+     </b-field>        
+    <div class="button-container">
+      <b-button tag="router-link" to="/createPost" type="is-primary" expanded outlined>make a post</b-button>
+      <b-button tag="router-link" to="/createPost" type="is-primary" expanded outlined>rent</b-button>
+      <b-button tag="router-link" to="/createPost" type="is-primary" expanded outlined>buy</b-button>
+      
+   
+    </div>
+  </div>
+</div>
+  
 </template>
 
-<script>
-  
-
-  export default {
-    name: 'Home',
-
-    components: {
-      
-    },
-  }
-</script>
 <style scoped>
-.hero{
-  background: url('https://images.unsplash.com/photo-1516522046618-1630709a6831?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80');
-  height: 600px;
-  background: no-repeat contain;
-  
+.container1{
+  background: rgb(207, 198, 198);
+  height:500px;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
 }
-.v-colCostume{
-  background :rgba(0, 0, 0, 0.384);
+.input1{
+  /*border:solid rgb(82, 81, 81) 1px;*/
+  /*border-radius: 25px;*/
  
+   width:80%;
+ 
+  
+
+
 }
+.columns{
+  display: flex;
+
+}
+.button-container{
+  display: flex;
+  justify-content: space-evenly;
+  
+   width:80%;
+   gap:10px;
+
+  align-items: center;
+}
+
 </style>

@@ -29,6 +29,15 @@
       </v-col>
     </v-row>
     <!-------endship----------->
+
+    <!-----Filters--------------->
+    
+    <RentPostFilterComponent/>
+  
+    
+    
+    
+    <!--end Filters---->
     <div border="top" class="border-top">
 
       <p class="mx-10 black--text">
@@ -92,8 +101,11 @@
 
 <script>
 import axios from "axios";
+import RentPostFilterComponent from "../components/RentPostFilterComponent.vue";
 
 export default {
+  components:{RentPostFilterComponent},
+ 
   data() {
     return {
       posts: [],
