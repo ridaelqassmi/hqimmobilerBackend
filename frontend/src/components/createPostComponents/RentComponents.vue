@@ -26,8 +26,10 @@
         <v-select
           filled
           background-color="white"
-          :items="items"
-          v-model="categorie"
+          :items="categorie"
+           item-text="categorieName"
+          item-value="id"
+          v-model="selectedCategorie"
           color="black"
           :menu-props="{ buttom: true, offsetY: true }"
           label="Categories"
@@ -99,13 +101,13 @@
         <p class="h6 py-0 white--text">Adresse</p>
         <hr />
         <v-autocomplete
-          :items="items"
-          v-model="city"
+          :items="CityItems"
+          v-model="Selectedcity"
           color="white"
           hide-no-data
           hide-selected
-          item-text="Description"
-          item-value="API"
+          item-text="cityName"
+          item-value="CityItems.id"
           label="Cities"
           return-object
           background-color="white"
@@ -127,6 +129,7 @@
               :icon-url="iconUrl"
             />
           </l-marker>
+          <LGeoJson :geojson="myGeoJson"/>
           <v-locatecontrol />
         </l-map>
       </v-col>
@@ -176,18 +179,22 @@
 </template>
 
 <script>
-import { LMap, LTileLayer, LMarker, LIcon } from "vue2-leaflet";
+import axios from "axios";
+import { LMap, LTileLayer, LMarker, LIcon,LGeoJson } from "vue2-leaflet";
 import Vue2LeafletLocatecontrol from "vue2-leaflet-locatecontrol";
+import myGeoJson from "../../citiesGeojson.js";
 export default {
   components: {
     LMap,
     LTileLayer,
+    LGeoJson,
     "v-locatecontrol": Vue2LeafletLocatecontrol,
     LMarker,
     LIcon,
   },
   data() {
     return {
+      myGeoJson : myGeoJson,
       model: 0,
       items: ["Foo", "Bar", "Fizz", "Buzz"],
       file: "",
@@ -202,16 +209,18 @@ export default {
       iconUrl: require("../../assets/location-pin.png"),
       selectedFiles: [],
       appliances: ["freezer", "air conditioning", "footoy", "etc"],
-      city: "",
+      Selectedcity: "",
       title: "",
       description: "",
       categorie: "",
-      area: "",
-      chambre: "",
-      prix: "",
+      area: 0,
+      chambre: 0,
+      prix: 0,
       duree: "",
       adresse: "",
       ex4: "",
+      selectedCategorie:"",
+      CityItems:{},
     };
   },
   computed: {
@@ -243,8 +252,34 @@ export default {
       this.selectedFiles.splice(i, 1);
       console.log(this.selectedFiles);
     },
-    submitHandler() {},
+    submitHandler() {
+      /*construct the data  */
+      /*selected file is the object which contain the photo selected  */
+      let formdata = new FormData();
+      
+      formdata.append("idCategorie",this.selectedCategorie);
+      formdata.append("idCity",this.Selectedcity.id);
+   
+       for(let i=0;i<this.selectedFiles.length;i++){
+         formdata.append("files",this.selectedFiles[i]);
+       }
+      let rentingPost = {duree:"two weeks",price:1500,numberRoom:this.chambre,description:this.description,title:this.title,location:"no where",hasAppliance:false,areaSize:180};
+      formdata.append('rentingPost',JSON.stringify(rentingPost));
+      axios({
+        url:"api/rent",
+        method:"post",
+        headers:{'Content-type':'multipart/form-data'},
+        data:formdata
+      })
+    },
   },
+  created(){
+    /*get data from database for the user to choose from */
+    /*getting the categories*/
+    axios.get('/api/categories').then(res=> this.categorie = res.data); 
+    /*getting the cities*/
+    axios.get("api/cities").then(res=>this.CityItems = res.data); 
+  }
 };
 </script>
 

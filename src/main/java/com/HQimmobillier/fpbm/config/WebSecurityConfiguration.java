@@ -37,12 +37,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
 
 
-        web.ignoring().antMatchers("/v2/api-docs")
+        /*web.ignoring().antMatchers("/v2/api-docs")
                 .antMatchers("/swagger-resources/**")
                 .antMatchers("/swagger-ui.html")
                 .antMatchers("/configuration/**")
                 .antMatchers("/webjars/**")
-                .antMatchers("/public");
+                .antMatchers("/public");*/
     }
 
 
@@ -57,6 +57,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/rent").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll();
+        /*this is just during developpment phase*/
+        http.authorizeRequests().antMatchers("/v2/api-docs").permitAll()
+                .antMatchers("/swagger-resources/**").permitAll()
+                .antMatchers("/swagger-ui.html").permitAll()
+                .antMatchers("/configuration/**").permitAll()
+                .antMatchers("/webjars/**").permitAll()
+                .antMatchers("/public").permitAll();
+        /*--------end */
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore( jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }

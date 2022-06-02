@@ -29,6 +29,7 @@
       </v-col>
     </v-row>
     <!-------endship----------->
+    
 
     <!-----Filters--------------->
     
@@ -109,7 +110,6 @@ export default {
   data() {
     return {
       posts: [],
-
       correntPage: 0,
       numberPages: 0,
       lastPage: false,
@@ -123,7 +123,7 @@ export default {
     makeGetRequestToApi(url) {
       axios.get(url).then((res) => {
         this.posts = res.data.content;
-        this.correntPage = res.data.number;
+        this.correntPage = res.data.number+1;
         this.numberPages = res.data.totalPages;
         this.totalElements = res.data.totalElements;
         this.numberOfElements = res.data.numberOfElements;
@@ -140,7 +140,7 @@ export default {
             this.correntPage
         );
       } else {
-        this.makeGetRequestToApi( "api/rent/" + page);
+        this.makeGetRequestToApi( "api/rent/page/" +(page-1));
       }
     },
     getPostByCategorie(id) {

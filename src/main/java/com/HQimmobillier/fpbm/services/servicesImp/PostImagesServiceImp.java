@@ -31,7 +31,7 @@ public class PostImagesServiceImp implements PostImageService {
             postImage.setImageName(fileName);
             postImage.setPost(rentingPost1);
 
-            String uploadDir = "images/postImages/rent/" + rentingPost1.getId() + "/" + rentingPost1.getId();
+            String uploadDir = "postImages/rent/" + rentingPost1.getId() + "/" + rentingPost1.getId();
             postImage.setImagePath(uploadDir + "/" + fileName);
 
             CommenFunctions.saveFile(uploadDir, fileName, o);

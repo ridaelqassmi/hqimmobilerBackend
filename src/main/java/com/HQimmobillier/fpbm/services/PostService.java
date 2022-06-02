@@ -1,6 +1,7 @@
 package com.HQimmobillier.fpbm.services;
 
 
+import com.HQimmobillier.fpbm.dto.user.FilterDto;
 import com.HQimmobillier.fpbm.entity.RentingPost;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +17,7 @@ public interface PostService {
                                          String RentingPost) throws IOException;
 
 
-    public List<RentingPost> getAllRentingPosts();
+    public List<RentingPost> getAllRentingPosts(String title, Integer page);
     public Page<RentingPost> getRentingPostWithPagination(int page, int size);
     public Page<RentingPost> getRentingPostByCategories(int page,int size,long id);
 
@@ -26,4 +27,6 @@ public interface PostService {
 
     RentingPost findRentingPostById(long id);
     public Page<RentingPost> sortRentingPostBy(String field, Optional<String> typeOfSort, Optional<Integer> page, int size);
+    public Page<RentingPost> getRentingPostByTitle(String title,int page);
+    public  List<RentingPost> getRentingPostFilter(FilterDto filter);
 }

@@ -1,118 +1,212 @@
 <template>
-  <v-card>
-    <v-toolbar
-      flat
-      color="#003BDE"
-      dark
-     tile
-      justify="center"
-      class="d-flex justify-center"
-      height="150px"
-      
-    >
-      <div class=" white--text text-h2 py-9 font-weight-bold">RIDA ELQASSMI</div>
-    </v-toolbar>
-    <v-tabs centered >
-      <v-tab>
-        <v-icon left>
-          mdi-account-cog
-        </v-icon>
-        Edit Profile
-      </v-tab>
-      <v-tab>
-        <v-icon left>
-          mdi-post
-        </v-icon>
-        my Posts
-      </v-tab>
-      <v-tab>
-        <v-icon left>
-            mdi-heart
-            </v-icon>
-        favorite
-      </v-tab>
+    <div class="dashboard">
+        <v-subheader class="py-0 d-flex justify-space-between rounded-lg">
+            <h3>Dashboard</h3>
+            <v-btn color="success">
+                View Orders
+            </v-btn>
+        </v-subheader>
+        <br>
+        <v-row class="pa-2">
+            <v-col lg="7" cols="12">
+                <v-alert dense text type="success">
+                    Login Successfully! Welcome to <strong>Web Burden</strong>
+                </v-alert>
+                <v-row >
+                    <v-col lg="6" cols="12" v-for="(item,index) in activityLog" :key="index">
+                        <v-card elevation="2" class="rounded-lg">
+                            <v-card-text class="d-flex justify-space-between align-center">
+                                <div>
+                                    <strong>{{ item.title }}</strong> <br>
+                                    <span>Last 3 weeks</span>
+                                </div>
+                                <v-avatar size="60" :color="item.color" style="border: 3px solid #444">
+                                    <span style="color: white">{{item.amount}} +</span>
+                                </v-avatar>
+                            </v-card-text>
+                            <v-card-actions class="d-flex justify-space-between">
 
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <p>
-              Sed aliquam ultrices mauris. Donec posuere vulputate arcu. Morbi ac felis. Etiam feugiat lorem non metus. Sed a libero.
-            </p>
 
-            <p>
-              Nam ipsum risus, rutrum vitae, vestibulum eu, molestie vel, lacus. Aenean tellus metus, bibendum sed, posuere ac, mattis non, nunc. Aliquam lobortis. Aliquam lobortis. Suspendisse non nisl sit amet velit hendrerit rutrum.
-            </p>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
+            </v-col>
+            <v-col  cols="12" lg="5">
+                <v-card>
+                    <v-card-title>Activities</v-card-title>
+                    <v-card-text class="py-0">
+                        <v-timeline align-top dense>
+                            <v-timeline-item color="indigo" small>
+                                <strong>5 Minuts ago</strong>
+                                <div class="text-caption">
+                                   You have new order please check this out
+                                </div>
+                            </v-timeline-item>
+                            <v-timeline-item color="green" small>
+                                <strong>35 Minuts ago</strong>
+                                <div class="text-caption mb-2">
+                                    A Product has delivered!
+                                </div>
+                            </v-timeline-item>
 
-            <p class="mb-0">
-              Phasellus dolor. Fusce neque. Fusce fermentum odio nec arcu. Pellentesque libero tortor, tincidunt et, tincidunt eget, semper nec, quam. Phasellus blandit leo ut odio.
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <p>
-              Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.
-            </p>
-
-            <p>
-              Suspendisse feugiat. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In hac habitasse platea dictumst. Fusce ac felis sit amet ligula pharetra condimentum.
-            </p>
-
-            <p>
-              Sed consequat, leo eget bibendum sodales, augue velit cursus nunc, quis gravida magna mi a libero. Nam commodo suscipit quam. In consectetuer turpis ut velit. Sed cursus turpis vitae tortor. Aliquam eu nunc.
-            </p>
-
-            <p>
-              Etiam ut purus mattis mauris sodales aliquam. Ut varius tincidunt libero. Aenean viverra rhoncus pede. Duis leo. Fusce fermentum odio nec arcu.
-            </p>
-
-            <p class="mb-0">
-              Donec venenatis vulputate lorem. Aenean viverra rhoncus pede. In dui magna, posuere eget, vestibulum et, tempor auctor, justo. Fusce commodo aliquam arcu. Suspendisse enim turpis, dictum sed, iaculis a, condimentum nec, nisi.
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-      <v-tab-item>
-        <v-card flat>
-          <v-card-text>
-            <p>
-              Fusce a quam. Phasellus nec sem in justo pellentesque facilisis. Nam eget dui. Proin viverra, ligula sit amet ultrices semper, ligula arcu tristique sapien, a accumsan nisi mauris ac eros. In dui magna, posuere eget, vestibulum et, tempor auctor, justo.
-            </p>
-
-            <p class="mb-0">
-              Cras sagittis. Phasellus nec sem in justo pellentesque facilisis. Proin sapien ipsum, porta a, auctor quis, euismod ut, mi. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nam at tortor in tellus interdum sagittis.
-            </p>
-          </v-card-text>
-        </v-card>
-      </v-tab-item>
-    </v-tabs>
-  </v-card>
+                            <v-timeline-item color="indigo" small>
+                                <strong>44 Minuts ago</strong>
+                                <div class="text-caption">
+                                    You have new order please check this out
+                                </div>
+                            </v-timeline-item>
+                        </v-timeline>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+            <v-col>
+                <v-card>
+                    <v-data-table
+                            caption="Recent Order list"
+                            :headers="headers"
+                            :items="desserts"
+                            :items-per-page="5"
+                            class="elevation-1"
+                    >
+                        <template >
+                            <v-btn color="success" outlined small shaped >View</v-btn>
+                        </template>
+                    </v-data-table>
+                </v-card>
+            </v-col>
+        </v-row>
+    </div>
 </template>
 
+<script>
+    export default {
+        name: "Dashboard",
+        data() {
+            return {
+                activityLog: [
+                    {title: 'Total Products', amount: 50, icon: 'mdi-account', color: 'cyan lighten-3'},
+                    {title: 'Total Customer', amount: 3433, icon: 'mdi-account-group-outline', color: 'green darken-2'},
+                    {title: 'Total Sale', amount: 3433, icon: 'mdi-account-group-outline', color: 'blue-grey darken-1'},
+                    {
+                        title: 'Pending Orders',
+                        amount: 3433,
+                        icon: 'mdi-account-group-outline',
+                        color: 'deep-orange darken-1'
+                    },
+                ],
+                headers: [
+                    {
+                        text: 'Dessert (100g serving)',
+                        align: 'start',
+                        sortable: false,
+                        value: 'name',
+                    },
+                    {text: 'Calories', value: 'calories'},
+                    {text: 'Fat (g)', value: 'fat'},
+                    {text: 'Carbs (g)', value: 'carbs'},
+                    {text: 'Protein (g)', value: 'protein'},
+                    {text: 'Iron (%)', value: 'iron'},
+                    {text: 'Actions', value: 'action'},
+                ],
+                desserts: [
+                    {
+                        name: 'Frozen Yogurt',
+                        calories: 159,
+                        fat: 6.0,
+                        carbs: 24,
+                        protein: 4.0,
+                        iron: '1%',
+                    },
+                    {
+                        name: 'Ice cream sandwich',
+                        calories: 237,
+                        fat: 9.0,
+                        carbs: 37,
+                        protein: 4.3,
+                        iron: '1%',
+                    },
+                    {
+                        name: 'Eclair',
+                        calories: 262,
+                        fat: 16.0,
+                        carbs: 23,
+                        protein: 6.0,
+                        iron: '7%',
+                    },
+                    {
+                        name: 'Cupcake',
+                        calories: 305,
+                        fat: 3.7,
+                        carbs: 67,
+                        protein: 4.3,
+                        iron: '8%',
+                    },
+                    {
+                        name: 'Gingerbread',
+                        calories: 356,
+                        fat: 16.0,
+                        carbs: 49,
+                        protein: 3.9,
+                        iron: '16%',
+                    },
+                    {
+                        name: 'Jelly bean',
+                        calories: 375,
+                        fat: 0.0,
+                        carbs: 94,
+                        protein: 0.0,
+                        iron: '0%',
+                    },
+                    {
+                        name: 'Lollipop',
+                        calories: 392,
+                        fat: 0.2,
+                        carbs: 98,
+                        protein: 0,
+                        iron: '2%',
+                    },
+                    {
+                        name: 'Honeycomb',
+                        calories: 408,
+                        fat: 3.2,
+                        carbs: 87,
+                        protein: 6.5,
+                        iron: '45%',
+                    },
+                    {
+                        name: 'Donut',
+                        calories: 452,
+                        fat: 25.0,
+                        carbs: 51,
+                        protein: 4.9,
+                        iron: '22%',
+                    },
+                    {
+                        name: 'KitKat',
+                        calories: 518,
+                        fat: 26.0,
+                        carbs: 65,
+                        protein: 7,
+                        iron: '6%',
+                    },
+                ],
+            }
+        },
+        methods: {
+            onButtonClick(item) {
+                console.log('click on ' + item.no)
+            }
+        }
+
+    }
+</script>
+
 <style scoped>
-.image-container{
-    display: flex;
-    height: 180px;
-    width: 180px;
-    background: grey;
-    border-radius: 50%;
-   
-    position: relative;
-}
-.image-container >p{
-    position: absolute;
-    top:50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    font-size: 50px;
-    font-weight: bold;
-    color: white;
-    
-}
-.container{
-    display: flex;
-    justify-content: center;
-}
+    .overlap-icon {
+        position: absolute;
+        top: -33px;
+        text-align: center;
+        padding-top: 12px;
+    }
 </style>

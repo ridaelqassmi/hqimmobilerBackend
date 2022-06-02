@@ -2,7 +2,7 @@
   <v-row justify="center" dense>
     <v-col cols="12" lg="9" md="9" sm="9" xs="9">
       <div>
-        <v-row>
+        <v-row class="mx-1">
           <v-col cols="12" lg="4" sm="4" xs="12" md="4">
             <b-field expanded>
               <b-input

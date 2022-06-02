@@ -39,7 +39,7 @@
       >
       <v-spacer></v-spacer>
 
-      <v-form class="hidden-sm-and-down">
+      <v-form class="hidden-xs-only">
         <v-btn to="/createPost"
           class=" light-blue accent-4 white--text rounded-pill px-8 font-weight-meduim elevation-0  text-capitalize "
           
