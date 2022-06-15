@@ -76,7 +76,7 @@
           class="text-center"
         >
           created by
-          <router-link class="pa-2" :to="'/users/' + Post.user.id"
+          <router-link class="pa-2" :to="'/user/' + Post.user.id"
             >{{ Post.user.firstName }} {{ Post.user.lastName }}</router-link
           >
           at <span>{{ Post.date | formatDate }}</span>
@@ -92,20 +92,7 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p class="black--text text--lighten-2 description">
-                  Reason to believe présente à ces clients Appartement tout
-                  confort NEUF à Marchane avec place de parking et sécurisée
-                  Espace très lumineux, dans un immeuble neuf situé à quelques
-                  dizaines de mètre du centre ville, du port et des commerces.
-                  Emplacement très recherché. 3 chambres , cuisine ,salle de
-                  bain tout confort. A proximité immédiate de toutes les
-                  commodités. Vous rentrez, prenez l'ascenseur, direction
-                  l'appartement et vous êtes au calme en profitant d'un espace à
-                  vivre neuf et qualitatif. N'hésitez plus, poussez la porte de
-                  ce petit bijou.Nous vous invitons à nous contacter
-                  directement. Nous sommes disponibles pour vous accompagner
-                  dans votre recherche d'achat ou d'investissement ainsi que
-                  dans votre projet de vente: Évaluation gratuite et sans
-                  engagement. Ref Mar 0101/228
+                  {{Post.description}}
                 </p>
               </v-expansion-panel-content>
             </v-expansion-panel>

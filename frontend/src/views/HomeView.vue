@@ -1,63 +1,28 @@
 <template>
-<div class="container-parent is-fullhd">
-  <div class="container1 " >
-    <div class="logo-container">
-      <p class="text-h3">HQimmobilier</p>
-    </div>
-     <b-field position="is-centered"  class="input1 px-0  mx-0 " >
-      <b-input placeholder="Search..." 
-                type="search"
-                
-              style="width:80%" icon="magnify">
-            </b-input>
-              <p class="control">
-                <b-button type="is-primary" label="Search" />
-            </p>
-     </b-field>        
-    <div class="button-container">
-      <b-button tag="router-link" to="/createPost" type="is-primary" expanded outlined>make a post</b-button>
-      <b-button tag="router-link" to="/createPost" type="is-primary" expanded outlined>rent</b-button>
-      <b-button tag="router-link" to="/createPost" type="is-primary" expanded outlined>buy</b-button>
-      
-   
-    </div>
-  </div>
-</div>
-  
+
+<v-container fill-height fluid class="is-fullhd" >
+    <v-row  align="center" class="mx-5 part1">
+        <v-col cols="6" sm="6">
+            <h1 class="text-h3 font-weight-bold my-5">HQ immobilier</h1>
+            <p class="text-body-2">bienvenue sur notre site, vous avez besoin d'aide pour choisir votre maison ? je suppose que vous êtes au bon endroit, notre site est doté de multiples fonctionnalités qui, nous l'espérons, vous seront utiles</p>
+            <v-btn class="elevation-2 blue darken-4 my-5 pa-5 font-weight-bold white--text text-button">Explore les posts</v-btn>
+        </v-col>
+        <v-col cols="6">
+          <v-img src="../assets/image1.jpg"  class="rounded-lg"></v-img>
+
+        </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <h1 class="text-h5 text-center font-weight-bold border">publié une post </h1>
+      </v-col>
+    </v-row>
+</v-container>
+
 </template>
 
 <style scoped>
-.container1{
-  background: rgb(207, 198, 198);
-  height:500px;
-  justify-content: center;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
+.part1{
+  height: 90vh;
 }
-.input1{
-  /*border:solid rgb(82, 81, 81) 1px;*/
-  /*border-radius: 25px;*/
- 
-   width:80%;
- 
-  
-
-
-}
-.columns{
-  display: flex;
-
-}
-.button-container{
-  display: flex;
-  justify-content: space-evenly;
-  
-   width:80%;
-   gap:10px;
-
-  align-items: center;
-}
-
 </style>

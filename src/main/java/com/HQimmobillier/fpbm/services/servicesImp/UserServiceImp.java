@@ -33,7 +33,7 @@ public class UserServiceImp implements UserService {
 
         String uploadDir = "frontend/src/assets/" + savedUser.getId();
 
-        CommenFunctions.saveFile(uploadDir, fileName, file);
+        CommenFunctions.saveFile(uploadDir, file);
 
         return savedUser;
     }
@@ -42,14 +42,10 @@ public class UserServiceImp implements UserService {
     @Override
     public User updateUser(long id, User u) {
         User user = userRepo.findById(id).get();
-        if(user != null){
-            user.setFirstName(u.getFirstName());
-            user.setLastName(u.getLastName());
-            user.setPhone(u.getPhone());
-            return  userRepo.save(user);
-        }else{
-            return null;
-        }
+        user.setFirstName(u.getFirstName());
+        user.setLastName(u.getLastName());
+        user.setPhone(u.getPhone());
+        return  userRepo.save(user);
 
     }
 

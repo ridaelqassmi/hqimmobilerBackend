@@ -1,4 +1,5 @@
 package com.HQimmobillier.fpbm.utility;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,12 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 public class CommenFunctions {
-    public static void saveFile(String uploadDir, String fileName,
+    public static String saveFile(String uploadDir,
                                 MultipartFile multipartFile) throws IOException {
-        Path uploadPath = Paths.get("frontend/src/assets/"+uploadDir);
-
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) {
             Files.createDirectories(uploadPath);
         }
@@ -24,14 +26,14 @@ public class CommenFunctions {
         } catch (IOException ioe) {
             throw new IOException("Could not save image file: " + fileName, ioe);
         }
+        String imageRelativePath = uploadDir+"/"+fileName;
+        return imageRelativePath.substring(Constants.defaultPath.length(),imageRelativePath.length());
+
+
     }
-    public static byte[]  retriveFileById(String subDir) throws IOException {
-        File f = new File(subDir);
-        String path = f.getAbsolutePath();
-        byte[] picInBytes = new byte[(int) f.length()];
-        FileInputStream fileInputStream = new FileInputStream(f);
-        fileInputStream.read(picInBytes);
-        fileInputStream.close();
-        return picInBytes;
+
+
+
+
     }
-}
+

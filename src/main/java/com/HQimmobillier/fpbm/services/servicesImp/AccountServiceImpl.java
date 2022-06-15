@@ -1,6 +1,7 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
 import com.HQimmobillier.fpbm.dto.user.loginDto.LoginRequestDto;
+import com.HQimmobillier.fpbm.dto.user.loginDto.LoginResponseDto;
 import com.HQimmobillier.fpbm.entity.Roles;
 import com.HQimmobillier.fpbm.entity.User;
 import com.HQimmobillier.fpbm.repository.RolesRepository;
@@ -9,6 +10,7 @@ import com.HQimmobillier.fpbm.security.JwtProvider;
 import com.HQimmobillier.fpbm.services.AccountService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -40,9 +42,17 @@ public class AccountServiceImpl implements AccountService {
     public User getAuthenticatedUser() {
         Principal principal = SecurityContextHolder.getContext().getAuthentication();
         return userRepo.findByEmail(principal.getName());}
-    public String login(LoginRequestDto loginRequestDto){
-         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(),loginRequestDto.getPassword()));
-        return jwtProvider.createToken(loginRequestDto.getEmail(), userRepo.findByEmail(loginRequestDto.getEmail()).getUserRoles());
+    public LoginResponseDto login(LoginRequestDto loginRequestDto){
+        Authentication r = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getEmail(),loginRequestDto.getPassword()));
+        if(r.isAuthenticated()){
+
+            LoginResponseDto c= new LoginResponseDto();
+            c.setToken(jwtProvider.createToken(loginRequestDto.getEmail(), userRepo.findByEmail(loginRequestDto.getEmail()).getUserRoles()));
+            c.setUser(userRepo.findByEmail(loginRequestDto.getEmail()));
+            return c;
+        }
+
+        return null;
     }
 
     @Override

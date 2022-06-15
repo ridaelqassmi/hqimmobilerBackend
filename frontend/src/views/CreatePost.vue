@@ -34,8 +34,8 @@
   </v-container>
 </template>
 <script>
-import Buy from "../components/createPostComponents/Buy.vue";
-import RentComponents from "../components/createPostComponents/RentComponents.vue";
+import Buy from "@/components/Buy.vue";
+import RentComponents from "@/components/RentComponents.vue";
 
 export default {
   components: { Buy, RentComponents },

@@ -29,7 +29,7 @@ RentingPostRepo rentingPostRepo;
         this.categoriesRepo = categoriesRepo;
     }
 
-    public List<PostImages> generateAListOfImages(){
+    /*public List<PostImages> generateAListOfImages(){
         int i = 0;
         List<PostImages> images = new ArrayList<>();
         while(i<8){
@@ -43,12 +43,12 @@ RentingPostRepo rentingPostRepo;
         }
         return images;
     }
-
+*/
     @Override
 
     public void run(String... args) throws Exception {
 
-
+/*
 
     List<Categories> categories = new ArrayList<>();
         for(int i = 0;i<10;i++){
@@ -84,7 +84,7 @@ RentingPostRepo rentingPostRepo;
        userRepo.saveAll(users);
 
 
-       List<RentingPost> rentingPost = new ArrayList<>();
+       /*List<RentingPost> rentingPost = new ArrayList<>();
        List<Categories> categorie = categoriesRepo.findAll();
        List<Cities> city = citiesRepo.findAll();
        List<User> user = userRepo.findAll();
@@ -127,6 +127,6 @@ RentingPostRepo rentingPostRepo;
 
 
 
+*/
 
-
-}
+}}

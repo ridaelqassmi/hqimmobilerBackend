@@ -2,6 +2,7 @@ package com.HQimmobillier.fpbm.controller;
 
 import com.HQimmobillier.fpbm.dto.user.RegisterDto.RequestRegisterDto;
 import com.HQimmobillier.fpbm.dto.user.loginDto.LoginRequestDto;
+import com.HQimmobillier.fpbm.dto.user.loginDto.LoginResponseDto;
 import com.HQimmobillier.fpbm.entity.Roles;
 import com.HQimmobillier.fpbm.entity.User;
 import com.HQimmobillier.fpbm.mapper.UserMapper;
@@ -41,7 +42,7 @@ public class AccountRestController {
          accountService.addRoleToUser(u.getUsername(),u.getRole());
     }
     @PostMapping(path = "/login")
-    public String  login(@RequestBody LoginRequestDto loginRequestDto){
+    public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto){
 
         return accountService.login(loginRequestDto);
     }
