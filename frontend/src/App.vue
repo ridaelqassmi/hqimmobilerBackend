@@ -48,10 +48,22 @@
        
      
         <v-btn
-          class=" black--text elevation-0 transparent text-capitalize font-weight-bold"
-          @click="showRegistreInComponent = !showRegistreInComponent"
+          class=" mx-10 black--text elevation-0 transparent text-capitalize font-weight-bold"
+          @click="showRegistreInComponent = !showRegistreInComponent" v-if="!userAuthentified"
           >authentifie vous</v-btn
         >
+        <!-- if the user is authentified this should appears
+        it's a button that should send the user to his account
+        -->
+        <HeaderProfile v-if="userAuthentified" :key="i"/>
+       <!-- <v-btn
+          class=" black--text elevation-0 transparent text-capitalize font-weight-bold"
+          v-if="userAuthentified"  @click="getAuthentifiedUser"
+          >
+            <v-icon>mdi-account</v-icon>
+          Rida elqassmi </v-btn
+        >-->
+
       </v-form>
     </v-app-bar>
 
@@ -70,17 +82,21 @@
 </template>
 
 <script>
-import LoginComponent from "./components/auth/LoginComponent.vue";
+import HeaderProfile from "@/components/header/HeaderProfile.vue"
+
 import RegistreInComponent from "./components/auth/RegistreInComponent.vue";
+import {mapState,mapMutations} from 'vuex';
+import axios from 'axios';
 
 export default {
-  components: { LoginComponent, RegistreInComponent },
+  components: { RegistreInComponent,HeaderProfile },
   name: "App",
 
   data: () => ({
     drawer: false,
     showLoginComponent: false,
     showRegistreInComponent: false,
+    i:1,
     items: [
       { text: "Home", icon: "mdi-home", to: "/" },
       { text: "Rent", icon: "mdi-account", to: "/rent" },
@@ -88,14 +104,47 @@ export default {
       { text: "user", icon: "mdi-account", to: "/user" },
     ],
   }),
+  computed:{
+    ...mapState(['userAuthentified','AuthentifiedUserDetails']),
+  
+
+  },
+  
+watch: {
+    // Creating function
+    // for input component
+    AuthentifiedUserDetails: function(val) {
+      if(val==true){
+        axios.get("api/authentifiedUser").then((res) => {
+      this.setAuthentifiedUserDetails(res.data);
+    })
+      }
+      
+    },
+      
+    
+},
+
+ 
   methods: {
+    ...mapMutations(["getUserDetails"]),
+    getAuthentifiedUser(){
+      axios.get("api/authentifiedUser").then(res=>console.log(res.data));
+    },
+
+  
     toggleRegistrationModel() {
       this.showRegistreInComponent = !this.showRegistreInComponent;
     },
     toggleLoginModel() {
       this.showLoginComponent = !this.showLoginComponent;
     },
+    
+
+
   },
+
+
 };
 </script>
 

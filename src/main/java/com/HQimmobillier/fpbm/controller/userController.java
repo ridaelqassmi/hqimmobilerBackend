@@ -2,14 +2,9 @@ package com.HQimmobillier.fpbm.controller;
 
 import com.HQimmobillier.fpbm.entity.User;
 import com.HQimmobillier.fpbm.repository.UserRepo;
+import com.HQimmobillier.fpbm.services.AccountService;
 import com.HQimmobillier.fpbm.services.UserService;
-import com.HQimmobillier.fpbm.utility.CommenFunctions;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,11 +15,16 @@ import java.util.List;
 @CrossOrigin
 @RequestMapping("/api")
 public class userController {
-
     @Autowired
     UserRepo userRepo;
     @Autowired
     UserService userService;
+    private final AccountService accountService;
+
+    public userController(AccountService accountService) {
+        this.accountService = accountService;
+    }
+
     @PostMapping("users")
     public User save(@RequestPart("file") MultipartFile file,
                      @RequestParam(value="user") String u)
@@ -52,6 +52,10 @@ public class userController {
 
         User user1 = userService.updateUser(id, user);
         return user1;
+    }
+    @GetMapping("authentifiedUser")
+    public User getAuthentifiedUser(){
+        return accountService.getAuthenticatedUser();
     }
 
     }

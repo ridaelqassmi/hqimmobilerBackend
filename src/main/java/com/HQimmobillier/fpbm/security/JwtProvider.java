@@ -2,6 +2,7 @@ package com.HQimmobillier.fpbm.security;
 
 import com.HQimmobillier.fpbm.entity.Roles;
 import com.HQimmobillier.fpbm.exception.ApiRequestException;
+import com.HQimmobillier.fpbm.services.AccountService;
 import io.jsonwebtoken.*;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,11 +15,13 @@ import java.util.Date;
 import java.util.List;
 @Service
 public class JwtProvider {
+
     private String SecretKey="rida";
     private final long validityInMilliseconds = 8*3600000;
     private final CustumeUserDetailImp userDetailImp;
 
     public JwtProvider(CustumeUserDetailImp userDetailImp) {
+
         this.userDetailImp = userDetailImp;
     }
 

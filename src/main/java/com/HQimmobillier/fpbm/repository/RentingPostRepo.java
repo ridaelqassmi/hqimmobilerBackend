@@ -7,6 +7,7 @@ import com.HQimmobillier.fpbm.entity.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -23,6 +24,9 @@ public interface RentingPostRepo extends JpaRepository<RentingPost,Long> {
     List<RentingPost> findByNumberRoomBetween(int min, int max);
 
     List<RentingPost> findByAreaSizeBetween(float min, float max);
+
+
+    List<RentingPost> findByTitleLike(String title);
 
 
 }

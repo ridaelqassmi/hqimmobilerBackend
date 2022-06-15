@@ -9,8 +9,10 @@
                 placeholder="Search by title..."
                 type="search"
                 icon="magnify"
+                v-model="title"
                 icon-clickable
                 @icon-click="searchIconClick"
+                @input="searchByTitle()"
               >
               </b-input>
             </b-field>
@@ -98,42 +100,66 @@
                 </b-select>
               </b-field>
             </v-col>
-            <v-col cols="12"><b-field label="Budget"> 
-              <v-container><b-slider indicator v-model="numbers" :min="0" :max="5000" :step="100" ticks>
-            </b-slider></v-container>
-            
-            
-        </b-field>
+            <v-col cols="12"
+              ><b-field label="Budget">
+                <v-container
+                  ><b-slider
+                    indicator
+                    v-model="numbers"
+                    :min="0"
+                    :max="5000"
+                    :step="100"
+                    ticks
+                  >
+                  </b-slider
+                ></v-container>
+              </b-field>
             </v-col>
-            <v-col cols="12"><b-field label="surface"> 
-              <v-container><b-slider indicator v-model="numbers" :min="0" :max="5000" :step="100" ticks>
-            </b-slider></v-container>
-            
-            
-        </b-field>
+            <v-col cols="12"
+              ><b-field label="surface">
+                <v-container
+                  ><b-slider
+                    indicator
+                    v-model="numbers"
+                    :min="0"
+                    :max="5000"
+                    :step="100"
+                    ticks
+                  >
+                  </b-slider
+                ></v-container>
+              </b-field>
             </v-col>
-              <v-col cols="12"><b-field label="chambre"> 
-              <v-container><b-slider indicator v-model="numbers" :min="0" :max="5000" :step="100" ticks>
-            </b-slider></v-container>
-            
-            
-        </b-field>
+            <v-col cols="12"
+              ><b-field label="chambre">
+                <v-container
+                  ><b-slider
+                    indicator
+                    v-model="numbers"
+                    :min="0"
+                    :max="5000"
+                    :step="100"
+                    ticks
+                  >
+                  </b-slider
+                ></v-container>
+              </b-field>
             </v-col>
             <v-col>
-              <b-field  label="caractéristique" >
+              <b-field label="caractéristique">
                 <v-container class="is-fullhd" fluid>
-                    <b-checkbox class="px-5 py-5"  v-for="i in 11" :key="i" v-model="checkboxGroup"
-                native-value="Silver">
-                atay
-            </b-checkbox>
+                  <b-checkbox
+                    class="px-5 py-5"
+                    v-for="i in 11"
+                    :key="i"
+                    v-model="checkboxGroup"
+                    native-value="Silver"
+                  >
+                    atay
+                  </b-checkbox>
                 </v-container>
-                
               </b-field>
-                
-              
-              
             </v-col>
-            
           </v-row>
         </v-card-text>
         <v-card-actions>
@@ -150,15 +176,28 @@
   </v-row>
 </template>
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       rida: 0,
       numbers: [0, 5000],
-      checkboxGroup:['fruit','way'],
+      checkboxGroup: ["fruit", "way"],
       dialog: false,
       orderData: ["PRICE", "DATE CROISSANCE", "Date decroissance"],
+      title: "",
     };
+  },
+  methods: {
+    searchByTitle() {
+      axios
+        .get("api/rent/search/by", {
+          params: {
+            title: this.title,
+          },
+        })
+        .then((res) => console.log(res.data));
+    },
   },
 };
 </script>

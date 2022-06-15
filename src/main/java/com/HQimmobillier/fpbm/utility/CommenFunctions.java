@@ -1,7 +1,5 @@
 package com.HQimmobillier.fpbm.utility;
-
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,19 +25,13 @@ public class CommenFunctions {
             throw new IOException("Could not save image file: " + fileName, ioe);
         }
     }
-
     public static byte[]  retriveFileById(String subDir) throws IOException {
         File f = new File(subDir);
         String path = f.getAbsolutePath();
-
         byte[] picInBytes = new byte[(int) f.length()];
         FileInputStream fileInputStream = new FileInputStream(f);
         fileInputStream.read(picInBytes);
         fileInputStream.close();
-
         return picInBytes;
-
-
-
     }
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{Post}}
+    {{ Post }}
     <v-container class="background-- is-fullhd" color="#003BDE" fluid>
       <v-row dense class="align-center" justify="center">
         <v-col class="align-center">
@@ -40,7 +40,11 @@
       >
         <b-carousel-item v-for="(item, i) in images2.length" :key="i">
           <a class="image">
-            <img :src="require('../assets/'+getImgUrl(i))" ratio="" class="myimage" />
+            <img
+              :src="require('../assets/' + getImgUrl(i))"
+              ratio=""
+              class="myimage"
+            />
           </a>
         </b-carousel-item>
         <span
@@ -52,7 +56,8 @@
           <figure class="al image" :draggable="false">
             <b-image
               :draggable="false"
-              :src="require('../assets/'+getImgUrl(props.i))" :title="props.i"
+              :src="require('../assets/' + getImgUrl(props.i))"
+              :title="props.i"
               class="image-2"
             />
           </figure>
@@ -319,13 +324,14 @@ export default {
           src: "https://photos.zillowstatic.com/fp/8513f1fc765cdb74b68cfde0656268c6-cc_ft_768.webp",
         },
       ],
-      images2:[],
+      images2: [],
     };
   },
   created() {
     axios
       .get("api/rent/" + this.$route.params.postId)
-      .then((res) => (this.Post = res.data)).then(()=>{
+      .then((res) => (this.Post = res.data))
+      .then(() => {
         this.images2 = this.Post.images;
       });
   },

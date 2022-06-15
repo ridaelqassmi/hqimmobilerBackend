@@ -29,55 +29,19 @@
       </v-col>
     </v-row>
     <!-------endship----------->
-    
 
     <!-----Filters--------------->
-    
-    <RentPostFilterComponent/>
-  
-    
-    
-    
+
+    <RentPostFilterComponent />
+
     <!--end Filters---->
     <div border="top" class="border-top">
-
       <p class="mx-10 black--text">
-
-        {{ (20*(correntPage-1)+ numberOfElements) }} of {{ totalElements }}
+        {{ 20 * (correntPage - 1) + numberOfElements }} of {{ totalElements }}
       </p>
     </div>
 
-    <v-row class="mx-6" justify="center" tile>
-      <v-col v-for="post in posts" :key="post.id" cols="11" md="3" lg="3" sm="12" xs="12">
-        <v-card class="">
-          <v-img
-            class="white--text align-end"
-            height="200px"
-            src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-          >
-            <v-card-title>{{ post.title }}</v-card-title>
-          </v-img>
-
-          <v-card-subtitle class="pb-0">
-            {{ post.cities.cityName }}
-          </v-card-subtitle>
-
-          <v-card-text class="text--primary">
-            <div>{{ post.numberRoom }} rooms area:{{ post.areaSize }} m²</div>
-            <v-chip class="black--text" @click="getPostByCategorie(post.categories.id)">
-              {{ post.categories.categorieName }}
-            </v-chip>
-
-            <div>{{ post.price }}</div>
-          </v-card-text>
-
-          <v-card-actions>
-            <v-btn color="orange" text > Share </v-btn>
-              <router-link  style="routerlink" :to="{ name: 'showPOST', params: { postId: post.id }}"> <v-btn color="orange" text >Explore</v-btn></router-link>
-          </v-card-actions>
-        </v-card>
-      </v-col>
-    </v-row>
+    <Posts :posts="posts" />
 
     <!------pagination section ------>
     <div class="text-center">
@@ -102,11 +66,12 @@
 
 <script>
 import axios from "axios";
+import Posts from "@/components/Posts.vue";
 import RentPostFilterComponent from "../components/RentPostFilterComponent.vue";
 
 export default {
-  components:{RentPostFilterComponent},
- 
+  components: { RentPostFilterComponent, Posts },
+
   data() {
     return {
       posts: [],
@@ -123,7 +88,7 @@ export default {
     makeGetRequestToApi(url) {
       axios.get(url).then((res) => {
         this.posts = res.data.content;
-        this.correntPage = res.data.number+1;
+        this.correntPage = res.data.number + 1;
         this.numberPages = res.data.totalPages;
         this.totalElements = res.data.totalElements;
         this.numberOfElements = res.data.numberOfElements;
@@ -133,25 +98,24 @@ export default {
       console.log();
       if (this.categoriesId != 0) {
         this.makeGetRequestToApi(
-          
-            "api/rent/categorie/" +
+          "api/rent/categorie/" +
             this.categoriesId +
             "/page/" +
             this.correntPage
         );
       } else {
-        this.makeGetRequestToApi( "api/rent/page/" +(page-1));
+        this.makeGetRequestToApi("api/rent/page/" + (page - 1));
       }
     },
     getPostByCategorie(id) {
-        this.categoriesId = id;
-      if (id ==0) {
+      this.categoriesId = id;
+      if (id == 0) {
         this.correntPage = 0;
-        return this.getPage(this.correntPage+1);
+        return this.getPage(this.correntPage + 1);
       }
       this.correntPage = 0;
       this.makeGetRequestToApi(
-         "api/rent/categorie/" + id + "/page/" + this.correntPage
+        "api/rent/categorie/" + id + "/page/" + this.correntPage
       );
     },
   },
@@ -161,8 +125,8 @@ export default {
       .get("api/categories")
       .then((res) => (this.categories = res.data))
       .then(() => {
-        let object  = {id:0,categorieName:"All"}
-        this.categories.unshift(object)
+        let object = { id: 0, categorieName: "All" };
+        this.categories.unshift(object);
       });
   },
 };
@@ -172,7 +136,7 @@ export default {
 .headingCustom {
   font-variation-settings: "wght" 900;
 }
-a{
+a {
   text-decoration: none !important;
 }
 </style>
