@@ -32,7 +32,8 @@
     </v-navigation-drawer>
     <v-app-bar app elevation="0" color="white">
       <v-app-bar-nav-icon
-        class="pa-0"
+        class="pa-0 zindex"
+
         color="grey"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
@@ -168,6 +169,9 @@ html::-webkit-scrollbar {
   padding: 0;
   margin: 0;
 }
+.zindex{
+  z-index: 1000 !important;
+}
 </style>
 <style lang="scss" >
 @import url("https://fonts.googleapis.com/css? family=Oxygen:300,400,700&display=swap");
@@ -182,5 +186,6 @@ $font-family: "IBM Plex Serif";
     font-family: $font-family, sans-serif !important;
   }
   font-family: $font-family, sans-serif !important;
+
 }
 </style>
