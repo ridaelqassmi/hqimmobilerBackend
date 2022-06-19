@@ -144,6 +144,7 @@ export default {
       RegistrePassword: "",
     };
   },
+  
   methods: {
     ...mapMutations(["toggleAuthentified", "setAuthentifiedUserDetails"]),
 

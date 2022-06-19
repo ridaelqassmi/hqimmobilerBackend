@@ -19,8 +19,6 @@ public class RentingPost extends Post{
     private Long id;
     @Column
     private String duree;
-    @Column
-    private float price;
 
 
 
@@ -40,11 +38,11 @@ public class RentingPost extends Post{
         this.duree = duree;
     }
 
-    public float getPrice() {
-        return price;
-    }
+
 
     public void setPrice(float price) {
         this.price = price;
     }
+
+
 }

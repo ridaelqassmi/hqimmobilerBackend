@@ -1,7 +1,9 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
+import com.HQimmobillier.fpbm.dto.post.MyPostsResponseDto;
 import com.HQimmobillier.fpbm.dto.user.FilterDto;
 import com.HQimmobillier.fpbm.entity.*;
+import com.HQimmobillier.fpbm.mapper.PostMapper;
 import com.HQimmobillier.fpbm.repository.*;
 import com.HQimmobillier.fpbm.services.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,24 +15,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 
 public class PostServiceImp implements PostService {
-
     private final RentingPostRepo rentingPostRepo;
-
     private final BuyingPostRepo buyingPostRepo;
-
     private final CategorieService categorieService;
-
     private final CityService cityService;
-
     private final UserRepo userRepo;
+
 
     private final PostImagesRepo postImagesRepo;
 
@@ -38,8 +34,9 @@ public class PostServiceImp implements PostService {
 
     private final CategoriesRepo categoriesRepo;
     private final AccountService accountService;
-
-    public PostServiceImp(RentingPostRepo rentingPostRepo, BuyingPostRepo buyingPostRepo, CategorieService categorieService, CityService cityService, UserRepo userRepo, PostImagesRepo postImagesRepo, PostImageService postImageService, CategoriesRepo categoriesRepo, AccountService accountService) {
+    private final PostRepository postRepo;
+    private final PostMapper postMapper;
+    public PostServiceImp(RentingPostRepo rentingPostRepo, BuyingPostRepo buyingPostRepo, CategorieService categorieService, CityService cityService, UserRepo userRepo, PostImagesRepo postImagesRepo, PostImageService postImageService, CategoriesRepo categoriesRepo, AccountService accountService, PostRepository postRepo, PostMapper postMapper) {
         this.rentingPostRepo = rentingPostRepo;
         this.buyingPostRepo = buyingPostRepo;
         this.categorieService = categorieService;
@@ -49,6 +46,8 @@ public class PostServiceImp implements PostService {
         this.postImageService = postImageService;
         this.categoriesRepo = categoriesRepo;
         this.accountService = accountService;
+        this.postRepo = postRepo;
+        this.postMapper = postMapper;
     }
 
     /*********************************************RENTING POST SERVICES ****************************************/
@@ -62,13 +61,14 @@ public class PostServiceImp implements PostService {
         rentingPost.setCities(cityService.findById(id_city));
         rentingPost.setUser(accountService.getAuthenticatedUser());
         RentingPost rentingPost1 = rentingPostRepo.save(rentingPost);
-        postImageService.saveImages(file,rentingPost1);
+        postImageService.saveImages(file, rentingPost1);
 
 
         return rentingPost1;
     }
-    public RentingPost findRentingPostById(long id){
-        if(rentingPostRepo.findById(id).isPresent()){
+
+    public RentingPost findRentingPostById(long id) {
+        if (rentingPostRepo.findById(id).isPresent()) {
             return rentingPostRepo.findById(id).get();
         }
         return null;
@@ -83,19 +83,15 @@ public class PostServiceImp implements PostService {
 
     /*SORT POSTS BY ANY FIELD */
 
-    public Page<RentingPost> sortRentingPostBy(String field, Optional<String> typeOfSort, Optional<Integer> page, int size){
-        Integer p;
-        if(page.isPresent()){
-            p=page.get();
-        }else{
-            p=0;
-        }
+    public Page<RentingPost> sortRentingPostBy(String field, Optional<String> typeOfSort, Optional<Integer> page, int size) {
+        int p;
+        p = page.orElse(0);
         Pageable sorted;
-        if(!typeOfSort.isPresent()){
+        if (typeOfSort.isEmpty()) {
 
             sorted = PageRequest.of(p, size, Sort.by(field).ascending());
 
-        }else{
+        } else {
             sorted = PageRequest.of(p, size, Sort.by(field).descending());
         }
         return rentingPostRepo.findAll(sorted);
@@ -103,84 +99,43 @@ public class PostServiceImp implements PostService {
     }
 
     /*find all Posts with pagination */
-    public Page<RentingPost> getRentingPostWithPagination( int page, int size){
-        return rentingPostRepo.findAll(PageRequest.of(page,size));
+    public Page<RentingPost> getRentingPostWithPagination(int page, int size) {
+        return rentingPostRepo.findAll(PageRequest.of(page, size));
     }
-    public List<RentingPost> getAllRentigPostByUserId(long id){
+
+    public List<RentingPost> getAllRentigPostByUserId(long id) {
         User user = userRepo.findById(id).get();
-        if(user != null){
-           return  rentingPostRepo.findAllRentingPostsByUser(user);
+        if (user != null) {
+            return rentingPostRepo.findAllRentingPostsByUser(user);
         }
         return null;
     }
-    public Page<RentingPost> getRentingPostByCategories(int page,int size,long id){
-        Pageable pageRequest  = PageRequest.of(page,size);
+
+    public Page<RentingPost> getRentingPostByCategories(int page, int size, long id) {
+        Pageable pageRequest = PageRequest.of(page, size);
         Categories categories = categoriesRepo.findById(id).get();
-        return rentingPostRepo.findAllByCategories(categories,pageRequest);
+        return rentingPostRepo.findAllByCategories(categories, pageRequest);
     }
 
 
-    public Page<RentingPost> getRentingPostByTitle(String title,int page){
-        Pageable pageRequest = PageRequest.of(page,20);
-        return rentingPostRepo.findByTitleContaining(title,pageRequest);
+    public Page<RentingPost> getRentingPostByTitle(String title, int page) {
+        Pageable pageRequest = PageRequest.of(page, 20);
+        return rentingPostRepo.findByTitleContaining(title, pageRequest);
+    }
+
+    public Page<RentingPost> getRentingPostByFilter(FilterDto filterDto) {
+        Pageable pageRequest = PageRequest.of(filterDto.getPage(), 20);
+        return rentingPostRepo.findByCostumeFilter(filterDto.getTitle(), filterDto.getCities(), filterDto.getCategoriesList(), filterDto.getPrices().get(0), filterDto.getPrices().get(1), filterDto.getNbRooms().get(0), filterDto.getNbRooms().get(1), filterDto.getArea().get(0), filterDto.getArea().get(1), filterDto.getOrderByDate(), filterDto.getOrderByPrice(), filterDto.isAsc(), pageRequest);
+
+
     }
 
     @Override
-    public List<RentingPost> getRentingPostFilter(FilterDto filter) {
-      List<RentingPost> rentingPosts = new ArrayList<>();
-
-      if(!filter.getCategoriesList().isEmpty()){
-          List<RentingPost> allRentingPostByCategorie = new ArrayList<>();
-            for(long  categoriesId:filter.getCategoriesList()){
-                allRentingPostByCategorie.addAll(rentingPostRepo.findAllByCategories(categoriesRepo.findById(categoriesId).get()));
-            }
-            rentingPosts = allRentingPostByCategorie;
-      }
-      if(!filter.getPrices().isEmpty()){
-          float min = filter.getPrices().get(0);
-          float max = filter.getPrices().get(1);
-          if(!rentingPosts.isEmpty()){
-              List<RentingPost> filteredByPrice = new ArrayList<>();
-              filteredByPrice.addAll(rentingPosts.stream().filter(item -> item.getPrice() < max).toList().
-                      stream().filter(item -> item.getPrice() > min).toList());
-              rentingPosts=filteredByPrice;
-
-          }
-          else{
-              rentingPosts = rentingPostRepo.findByPriceBetween(min,max);
-          }
-      }
-      if(!filter.getNbRooms().isEmpty() ){
-          int min = filter.getNbRooms().get(0);
-          int max = filter.getNbRooms().get(1);
-          if(!rentingPosts.isEmpty()){
-              List<RentingPost> filteredByNbRooms = new ArrayList<>();
-              filteredByNbRooms.addAll(rentingPosts.stream().filter(item -> item.getNumberRoom() < max).toList().
-                      stream().filter(item -> item.getNumberRoom() > min).toList());
-              rentingPosts=filteredByNbRooms;
-
-          }
-          else{
-              rentingPosts = rentingPostRepo.findByNumberRoomBetween(min,max);
-          }
-      }
-      if(!filter.getArea().isEmpty()){
-          float min = filter.getArea().get(0);
-          float max = filter.getArea().get(1);
-          if(!rentingPosts.isEmpty()){
-              List<RentingPost> filteredByArea = new ArrayList<>();
-              filteredByArea.addAll(rentingPosts.stream().filter(item -> item.getAreaSize() < max).toList().
-                      stream().filter(item -> item.getAreaSize() > min).toList());
-              rentingPosts=filteredByArea;
-
-          }
-          else{
-              rentingPosts = rentingPostRepo.findByAreaSizeBetween(min,max);
-          }
-      }
-      return rentingPosts;
+    public List<MyPostsResponseDto> findAllPostOfAuthentifiedUser() {
+        List<Post> posts = postRepo.findAllPostsByUser(accountService.getAuthenticatedUser());
+        return postMapper.MapPostToMyPostResponseDto(posts);
     }
-/************************************************BUYING POST SERVICES ********************************************/
+    /************************************************BUYING POST SERVICES ********************************************/
 
 
 }

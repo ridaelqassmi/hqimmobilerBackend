@@ -1,8 +1,7 @@
 <template>
-  <div>
-    {{ Post }}
+  <div class="parent">
     <v-container class="background-- is-fullhd" color="#003BDE" fluid>
-      <v-row dense class="align-center" justify="center">
+      <v-row dense class="align-center" >
         <v-col class="align-center">
           <p class="text-body-2 font-weight-bold mt-4 white--text">
             Home> {{ Post.cities.cityName }} >
@@ -14,14 +13,19 @@
               >| {{ Post.location }}</span
             >
           </h1>
-          <h1 class="text-h5 white--text font-weight-bold">{{ Post.title }}</h1>
+          <h1 class="text-h5 white--text font-weight-bold">
+            {{ Post.title }}
+            <v-icon @click="toggleFavourite()" class="mx-5"
+              >mdi-heart-outline</v-icon
+            >
+          </h1>
           <p class="white--text">
             {{ Post.numberRoom }} Rooms | 2 Bath | 100 m
           </p>
         </v-col>
 
         <v-col cols="6" xs="0" class="hidden-xs-only">
-          <v-row justify="end" class="px-5">
+          <v-row class="px-5 d-flex justify-end">
             <v-btn
               color="#f8e71c"
               class="black--text text-title font-weight-meduim text-capitalize"
@@ -82,7 +86,7 @@
           at <span>{{ Post.date | formatDate }}</span>
         </v-col>
         <v-col cols="12" md="8" lg="8" xl="8" sm="12" xs="12">
-          <v-expansion-panels class="mb-6 elevation-0">
+          <v-expansion-panels class="mb-6 pa-0 elevation-0">
             <v-expansion-panel>
               <v-expansion-panel-header
                 class="text-center"
@@ -92,7 +96,7 @@
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <p class="black--text text--lighten-2 description">
-                  {{Post.description}}
+                  {{ Post.description }}
                 </p>
               </v-expansion-panel-content>
             </v-expansion-panel>
@@ -148,26 +152,7 @@
           </v-expansion-panels>
 
           <!--here it goes reviews  -->
-          <v-row>
-            <v-col cols="8">
-              <h1 class="text-h4 mt-10 font-weight-bold">Ratings & Reviews</h1>
-              <h1 class="text-overline font-weight-bold">
-                Review this property
-              </h1>
-              <span class="text-body-2"
-                >Share details of your own experience</span
-              >
-            </v-col>
-            <v-spacer> </v-spacer>
-            <v-col>
-              <v-btn
-                color="#003BDE"
-                class="mt-14 white--text text-overline rounded-lg"
-                @click="reviewModal = true"
-                >write A review</v-btn
-              >
-            </v-col>
-          </v-row>
+         <ReviewSystem />
 
           <!--here it ends-->
         </v-col>
@@ -180,7 +165,7 @@
           sm="12"
           xs="12"
         >
-          <v-row justify="center">
+          <v-row class="d-flex justfiy-center">
             <v-col
               class="white elevation-2 lighten-2 fixed"
               cols="12"
@@ -206,10 +191,9 @@
               </b-field>
               <b-field
                 label="Email"
-                type="is-danger"
-                message="This email is invalid"
+              
               >
-                <b-input type="email" value="john@" maxlength="30"> </b-input>
+                <b-input type="email"  maxlength="30"> </b-input>
               </b-field>
 
               <b-field label="Phone Number">
@@ -223,54 +207,8 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-row justify="center">
-      <v-dialog v-model="reviewModal" persistent max-width="600px">
-        <v-card color="#f0f2f5" class="lighten-3 px-5">
-          <v-card-title class="text-h5 font-weight-bold text-center">
-            <v-row justify="center my-5"> Rate your overall experience </v-row>
-          </v-card-title>
-          <v-card-text class="elevation-2 white px-2 pt-5">
-            <div class="ma-5">
-              <v-row align="center" class="mx-0">
-                <v-rating
-                  v-model="Ratingvalue"
-                  :value="0"
-                  color="amber"
-                  dense
-                  half-increments
-                  size="24"
-                >
-                </v-rating>
-                <v-spacer></v-spacer>
-                <h1
-                  class="
-                    text-h6
-                    px-5
-                    yellow--text
-                    text--darken-3
-                    font-weight-bold
-                  "
-                >
-                  {{ Ratingvalue }}
-                </h1>
-              </v-row>
-              <v-row>
-                <v-col cols="12">
-                  <b-field label="Message">
-                    <b-input maxlength="200" type="textarea"></b-input>
-                  </b-field>
-                </v-col>
-              </v-row>
-            </div>
-          </v-card-text>
-          <v-card-actions class="py-2">
-            <v-spacer></v-spacer>
-            <v-btn class="" text @click="reviewModal = false">cancel</v-btn>
-            <v-btn class="is-info" text>submit review</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
+
+    
   </div>
 </template>
 
@@ -278,6 +216,8 @@
 import axios from "axios";
 import moment from "moment";
 import Vue from "vue";
+
+import ReviewSystem from '@/components/ReviewSystem.vue';
 Vue.filter("formatDate", function (value) {
   if (value) {
     return moment(String(value)).format("MMMM Do YYYY, h:mm:ss a ");
@@ -285,11 +225,14 @@ Vue.filter("formatDate", function (value) {
 });
 
 export default {
+  components: {ReviewSystem },
   data() {
     return {
       gallery: false,
-      reviewModal: false,
-      Ratingvalue: 0,
+     
+      
+      favourite: false,
+     
       Post: "",
       images: [
         {
@@ -334,7 +277,10 @@ export default {
         return document.documentElement.classList.remove("is-clipped");
       }
     },
+    toggleFavourite() {},
+    
   },
+  
 };
 </script>
 <style scoped>
@@ -397,5 +343,23 @@ export default {
     position: sticky;
     top: 80px;
   }
+}
+.parent {
+  background: #e7e7e7;
+}
+
+.tube{
+  width: 100%;
+ 
+  background: rgb(209, 205, 205);
+  height: 22px;
+  border-radius: 10px;
+
+}
+.filledTube{
+  width: 80%;
+  background: #1e78dd;
+  height: 100%;
+  border-radius: 10px;
 }
 </style>

@@ -94,8 +94,8 @@
 
        }
        @PostMapping("rent/filter")
-        public List<RentingPost> getRentingPostFilters(@RequestBody FilterDto filter){
-            return postService.getRentingPostFilter(filter);
+        public Page <RentingPost> getRentingPostFilters(@RequestBody FilterDto filter){
+            return  postService.getRentingPostByFilter(filter);
        }
 
        @GetMapping("/rent/search/by")

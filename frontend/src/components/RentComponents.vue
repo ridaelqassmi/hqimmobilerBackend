@@ -129,7 +129,7 @@
               :icon-url="iconUrl"
             />
           </l-marker>
-          <LGeoJson :geojson="myGeoJson"/>
+          
           <v-locatecontrol />
         </l-map>
       </v-col>
@@ -180,14 +180,14 @@
 
 <script>
 import axios from "axios";
-import { LMap, LTileLayer, LMarker, LIcon,LGeoJson } from "vue2-leaflet";
+import { LMap, LTileLayer, LMarker, LIcon } from "vue2-leaflet";
 import Vue2LeafletLocatecontrol from "vue2-leaflet-locatecontrol";
-import myGeoJson from "../citiesGeojson.js";
+
 export default {
   components: {
     LMap,
     LTileLayer,
-    LGeoJson,
+    
     "v-locatecontrol": Vue2LeafletLocatecontrol,
     LMarker,
     LIcon,
@@ -195,7 +195,7 @@ export default {
   data() {
     return {
       
-      myGeoJson : myGeoJson,
+      
       model: 0,
       items: ["week", "day", "mounth", "year"],
       file: "",

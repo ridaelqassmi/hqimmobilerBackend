@@ -1,7 +1,9 @@
 package com.HQimmobillier.fpbm.services;
 
 
+import com.HQimmobillier.fpbm.dto.post.MyPostsResponseDto;
 import com.HQimmobillier.fpbm.dto.user.FilterDto;
+import com.HQimmobillier.fpbm.entity.Post;
 import com.HQimmobillier.fpbm.entity.RentingPost;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,5 +30,9 @@ public interface PostService {
     RentingPost findRentingPostById(long id);
     public Page<RentingPost> sortRentingPostBy(String field, Optional<String> typeOfSort, Optional<Integer> page, int size);
     public Page<RentingPost> getRentingPostByTitle(String title,int page);
-    public  List<RentingPost> getRentingPostFilter(FilterDto filter);
+   // public  List<RentingPost> getRentingPostFilter(FilterDto filter);
+
+   public Page<RentingPost> getRentingPostByFilter(FilterDto filterDto);
+
+    public List<MyPostsResponseDto> findAllPostOfAuthentifiedUser();
 }

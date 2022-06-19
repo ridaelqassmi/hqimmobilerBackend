@@ -1,8 +1,11 @@
 package com.HQimmobillier.fpbm.controller;
 
+import com.HQimmobillier.fpbm.dto.post.MyPostsResponseDto;
+import com.HQimmobillier.fpbm.entity.Post;
 import com.HQimmobillier.fpbm.entity.User;
 import com.HQimmobillier.fpbm.repository.UserRepo;
 import com.HQimmobillier.fpbm.services.AccountService;
+import com.HQimmobillier.fpbm.services.PostService;
 import com.HQimmobillier.fpbm.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +22,11 @@ public class userController {
     UserRepo userRepo;
     @Autowired
     UserService userService;
+    private final PostService postService;
     private final AccountService accountService;
 
-    public userController(AccountService accountService) {
+    public userController(PostService postService, AccountService accountService) {
+        this.postService = postService;
         this.accountService = accountService;
     }
 
@@ -57,6 +62,11 @@ public class userController {
     public User getAuthentifiedUser(){
         return accountService.getAuthenticatedUser();
     }
-
+    @GetMapping("authentifiedUser/posts")
+    public List<MyPostsResponseDto> findAllPostOfAuthentifiedUser(){
+        return postService.findAllPostOfAuthentifiedUser();
     }
+    }
+
+
 

@@ -43,6 +43,7 @@ public class AccountRestController {
     }
     @PostMapping(path = "/login")
     public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto){
+        System.out.println(loginRequestDto.getPassword());
 
         return accountService.login(loginRequestDto);
     }

@@ -13,9 +13,15 @@ import java.util.List;
 @NoArgsConstructor
 public class FilterDto {
    private List<Long> categoriesList;
-   private List<Float> prices;
+   private List<Double> prices;
    private List<Integer> nbRooms;
    private List<Float> area;
-   private List<Long> cities;
-   private boolean orderByPrice;
+   private String title;
+   private Long cities;
+
+   private List<Long> features;
+   private Boolean OrderByPrice;
+   private Boolean orderByDate;
+   private boolean asc;
+   private int page;
 }

@@ -2,12 +2,14 @@
   <v-app>
     <v-navigation-drawer
       app
+
       v-model="drawer"
-      class="#F5F5F5"
+      class="pa-0 ma-0"
       disable-resize-watcher
+      
     >
-      <v-list dense class="ml-2">
-        <v-list-item
+      <v-list dense >
+        <v-list-item 
           v-for="(item, i) in items"
           :key="i"
           class="pa-2 rounded-lg mt-0"
@@ -37,16 +39,16 @@
         color="grey"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
-
-      <v-toolbar-title class="grey--text text--darken-2 font-weight- Heading">
-        <span class="font-weight-bold">HQ</span>immobilier</v-toolbar-title
+    <v-row >
+      <v-col  cols="6" >
+         <v-toolbar-title class="grey--text text--darken-2 text-xs-body-1  font-italic">
+        <span class="font-weight-bold ">HQ</span>immobilier</v-toolbar-title
       >
-      <v-spacer></v-spacer>
+      </v-col>
+      <v-col cols="2"  class=" d-sm-none d-md-flex hidden-sm-and-down
 
-      <v-form class="hidden-xs-only">
-        <v-row>
-          <v-col>
-            <v-btn
+ ">
+        <v-btn
               to="/createPost"
               class="
                 light-blue
@@ -60,27 +62,35 @@
               "
               >ajouter une post
             </v-btn>
-          </v-col>
-          <v-col>
+      </v-col>
+      <v-spacer></v-spacer>
+   
+        <v-col  >
             <v-btn
               class="
                 
-                black--text
+                
                 elevation-0
                 transparent
-                text-capitalize
-                font-weight-bold
+                
+               
               "
               @click="showRegistreInComponent = !showRegistreInComponent"
               v-if="!userAuthentified"
-              >authentifie vous</v-btn
+              > <v-icon>mdi-login</v-icon><p class="px-2 align-self-center mb-0">Se connecter</p> </v-btn
             >
 
             <HeaderProfile v-if="userAuthentified" :key="i" />
-          </v-col>
-        </v-row>
-      </v-form>
+          
+      </v-col>
+      
+    </v-row>
+     
+      
+
     </v-app-bar>
+    <!--test-->
+    
 
     <v-main class="main">
       <router-view />
@@ -116,7 +126,7 @@ export default {
       { text: "Home", icon: "mdi-home", to: "/" },
       { text: "Rent", icon: "mdi-account", to: "/rent" },
       { text: "Buy", icon: "mdi-flag", to: "buy" },
-      { text: "user", icon: "mdi-account", to: "/user" },
+      { text: "user", icon: "mdi-account", to: "/user/id" },
     ],
   }),
   computed: {
@@ -178,14 +188,23 @@ html::-webkit-scrollbar {
 
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300&display=swap");
 
-$font-family: "IBM Plex Serif";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap');
 
+$font-family1: "IBM Plex Serif";
+$font-family:"Oxygen";
+
+$font-family:"Roboto";
 .v-application {
+
   [class*="text-"] {
     color: #36405a;
     font-family: $font-family, sans-serif !important;
   }
   font-family: $font-family, sans-serif !important;
+  [class*="text-h5"] {
+    color: #36405a;
+    font-family: $font-family1, sans-serif !important;
+  }
 
 }
 </style>

@@ -6,29 +6,61 @@ import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
+
+function parseJwt(token) {
+  token = token.substring(7,token.length);
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
 export default new Vuex.Store({
-plugins: [createPersistedState()],
+  plugins: [createPersistedState()],
   state: {
     userAuthentified:false,
     AuthentifiedUserDetails:{},
   } ,
   mutations:{
     toggleAuthentified:(state)=>{
-      if(localStorage.getItem("Autorization") !=null){
-        console.log("is not null");
-        state.userAuthentified = true;
-      }else{
-        state.userAuthentified =false;
-      }
       
+     
+
+      if(localStorage.getItem("Autorization") !=null && parseJwt(localStorage.getItem("Autorization")).exp > (Date.now()/1000)){
+        state.userAuthentified = true;
+        console.log("it worked");
+      }else{
+        console.log("no it did'nt work");
+        state.userAuthentified =false; 
+      }
+
     }
     ,
     setAuthentifiedUserDetails:(state,user)=>{
       state.AuthentifiedUserDetails = user;
     }
   
-  },
+  }
+  ,
   getters:{
+    getAuthUser(state){
+      console.log("getAuthUser called")
+      if(localStorage.getItem("Autorization") !=null && parseJwt(localStorage.getItem("Autorization")).exp > (Date.now()/1000)){
+        console.log("the condition met")
+        return state.AuthentifiedUserDetails;
+      }else{
+        console.log("non");
+        return null;
+      }
+
+    }
    
   },
   

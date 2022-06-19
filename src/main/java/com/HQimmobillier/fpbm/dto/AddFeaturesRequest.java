@@ -1,4 +1,4 @@
-package com.HQimmobillier.fpbm.dto.user.features;
+package com.HQimmobillier.fpbm.dto;
 
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;

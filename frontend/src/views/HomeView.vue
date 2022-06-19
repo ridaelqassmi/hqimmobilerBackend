@@ -2,7 +2,7 @@
   <v-container fill-height fluid class="is-fullhd mx-5">
     <v-row align="center" class="part1">
       <v-col cols="12" md="6" sm="4">
-        <h1 class="text-h3 font-weight-bold my-5">HQ immobilier</h1>
+        <h1 class="text-h3 font-weight-bold my-5 font-italic">HQ immobilier</h1>
         <p class="text-body-2">
           bienvenue sur notre site, vous avez besoin d'aide pour choisir votre
           maison ? je suppose que vous êtes au bon endroit, notre site est doté
@@ -119,11 +119,11 @@ export default {
   data() {
     return {
       villes: [
-        { cityName: "Marrakech", imagePath: "marrakech.jpg", url: "" },
-        { cityName: "CasaBlanca", imagePath: "casablanca.jpg", url: "" },
-        { cityName: "fes", imagePath: "fes.jpg", url: "" },
-        { cityName: "Rabat", imagePath: "rabat.jpg", url: "" },
-        { cityName: "tangier", imagePath: "tangier.jpg", url: "" },
+        { cityName: "Marrakech", imagePath: "marrakech.png", url: "" },
+        { cityName: "CasaBlanca", imagePath: "casablanca.png", url: "" },
+        { cityName: "fes", imagePath: "fes.png", url: "" },
+        { cityName: "Rabat", imagePath: "rabat.png", url: "" },
+        { cityName: "tangier", imagePath: "tangier.png", url: "" },
         { cityName: "beni mellal", imagePath: "beni-mellal.jpg", url: "" },
       ],
     };

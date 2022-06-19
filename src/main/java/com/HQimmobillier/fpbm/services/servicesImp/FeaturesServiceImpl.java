@@ -1,6 +1,6 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
-import com.HQimmobillier.fpbm.dto.user.features.AddFeaturesRequest;
+import com.HQimmobillier.fpbm.dto.AddFeaturesRequest;
 import com.HQimmobillier.fpbm.entity.Features;
 import com.HQimmobillier.fpbm.repository.FeaturesRepo;
 import com.HQimmobillier.fpbm.services.FeaturesService;

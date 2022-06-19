@@ -1,212 +1,127 @@
 <template>
-    <div class="dashboard">
-        <v-subheader class="py-0 d-flex justify-space-between rounded-lg">
-            <h3>Dashboard</h3>
-            <v-btn color="success">
-                View Orders
-            </v-btn>
-        </v-subheader>
-        <br>
-        <v-row class="pa-2">
-            <v-col lg="7" cols="12">
-                <v-alert dense text type="success">
-                    Login Successfully! Welcome to <strong>Web Burden</strong>
-                </v-alert>
-                <v-row >
-                    <v-col lg="6" cols="12" v-for="(item,index) in activityLog" :key="index">
-                        <v-card elevation="2" class="rounded-lg">
-                            <v-card-text class="d-flex justify-space-between align-center">
-                                <div>
-                                    <strong>{{ item.title }}</strong> <br>
-                                    <span>Last 3 weeks</span>
-                                </div>
-                                <v-avatar size="60" :color="item.color" style="border: 3px solid #444">
-                                    <span style="color: white">{{item.amount}} +</span>
-                                </v-avatar>
-                            </v-card-text>
-                            <v-card-actions class="d-flex justify-space-between">
+  <v-row dense class=" my-8">
+    <v-col cols="12" class="ml-5" lg="3" md="4" sm="6" justify-center>
+      <v-card max-width="90%" class="rcard pa-0" elevation="0">
+        <v-list class="py-0" color="#F0F2F5">
+          <v-list-item-group active-class="border" color="indigo">
+            <v-list-item  v-for="(item, i) in items" :key="i" @click="toggleActiveTab(item.id)">
+              <v-list-item-icon>
+                <v-icon v-text="item.icon"></v-icon>
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title
+                  class="text-body-1 text-capitalize font-weight-bold"
+                  v-text="item.text"
+                ></v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-card>
+  
+    </v-col> <v-divider vertical></v-divider>
+    <!--profile -->
 
-
-                            </v-card-actions>
-                        </v-card>
-                    </v-col>
-                </v-row>
-            </v-col>
-            <v-col  cols="12" lg="5">
-                <v-card>
-                    <v-card-title>Activities</v-card-title>
-                    <v-card-text class="py-0">
-                        <v-timeline align-top dense>
-                            <v-timeline-item color="indigo" small>
-                                <strong>5 Minuts ago</strong>
-                                <div class="text-caption">
-                                   You have new order please check this out
-                                </div>
-                            </v-timeline-item>
-                            <v-timeline-item color="green" small>
-                                <strong>35 Minuts ago</strong>
-                                <div class="text-caption mb-2">
-                                    A Product has delivered!
-                                </div>
-                            </v-timeline-item>
-
-                            <v-timeline-item color="indigo" small>
-                                <strong>44 Minuts ago</strong>
-                                <div class="text-caption">
-                                    You have new order please check this out
-                                </div>
-                            </v-timeline-item>
-                        </v-timeline>
-                    </v-card-text>
-                </v-card>
-            </v-col>
-            <v-col>
-                <v-card>
-                    <v-data-table
-                            caption="Recent Order list"
-                            :headers="headers"
-                            :items="desserts"
-                            :items-per-page="5"
-                            class="elevation-1"
-                    >
-                        <template >
-                            <v-btn color="success" outlined small shaped >View</v-btn>
-                        </template>
-                    </v-data-table>
-                </v-card>
-            </v-col>
-        </v-row>
-    </div>
+    <EditProfile v-if="showEditProfile" />
+    <OwnPosts v-if="showMyPost"/>
+    
+  </v-row>
 </template>
 
 <script>
-    export default {
-        name: "Dashboard",
-        data() {
-            return {
-                activityLog: [
-                    {title: 'Total Products', amount: 50, icon: 'mdi-account', color: 'cyan lighten-3'},
-                    {title: 'Total Customer', amount: 3433, icon: 'mdi-account-group-outline', color: 'green darken-2'},
-                    {title: 'Total Sale', amount: 3433, icon: 'mdi-account-group-outline', color: 'blue-grey darken-1'},
-                    {
-                        title: 'Pending Orders',
-                        amount: 3433,
-                        icon: 'mdi-account-group-outline',
-                        color: 'deep-orange darken-1'
-                    },
-                ],
-                headers: [
-                    {
-                        text: 'Dessert (100g serving)',
-                        align: 'start',
-                        sortable: false,
-                        value: 'name',
-                    },
-                    {text: 'Calories', value: 'calories'},
-                    {text: 'Fat (g)', value: 'fat'},
-                    {text: 'Carbs (g)', value: 'carbs'},
-                    {text: 'Protein (g)', value: 'protein'},
-                    {text: 'Iron (%)', value: 'iron'},
-                    {text: 'Actions', value: 'action'},
-                ],
-                desserts: [
-                    {
-                        name: 'Frozen Yogurt',
-                        calories: 159,
-                        fat: 6.0,
-                        carbs: 24,
-                        protein: 4.0,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Ice cream sandwich',
-                        calories: 237,
-                        fat: 9.0,
-                        carbs: 37,
-                        protein: 4.3,
-                        iron: '1%',
-                    },
-                    {
-                        name: 'Eclair',
-                        calories: 262,
-                        fat: 16.0,
-                        carbs: 23,
-                        protein: 6.0,
-                        iron: '7%',
-                    },
-                    {
-                        name: 'Cupcake',
-                        calories: 305,
-                        fat: 3.7,
-                        carbs: 67,
-                        protein: 4.3,
-                        iron: '8%',
-                    },
-                    {
-                        name: 'Gingerbread',
-                        calories: 356,
-                        fat: 16.0,
-                        carbs: 49,
-                        protein: 3.9,
-                        iron: '16%',
-                    },
-                    {
-                        name: 'Jelly bean',
-                        calories: 375,
-                        fat: 0.0,
-                        carbs: 94,
-                        protein: 0.0,
-                        iron: '0%',
-                    },
-                    {
-                        name: 'Lollipop',
-                        calories: 392,
-                        fat: 0.2,
-                        carbs: 98,
-                        protein: 0,
-                        iron: '2%',
-                    },
-                    {
-                        name: 'Honeycomb',
-                        calories: 408,
-                        fat: 3.2,
-                        carbs: 87,
-                        protein: 6.5,
-                        iron: '45%',
-                    },
-                    {
-                        name: 'Donut',
-                        calories: 452,
-                        fat: 25.0,
-                        carbs: 51,
-                        protein: 4.9,
-                        iron: '22%',
-                    },
-                    {
-                        name: 'KitKat',
-                        calories: 518,
-                        fat: 26.0,
-                        carbs: 65,
-                        protein: 7,
-                        iron: '6%',
-                    },
-                ],
-            }
+import EditProfile from "@/components/EditProfile.vue";
+import OwnPosts from '@/components/OwnPosts.vue';
+export default {
+  components: { EditProfile,OwnPosts },
+  data: () => ({
+    showEditProfile: false,
+    showMyPost: false,
+    showMyFavourite: false,
+    showMyMessage: false,
+     headers: [
+        {
+          text: 'Dessert ',
+          align: 'start',
+          sortable: false,
+          value: 'name',
         },
-        methods: {
-            onButtonClick(item) {
-                console.log('click on ' + item.no)
-            }
-        }
+        { text: 'Calories', value: 'calories' },
+        { text: 'Fat ', value: 'fat' },
+        { text: 'Carbs ', value: 'carbs' },
+        { text: 'Protein ', value: 'protein' },
+        { text: 'Actions', value: 'actions', sortable: false },
+      ],
+    items: [
+      {
+        id:0,
+        icon: "mdi-account",
+        text: "Profile",
+      },
+      {
+        id:1,
+        icon: "mdi-post",
+        text: "mon publication",
+      },
+      {
+        id:3,
+        icon: "mdi-inbox",
+        text: "inbox",
+      },
+      {
+        id:2,
+        icon: "mdi-heart",
+        text: "my favourite",
+      },
+      {
+        id:5,
+        icon: "mdi-logout",
+        text: "log out",
+      },
+    ],
+    
+    model: 1,
+  }),
+  methods: {
+    //active tabs
+    toggleActiveTab(id) {
+      //based on this id we could make a lot of choices
+      //if the id =0 means affiche Edit page
+      //if the id=1 means afficher my publication
+      //if the id=2 means afficher les bost que j'aime
+      //if the id=3 means afficher my message inbox
+      //if the id=4 means logout
 
-    }
+      switch (id) {
+        case 0:
+          this.togglePage(true, false, false, false);
+          break;
+        case 1:
+          this.togglePage(false, false, false, true);
+          break;
+        case 2:
+          this.togglePage(false, true, false, false);
+          break;
+        case 3:
+          this.togglePage(false, false, true, false);
+          break;
+      }
+    },
+    togglePage(showEditProfile, showMyFavourite, showMyMessage, showMyPost) {
+      this.showEditProfile = showEditProfile;
+      this.showMyPost = showMyPost;
+      this.showMyFavourite = showMyFavourite;
+      this.showMyMessage = showMyMessage;
+    },
+  },
+};
 </script>
-
 <style scoped>
-    .overlap-icon {
-        position: absolute;
-        top: -33px;
-        text-align: center;
-        padding-top: 12px;
-    }
+.rcard {
+  /*box-shadow: 0px 1px 0px 3px #a9a9a9 !important;*/
+  /*border: solid 1px #a9a9a9;*/
+}
+.border {
+  background: rgb(203 203 203);
+  color: white;
+}
 </style>

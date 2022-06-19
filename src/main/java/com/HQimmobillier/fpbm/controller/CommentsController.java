@@ -1,35 +1,34 @@
 package com.HQimmobillier.fpbm.controller;
 
 import com.HQimmobillier.fpbm.dto.user.CommentDto;
-import com.HQimmobillier.fpbm.entity.Comments;
+import com.HQimmobillier.fpbm.entity.review;
 import com.HQimmobillier.fpbm.exception.ApiRequestException;
-import com.HQimmobillier.fpbm.services.CommentsService;
+import com.HQimmobillier.fpbm.services.reviewService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 @RestController
 @CrossOrigin
-@RequestMapping("/api/comments")
+@RequestMapping("/api/post/")
 public class CommentsController {
-    private final CommentsService commentsService;
+    private final reviewService commentsService;
 
 
-    public CommentsController(CommentsService commentsService) {
+    public CommentsController(reviewService commentsService) {
         this.commentsService = commentsService;
     }
 
-    @GetMapping("/post/{id}")
-    public List<Comments> getAllCommentByPost(@PathVariable("id") long Postid){
+    @GetMapping("{id}/comment")
+    public List<review> getAllCommentByPost(@PathVariable("id") long Postid){
         return commentsService.getCommentsByPostId(Postid);
     }
 
-    @PostMapping("/post")
-    public Comments addComment(@RequestBody  CommentDto commentsDto){
+    @PostMapping("comment")
+    public review addComment(@RequestBody  CommentDto commentsDto){
+        System.out.println(commentsDto.getMessage());
         return commentsService.addCommentToPost(commentsDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("comment/{id}")
     public void RemoveComment(@PathVariable("id") long commentid) throws ApiRequestException {
         commentsService.removeCommentToPost(commentid);
 

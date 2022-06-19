@@ -1,6 +1,6 @@
 package com.HQimmobillier.fpbm.services;
 
-import com.HQimmobillier.fpbm.dto.user.features.AddFeaturesRequest;
+import com.HQimmobillier.fpbm.dto.AddFeaturesRequest;
 import com.HQimmobillier.fpbm.entity.Features;
 
 import java.io.IOException;

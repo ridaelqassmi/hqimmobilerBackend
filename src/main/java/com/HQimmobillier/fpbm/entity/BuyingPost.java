@@ -17,12 +17,8 @@ public class BuyingPost extends Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private float price;
-
     public BuyingPost(float price) {
         this.price = price;
     }
-
 
 }

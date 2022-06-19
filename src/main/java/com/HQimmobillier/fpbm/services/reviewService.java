@@ -1,22 +1,21 @@
 package com.HQimmobillier.fpbm.services;
 
 import com.HQimmobillier.fpbm.dto.user.CommentDto;
-import com.HQimmobillier.fpbm.entity.Comments;
-import com.HQimmobillier.fpbm.entity.Post;
+import com.HQimmobillier.fpbm.entity.review;
 import com.HQimmobillier.fpbm.exception.ApiRequestException;
 
 import java.util.List;
 
-public interface CommentsService {
+public interface reviewService {
 
-    List<Comments> getCommentsByPostId(long id);
+    List<review> getCommentsByPostId(long id);
 
 
 
-    Comments addCommentToPost(CommentDto commentDto);
+    review addCommentToPost(CommentDto commentDto);
 
     /*remove post*/
     public void removeCommentToPost(long id) throws ApiRequestException;
     /*get all reply to a specifique comments*/
-    public List<Comments> getReplyForAspecificComment(long CommmetId);
+    public List<review> getReplyForAspecificComment(long CommmetId);
 }
