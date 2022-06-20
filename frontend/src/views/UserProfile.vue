@@ -31,6 +31,7 @@
 <script>
 import EditProfile from "@/components/EditProfile.vue";
 import OwnPosts from '@/components/OwnPosts.vue';
+import {mapMutations} from 'vuex';
 export default {
   components: { EditProfile,OwnPosts },
   data: () => ({
@@ -82,6 +83,7 @@ export default {
     model: 1,
   }),
   methods: {
+    ...mapMutations(["logOut"]),
     //active tabs
     toggleActiveTab(id) {
       //based on this id we could make a lot of choices
@@ -104,6 +106,9 @@ export default {
         case 3:
           this.togglePage(false, false, true, false);
           break;
+        case 5:
+          this.logOut();
+          break;
       }
     },
     togglePage(showEditProfile, showMyFavourite, showMyMessage, showMyPost) {
@@ -112,6 +117,7 @@ export default {
       this.showMyFavourite = showMyFavourite;
       this.showMyMessage = showMyMessage;
     },
+    
   },
 };
 </script>

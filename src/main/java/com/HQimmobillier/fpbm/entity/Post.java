@@ -36,6 +36,7 @@ public abstract class Post {
     private boolean hasAppliance;
     @Column
     private String description;
+
     @Nullable
     @Column double price;
     @Column
@@ -59,6 +60,9 @@ public abstract class Post {
     private User user;
     @OneToMany
     private List<review> comments;
+
+    @OneToOne
+    private Etat etat;
     @Transient
     public String getDiscriminatorValue(){
         DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );

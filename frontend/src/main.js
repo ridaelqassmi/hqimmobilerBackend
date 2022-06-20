@@ -8,8 +8,14 @@ import './axios';
 
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
+import Notifications from 'vue-notification'
+
+import VeeValidate from 'vee-validate';
+
+Vue.use(VeeValidate);
 
 Vue.use(Buefy)
+Vue.use(Notifications)
 
 Vue.config.productionTip = false
 

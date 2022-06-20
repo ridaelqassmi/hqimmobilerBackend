@@ -4,7 +4,7 @@
       <v-col cols="12" lg="6">
         <p class="font-weight-bold body-2 text-capitalize mb-0">province</p>
         <v-select
-          :items="items"
+          :items="provinceItems"
           label="ville "
           dense
           outlined
@@ -14,7 +14,7 @@
       <v-col cols="12" lg="6">
         <p class="font-weight-bold body-2 text-capitalize mb-0">ville</p>
         <v-select
-          :items="items"
+          :items="CityItems"
           label="ville "
           dense
           outlined
@@ -47,6 +47,7 @@
         </l-map>
       </v-col>
     </v-row>
+    <v-btn color="primary" class="mt-5" @click="nextStep(2)"> suivant </v-btn>
   </div>
 </template>
 
@@ -72,7 +73,9 @@ export default {
       center: [47.31322, -1.319482],
       markerLatLng: 0,
       iconSize: 32,
-      iconUrl: require("@/assets/location-pin.png"),
+      iconUrl: require("../assets/location-pin.png"),
+      CityItems:[],
+      provinceItems:[]
     };
   },
   computed: {
@@ -84,6 +87,9 @@ export default {
     },
   },
   methods:{
+    nextStep(n){
+        this.$emit("nextStep",n);
+      },
       AddMarker(e) {
       this.markerLatLng = [e.latlng.lat, e.latlng.lng];
       console.log(this.markerLatLng);
@@ -91,3 +97,10 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+.map {
+  z-index: 0;
+}
+</style>

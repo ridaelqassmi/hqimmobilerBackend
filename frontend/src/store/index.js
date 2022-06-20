@@ -2,13 +2,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
-//import axios from 'axios';
+import axios from 'axios';
 
 Vue.use(Vuex)
 
 
 function parseJwt(token) {
-  token = token.substring(7,token.length);
+  token = token.substring(7, token.length);
   var base64Url = token.split(".")[1];
   var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
   var jsonPayload = decodeURIComponent(
@@ -25,45 +25,54 @@ function parseJwt(token) {
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
-    userAuthentified:false,
-    AuthentifiedUserDetails:{},
-  } ,
-  mutations:{
-    toggleAuthentified:(state)=>{
-      
-     
+    userAuthentified: false,
+    AuthentifiedUserDetails: {},
+  },
+  mutations: {
+    toggleAuthentified: (state) => {
 
-      if(localStorage.getItem("Autorization") !=null && parseJwt(localStorage.getItem("Autorization")).exp > (Date.now()/1000)){
+
+
+      if (localStorage.getItem("Autorization") != null && parseJwt(localStorage.getItem("Autorization")).exp > (Date.now() / 1000)) {
         state.userAuthentified = true;
-        console.log("it worked");
-      }else{
-        console.log("no it did'nt work");
-        state.userAuthentified =false; 
+        
+        axios.defaults.headers.common['Authorization'] = localStorage.getItem("Autorization");
+      } else {
+        
+        state.userAuthentified = false;
       }
 
     }
     ,
-    setAuthentifiedUserDetails:(state,user)=>{
+    logOut:(state)=>{
+     
+    
+      state.userAuthentified = false;
+      state.AuthentifiedUserDetails={},
+      axios.defaults.headers.common['Authorization']="";
+    },
+    setAuthentifiedUserDetails: (state, user) => {
       state.AuthentifiedUserDetails = user;
-    }
-  
+    },
+
+
   }
   ,
-  getters:{
-    getAuthUser(state){
-      console.log("getAuthUser called")
-      if(localStorage.getItem("Autorization") !=null && parseJwt(localStorage.getItem("Autorization")).exp > (Date.now()/1000)){
-        console.log("the condition met")
+  getters: {
+    getAuthUser(state) {
+   
+      if (localStorage.getItem("Autorization") != null && parseJwt(localStorage.getItem("Autorization")).exp > (Date.now() / 1000)) {
+      
         return state.AuthentifiedUserDetails;
-      }else{
-        console.log("non");
+      } else {
+     
         return null;
       }
 
     }
-   
+
   },
-  
+
 })
 
 /*

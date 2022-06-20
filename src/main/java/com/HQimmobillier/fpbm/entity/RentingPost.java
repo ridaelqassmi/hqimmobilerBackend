@@ -5,44 +5,30 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
 
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
 @DiscriminatorValue("RENT")
 public class RentingPost extends Post{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
-    private String duree;
+
+    @OneToOne
+
+    private Duree duree;
 
 
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getDuree() {
+    public Duree getDuree() {
         return duree;
     }
 
-    public void setDuree(String duree) {
+    public void setDuree(Duree duree) {
         this.duree = duree;
     }
 
-
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
 
 
 }
