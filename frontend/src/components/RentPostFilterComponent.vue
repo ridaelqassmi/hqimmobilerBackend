@@ -1,179 +1,186 @@
 <template>
-  <v-row justify="center" dense>
-    <v-col cols="12" lg="9" md="9" sm="9" xs="9">
-      <div>
-        <v-row class="mx-1">
-          <v-col cols="12" lg="4" sm="4" xs="12" md="4">
-            <b-field expanded>
-              <b-input
-                placeholder="Search by title..."
-                type="search"
-                icon="magnify"
-                v-model="title"
-                icon-clickable
-                @icon-click="searchIconClick"
-                @input="searchByTitle()"
-              >
-              </b-input>
-            </b-field>
-          </v-col>
+<div class="parent">
+ <v-container full-height>
+    <v-row dense class="mx-sm-5 d"  >
+ <v-col cols="12" lg="6" md="6" sm="10">
+       
+         <input
+          type="text"
+          name=""
+          
+          id=""
+          class="dateInput"
+          placeholder="title"
+        /> 
+      </v-col> 
+      <v-col md="2" sm="2" lg="2">
+        <v-btn class="py-5 blue darken-2 white--text text-capitalize"  width="100%">search</v-btn>
+      </v-col> 
+      <v-col cols="12" md="2" sm="12" lg="2">
+        <v-btn aria-expanded width="100%" class="py-5 indigo darken-1 white--text text-capitalize" @click="dialog =true">advanced filters <v-icon class="ml-2">mdi-filter</v-icon></v-btn>
+      </v-col>
+      
+   
+</v-row>
+ </v-container>
 
-          <v-col cols="12" lg="3" sm="3" xs="12" md="3">
-            <b-field>
-              <b-autocomplete
-                v-model="name"
-                :data="filteredDataArray"
-                placeholder="start typing your city.."
-                icon="magnify"
-                clearable
-                @select="(option) => (selected = option)"
-              >
-                <template #empty>No results found</template>
-              </b-autocomplete>
-            </b-field>
-          </v-col>
-          <v-col cols="12" lg="3" md="3" sm="3" xs="12">
-            <b-field>
-              <b-select placeholder="order by" expanded>
-                <option
-                  v-for="(option, i) in orderData"
-                  :value="option"
-                  :key="i"
-                >
-                  {{ option }}
-                </option>
-              </b-select>
-            </b-field>
-          </v-col>
-          <v-col cols="12" lg="2" md="2" sm="2" xs="12">
-            <p class="control">
-              <b-button
-                @click="dialog = true"
-                label="filters"
-                type="is-primary"
-              />
-            </p>
-          </v-col>
-        </v-row>
-      </div>
-    </v-col>
 
     <!-------------------------->
-    <v-dialog v-model="dialog" persistent max-width="600px">
-      <v-card>
-        <v-card-title class="d-flex justify-center">
-          <h1
-            class="
-              font-weight-bold
-              grey--text
-              px-8
-              text-capitalize
-              rounded-pill
-            "
-          >
-            filters
-          </h1>
-        </v-card-title>
-        <v-card-text>
+    <v-dialog v-model="dialog"  max-width="600px"
+      class="transparent  ma-0">
+    
+      
+
+       <v-row dense class="mx-auto px-5 pt-5 white">
+         
+          <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">Region</p>
+        <v-select
+         
+           :items="RegionItems"
+          item-text="name"
+          item-value="id"
+          v-model="SelectedRegion"
+          dense
+          outlined
+          required
+        ></v-select>
+      </v-col>
+        <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">ville</p>
+        <v-select
+          :items="CityItems"
+          item-text="cityName"
+          item-value="id"
+          v-model="SelectedCity"
+          dense
+          outlined
+          required
+        ></v-select>
+      </v-col>
+      <v-col cols="12" lg="6">
+            <p class="font-weight-bold body-2 text-capitalize mb-0">type of post</p>
+    <v-select
+      :items="typeItems"
+      v-model="selectedType"
+      item-text="typeName"
+      item-value="id"
+      dense
+      outlined
+      required
+    ></v-select>
+         </v-col>
+        <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">categorié</p>
+        <v-select
+          :items="categoriesItem"
+          item-text="categorieName"
+          item-value="id"
+          dense
+          outlined
+          required
+          v-model="selectedCategorie"
+        ></v-select>
+      </v-col>
+         <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">prix min</p>
+        <v-text-field type="number" v-model="surfacie" outlined dense>
+        </v-text-field>
+      </v-col>
+      <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">prix max</p>
+        <v-text-field type="number" v-model="prix" outlined dense>
+        </v-text-field>
+      </v-col>
+         <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">surfacie min</p>
+        <v-text-field type="number" v-model="surfacie" outlined dense>
+        </v-text-field>
+      </v-col>
+      <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">surfacie max</p>
+        <v-text-field type="number" v-model="prix" outlined dense>
+        </v-text-field>
+      </v-col>
+           <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">chambre min</p>
+        <v-text-field type="number" v-model="surfacie" outlined dense>
+        </v-text-field>
+      </v-col>
+      <v-col cols="12" lg="6">
+        <p class="font-weight-bold body-2 text-capitalize mb-0">chambre max</p>
+        <v-text-field type="number" v-model="prix" outlined dense>
+        </v-text-field>
+      </v-col>
+
+          <v-col  cols="12" lg="6" >
+        <p class="font-weight-bold body-2 text-capitalize mb-0">sort By</p>
+        <v-select
+          :items="DureeItem"
+          item-value="id"
+          item-text="name"
+          v-model="selectedDuree"
+          dense
+          outlined
+          required
+        ></v-select>
+      </v-col>
+       <v-col  cols="12" lg="6" >
+        <p class="font-weight-bold body-2 text-capitalize mb-0">Order</p>
+        <v-select
+          :items="DureeItem"
+          item-value="id"
+          item-text="name"
+          v-model="selectedDuree"
+          dense
+          outlined
+          required
+        ></v-select>
+      </v-col>
+      
+        </v-row>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <v-card-actions class="white">
           <v-row>
-            <v-col>
-              <b-field label="Regions">
-                <b-select expanded placeholder="Select a subject">
-                  <option value="1">Option 1</option>
-                  <option value="2">Option 2</option>
-                </b-select>
-              </b-field>
-            </v-col>
-            <v-col>
-              <b-field label="Province">
-                <b-select expanded placeholder="Select a subject">
-                  <option value="1">Option 1</option>
-                  <option value="2">Option 2</option>
-                </b-select>
-              </b-field>
-            </v-col>
-            <v-col cols="12">
-              <b-field label="type de bien">
-                <b-select expanded placeholder="Select a subject">
-                  <option value="1">Option 1</option>
-                  <option value="2">Option 2</option>
-                </b-select>
-              </b-field>
-            </v-col>
-            <v-col cols="12"
-              ><b-field label="Budget">
-                <v-container
-                  ><b-slider
-                    indicator
-                    v-model="numbers"
-                    :min="0"
-                    :max="5000"
-                    :step="100"
-                    ticks
-                  >
-                  </b-slider
-                ></v-container>
-              </b-field>
-            </v-col>
-            <v-col cols="12"
-              ><b-field label="surface">
-                <v-container
-                  ><b-slider
-                    indicator
-                    v-model="numbers"
-                    :min="0"
-                    :max="5000"
-                    :step="100"
-                    ticks
-                  >
-                  </b-slider
-                ></v-container>
-              </b-field>
-            </v-col>
-            <v-col cols="12"
-              ><b-field label="chambre">
-                <v-container
-                  ><b-slider
-                    indicator
-                    v-model="numbers"
-                    :min="0"
-                    :max="5000"
-                    :step="100"
-                    ticks
-                  >
-                  </b-slider
-                ></v-container>
-              </b-field>
-            </v-col>
-            <v-col>
-              <b-field label="caractéristique">
-                <v-container class="is-fullhd" fluid>
-                  <b-checkbox
-                    class="px-5 py-5"
-                    v-for="i in 11"
-                    :key="i"
-                    v-model="checkboxGroup"
-                    native-value="Silver"
-                  >
-                    atay
-                  </b-checkbox>
-                </v-container>
-              </b-field>
-            </v-col>
+
           </v-row>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          <v-col offset="7">
+ <v-btn color="blue darken-1"  text @click="dialog = false">
             Close
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">
+          </v-col>
+          <v-col>  <v-btn  class="blue darken-1 white--text"  @click="dialog = false">
             Save
           </v-btn>
+
+          </v-col>
+        
+         
         </v-card-actions>
-      </v-card>
+     
     </v-dialog>
-  </v-row>
+
+
+  </div>
 </template>
 <script>
 import axios from "axios";
@@ -181,11 +188,21 @@ export default {
   data() {
     return {
       rida: 0,
-      numbers: [0, 5000],
-      checkboxGroup: ["fruit", "way"],
+     
       dialog: false,
       orderData: ["PRICE", "DATE CROISSANCE", "Date decroissance"],
       title: "",
+      etatItems:{},
+      SelectedRegion:"",
+      categoriesItem:[],
+      typeItems: [
+        { id: 1, typeName: "vente" },
+        { id: 2, typeName: "location" },
+      ],
+      RegionItems:[],
+      CityItems:[],
+      selectedType:0,
+      SelectedCity:""
     };
   },
   methods: {
@@ -198,6 +215,60 @@ export default {
         })
         .then((res) => console.log(res.data));
     },
+       getAllCategories() {
+      axios
+        .get("/api/categories")
+        .then((res) => (this.categoriesItem = res.data))
+        .then(() => console.log(this.categoriesItem));
+    },
+    getAllDurations() {
+      axios.get("/api/etat").then((res) => (this.etatItems = res.data));
+    },
+    getAllRegions(){
+      axios.get("/api/regions").then((res)=>this.RegionItems = res.data).then(()=>console.log(this.RegionItems));
+    },
+    getAllCititesByRegion(id){
+      axios.get("/api/cities/region/"+id).then(res=> this.CityItems = res.data);
+    },
+    checkInRoute(){
+      console.log(this.$route.query)
+      if(this.$route.query.type != null ){
+        console.log('this is a buying search pos');
+        this.selectedType = parseInt(this.$route.query.type)
+      }
+    }
+    
+    
+  
   },
+   mounted() {
+    this.getAllCategories();
+    this.getAllDurations();
+    this.getAllRegions();
+    this.checkInRoute();
+    
+  },
+  watch:{
+    SelectedRegion(val){
+      console.log(val);
+      this.getAllCititesByRegion(val);
+    },
+  }
 };
 </script>
+
+<style scoped>
+.parent{
+  width: 100vw;
+}
+
+
+.dateInput {
+  width: 100%;
+  border: solid 1px #b7a6a6;
+  padding: 6px;
+  border-radius: 3px;
+  color: #b7a6a6;
+  margin-bottom: 20px;
+}
+</style>

@@ -11,7 +11,6 @@
 
               <v-divider v-if="n !== steps" :key="n"></v-divider>
             </template>
-          
           </v-stepper-header>
         
           

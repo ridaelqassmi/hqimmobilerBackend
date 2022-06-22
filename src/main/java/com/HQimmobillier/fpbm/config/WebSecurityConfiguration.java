@@ -33,13 +33,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public void configure(WebSecurity web) throws Exception {
 
-
-        /*web.ignoring().antMatchers("/v2/api-docs")
-                .antMatchers("/swagger-resources/**")
-                .antMatchers("/swagger-ui.html")
-                .antMatchers("/configuration/**")
-                .antMatchers("/webjars/**")
-                .antMatchers("/public");*/
     }
 
 
@@ -51,7 +44,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().antMatchers("/api/rent").permitAll()
+        http.authorizeRequests().antMatchers("/api/rent/**").permitAll()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/login").permitAll()
                         .antMatchers("/api/categories").permitAll()

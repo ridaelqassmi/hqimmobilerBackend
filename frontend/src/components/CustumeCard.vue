@@ -1,7 +1,7 @@
 <template>
      <div class="costumizedCard">
-                <v-btn dark class=" transparent"  depressed height="80px" append>
-                  <v-icon x-large dark >
+                <v-btn dark class=" transparent" :to="url" depressed height="80px" append>
+                  <v-icon x-large dark  >
                   {{iconName}}
                 </v-icon>
                 </v-btn>

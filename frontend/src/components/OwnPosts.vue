@@ -1,5 +1,5 @@
 <template>
-    <v-col class="mx-8">
+    <v-col class="mx-auto">
       <h1 class="text-h5 font-weight-bold text-capitalize">my posts</h1>
       <v-divider></v-divider>
       

@@ -7,8 +7,12 @@ import HouseView from '../views/houses.vue'
 import ShowPostVue from '../views/ShowPostVue.vue'
 import UserProfile from '../views/UserProfile.vue'
 import addPost from '@/views/addPost.vue'
-import PostsView from '@/views/PostsView.vue'
-
+import OwnPosts from '@/components/OwnPosts.vue'
+//import PostsView from '@/views/PostsView.vue'
+import EditProfile from '@/components/EditProfile.vue'
+import LogOut from '@/components/LogOut.vue'
+import store from '@/store/index.js';
+import Error from '@/components/ErrorComponent.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -23,13 +27,13 @@ const routes = [
     component: addPost
   
   },
-  {
+ /* {
     path: '/buy',
     name: 'buy',
     component: HouseView
   
   },
-  
+  */
  
   {
     path: '/rent/:postId',
@@ -38,24 +42,59 @@ const routes = [
   
   }
   ,{
-    path: '/user/:userId',
+    path: '/user/c/:userId',
     name: 'UserProfile',
     component: UserProfile
   
   },{
     path:'/posts',
-  name:'post',
-  component:PostsView
+    name:'post',
+    component:HouseView
+  },{
+    path:'/myposts',
+    name:'myPosts',
+    component:OwnPosts
+  },
+  {
+    path:'/user/edit/',
+    name:'editUser',
+    component:EditProfile
+  },
+  {
+    path:'/user/loggedOut',
+    name:'logout',
+    component:LogOut
+  },
+  {
+    path:'/notAuthentified',
+    name:'notAuthentified',
+    component:Error
   }
   
 
 
 ]
 
+
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
+
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'home' || to.name==='showPOST' || to.name==="buy"|| to.name==="post"|| to.name==="notAuthentified" ) {
+    next() 
+  
+  } else if(store.state.userAuthentified){
+    next()
+  }else{
+    next({path:'/notAuthentified'})
+  }
+  
+  
+})
+
 
 export default router

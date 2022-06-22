@@ -35,7 +35,7 @@
           <v-row justify="center">
             <v-col cols="12" lg="9" sm="12" xs="12" xl="8">
               <v-text-field
-                v-model="message4"
+                
                 label="search"
                 outlined
                 class="width:150px"
@@ -51,18 +51,18 @@
               <CustumeCard
                 iconName="mdi-pencil"
                 text="creé votre post"
-                url="something "
+                url="/createPost"
               />
             </v-col>
             <v-col cols="12" sm="4" md="4" lg="3" xl="2" xs="8">
               <CustumeCard
                 iconName="mdi-key"
                 text="location "
-                url="something "
+                url="/posts?type=2 "
               />
             </v-col>
             <v-col cols="12" sm="4" md="4" lg="3" xl="2" xs="8">
-              <CustumeCard iconName="mdi-home" text="vonte " url="something " />
+              <CustumeCard iconName="mdi-home" text="vonte " url="/posts?type=1 " />
             </v-col>
           </v-row>
         </v-container>

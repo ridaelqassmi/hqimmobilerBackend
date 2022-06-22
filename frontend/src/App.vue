@@ -28,6 +28,34 @@
             ></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+
+        <!--if the user is authentified-->
+<div v-if="userAuthentified">
+<v-list-item
+          v-for="(item, i) in authItems"
+          :key="i"
+         
+          class="pa-2 rounded-lg mt-0"
+          :to="item.to"
+        >
+          <v-list-item-icon>
+            <v-icon
+              color="#4A4A4A"
+              class="font-weight-bold"
+              v-text="item.icon"
+            ></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              color="#4A4A4A"
+              class="font-weight-bold text-capitalized"
+              v-text="item.text"
+            ></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+</div>
+        
+
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app elevation="0" color="white">
@@ -116,10 +144,38 @@ export default {
     i: 1,
     items: [
       { text: "Home", icon: "mdi-home", to: "/" },
-      { text: "Rent", icon: "mdi-account", to: "/rent" },
-      { text: "Buy", icon: "mdi-flag", to: "buy" },
-      { text: "user", icon: "mdi-account", to: "/user/id" },
+      { text: "posts", icon: "mdi-account", to: "/posts" },
+      { text: "ajouter un announce", icon: "mdi-pencil", to: "/createPost" },
+      
     ],
+    authItems:[
+       
+      {
+        to:'/user/edit/',
+        icon: "mdi-account",
+        text: "Profile",
+      },
+      {
+        to:'/myposts',
+        icon: "mdi-post",
+        text: "mon publication",
+      },
+      {
+        id:3,
+        icon: "mdi-inbox",
+        text: "inbox",
+      },
+      {
+        id:2,
+        icon: "mdi-heart",
+        text: "my favourite",
+      },
+      {
+        to:'/user/loggedOut',
+        icon: "mdi-logout",
+        text: "log out",
+      },
+    ]
 
     
   }),

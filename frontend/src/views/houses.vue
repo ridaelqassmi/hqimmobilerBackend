@@ -137,7 +137,7 @@ export default {
         let object = { id: 0, categorieName: "All" };
         this.categories.unshift(object);
       });
-    //this.getPostByFilter();
+    
   },
 };
 </script>

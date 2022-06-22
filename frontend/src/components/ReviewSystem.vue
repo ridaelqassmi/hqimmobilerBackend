@@ -165,7 +165,7 @@ export default {
   },
  
   methods: {
-    ...mapMutations("toggleAuthModal"),
+    ...mapMutations(["toggleAuthModal"]),
     showReviewModal(){
       this.toggleAuhModal;
       this.$store.commit('toggleAuthModal')
@@ -189,7 +189,7 @@ export default {
     },
     async submitReview() {
       //let commentDto = {message:this.messageContent,postid:this.$route.params.postId};
-
+      console.log(this.Ratingvalue,this.messageContent,this.$route.params.postId)
       let response = await axios.post("/api/post/comment", {
         message: this.messageContent,
         postid: this.$route.params.postId,

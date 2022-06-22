@@ -19,7 +19,7 @@ public class review {
     @OneToOne
     private User user;
     private String content;
-    @Column(columnDefinition="double(1,1)")
+    @Column(columnDefinition="double(2,1)")
 
     private double rating;
     @Column

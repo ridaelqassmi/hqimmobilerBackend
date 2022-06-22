@@ -1,26 +1,8 @@
 <template>
   <v-row dense class=" my-8">
-    <v-col cols="12" class="ml-5" lg="3" md="4" sm="6" justify-center>
-      <v-card max-width="90%" class="rcard pa-0" elevation="0">
-        <v-list class="py-0" color="#F0F2F5">
-          <v-list-item-group active-class="border" color="indigo">
-            <v-list-item  v-for="(item, i) in items" :key="i" @click="toggleActiveTab(item.id)">
-              <v-list-item-icon>
-                <v-icon v-text="item.icon"></v-icon>
-              </v-list-item-icon>
-              <v-list-item-content>
-                <v-list-item-title
-                  class="text-body-1 text-capitalize font-weight-bold"
-                  v-text="item.text"
-                ></v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-card>
+   
   
-    </v-col> <v-divider vertical></v-divider>
-    <!--profile -->
+   
 
     <EditProfile v-if="showEditProfile" />
     <OwnPosts v-if="showMyPost"/>
