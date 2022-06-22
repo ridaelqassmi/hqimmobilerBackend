@@ -1,15 +1,9 @@
 package com.HQimmobillier.fpbm;
 
-import com.HQimmobillier.fpbm.entity.*;
 import com.HQimmobillier.fpbm.repository.*;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 /*Component*/
 public class SimpleDataLoader implements CommandLineRunner {
@@ -18,7 +12,7 @@ public class SimpleDataLoader implements CommandLineRunner {
     private final Faker faker;
     @Autowired final CategoriesRepo categoriesRepo;
     @Autowired
-    CitiesRepo citiesRepo;
+    VilleRepo citiesRepo;
     @Autowired
     UserRepo userRepo;
 @Autowired

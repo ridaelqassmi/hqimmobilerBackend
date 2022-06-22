@@ -6,6 +6,7 @@ import org.springframework.web.client.RestTemplate;
 
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,6 +32,8 @@ public class MvcConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/" + dirName + "/**").addResourceLocations("file:/"+ uploadPath + "/");
     }
 
+
+
     @Bean
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
@@ -44,19 +47,6 @@ public class MvcConfig implements WebMvcConfigurer {
                 .exposedHeaders("page-total-count")
                 .allowedHeaders("*");
     }
-
-    @Bean
-    public MultipartConfigElement multipartConfigElement() {
-        return new MultipartConfigElement("");
-    }
-
-    @Bean
-    public MultipartResolver multipartResolver() {
-        org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(1000000);
-        return multipartResolver;
-    }
-
 
 
 

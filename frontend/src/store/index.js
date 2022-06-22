@@ -27,6 +27,8 @@ export default new Vuex.Store({
   state: {
     userAuthentified: false,
     AuthentifiedUserDetails: {},
+    showAuthModal:false,
+    
   },
   mutations: {
     toggleAuthentified: (state) => {
@@ -42,6 +44,15 @@ export default new Vuex.Store({
         state.userAuthentified = false;
       }
 
+    },
+    toggleAuthModal:(state)=>{
+      console.log("i am being called")
+      if(state.userAuthentified){
+        state.showAuthModal = false;
+      }
+      else{
+        state.showAuthModal = true;
+      }
     }
     ,
     logOut:(state)=>{

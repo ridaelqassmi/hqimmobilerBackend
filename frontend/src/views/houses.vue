@@ -11,6 +11,8 @@
       all posts
     </h1>
 
+    
+  
     <!-------ship ------------->
     <v-row class="justify-center mx-auto">
       <v-col cols="12" sm="12" md="8">
@@ -35,11 +37,7 @@
     <RentPostFilterComponent />
 
     <!--end Filters---->
-    <div border="top" class="border-top">
-      <p class="mx-10 black--text">
-        {{ 20 * (correntPage - 1) + numberOfElements }} of {{ totalElements }}
-      </p>
-    </div>
+   
 
     <Posts :posts="posts" />
 
@@ -82,13 +80,14 @@ export default {
       totalElements: 0,
       categories: [],
       categoriesId: 0,
+
     };
   },
   methods: {
     makeGetRequestToApi(url) {
       axios.get(url).then((res) => {
         this.posts = res.data.content;
-        this.correntPage = res.data.number + 1;
+        this.correntPage = res.data.number;
         this.numberPages = res.data.totalPages;
         this.totalElements = res.data.totalElements;
         this.numberOfElements = res.data.numberOfElements;
@@ -118,8 +117,18 @@ export default {
         "api/rent/categorie/" + id + "/page/" + this.correntPage
       );
     },
+
+  
+    /*getPostByFilter() {
+      axios
+        .post("api/rent/filter", {
+          filterDto: JSON.stringify(this.filters),
+        })
+        .then((res) => (this.posts = res.data));
+    },*/
   },
   mounted() {
+    
     this.makeGetRequestToApi("api/rent");
     axios
       .get("api/categories")
@@ -128,6 +137,7 @@ export default {
         let object = { id: 0, categorieName: "All" };
         this.categories.unshift(object);
       });
+    //this.getPostByFilter();
   },
 };
 </script>

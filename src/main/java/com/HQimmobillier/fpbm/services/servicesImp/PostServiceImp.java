@@ -1,11 +1,15 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
+import com.HQimmobillier.fpbm.dto.post.CreatePostDto;
 import com.HQimmobillier.fpbm.dto.post.MyPostsResponseDto;
 import com.HQimmobillier.fpbm.dto.user.FilterDto;
 import com.HQimmobillier.fpbm.entity.*;
 import com.HQimmobillier.fpbm.mapper.PostMapper;
 import com.HQimmobillier.fpbm.repository.*;
 import com.HQimmobillier.fpbm.services.*;
+import com.HQimmobillier.fpbm.utility.CommenFunctions;
+import com.HQimmobillier.fpbm.utility.Constants;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +30,7 @@ public class PostServiceImp implements PostService {
     private final RentingPostRepo rentingPostRepo;
     private final BuyingPostRepo buyingPostRepo;
     private final CategorieService categorieService;
-    private final CityService cityService;
+    private final VilleService cityService;
     private final UserRepo userRepo;
 
 
@@ -36,7 +42,10 @@ public class PostServiceImp implements PostService {
     private final AccountService accountService;
     private final PostRepository postRepo;
     private final PostMapper postMapper;
-    public PostServiceImp(RentingPostRepo rentingPostRepo, BuyingPostRepo buyingPostRepo, CategorieService categorieService, CityService cityService, UserRepo userRepo, PostImagesRepo postImagesRepo, PostImageService postImageService, CategoriesRepo categoriesRepo, AccountService accountService, PostRepository postRepo, PostMapper postMapper) {
+    private final DureeRepository dureeRepository;
+    private final FeaturesRepo featuresRepo;
+    private final EtatRepository etatRepository;
+    public PostServiceImp(RentingPostRepo rentingPostRepo, BuyingPostRepo buyingPostRepo, CategorieService categorieService, VilleService cityService, UserRepo userRepo, PostImagesRepo postImagesRepo, PostImageService postImageService, CategoriesRepo categoriesRepo, AccountService accountService, PostRepository postRepo, PostMapper postMapper, DureeRepository dureeRepository, FeaturesRepo featuresRepo, EtatRepository etatRepository) {
         this.rentingPostRepo = rentingPostRepo;
         this.buyingPostRepo = buyingPostRepo;
         this.categorieService = categorieService;
@@ -48,24 +57,13 @@ public class PostServiceImp implements PostService {
         this.accountService = accountService;
         this.postRepo = postRepo;
         this.postMapper = postMapper;
+        this.dureeRepository = dureeRepository;
+        this.featuresRepo = featuresRepo;
+
+        this.etatRepository = etatRepository;
     }
 
     /*********************************************RENTING POST SERVICES ****************************************/
-    @Override
-    public RentingPost createRentingPost(long id_city,
-                                         long id_categorie,
-                                         MultipartFile[] file,
-                                         String RentingPost1) throws IOException {
-
-        RentingPost rentingPost = new ObjectMapper().readValue(RentingPost1, RentingPost.class);
-        rentingPost.setCities(cityService.findById(id_city));
-        rentingPost.setUser(accountService.getAuthenticatedUser());
-        RentingPost rentingPost1 = rentingPostRepo.save(rentingPost);
-        postImageService.saveImages(file, rentingPost1);
-
-
-        return rentingPost1;
-    }
 
     public RentingPost findRentingPostById(long id) {
         if (rentingPostRepo.findById(id).isPresent()) {
@@ -125,8 +123,9 @@ public class PostServiceImp implements PostService {
 
     public Page<RentingPost> getRentingPostByFilter(FilterDto filterDto) {
         Pageable pageRequest = PageRequest.of(filterDto.getPage(), 20);
-        return rentingPostRepo.findByCostumeFilter(filterDto.getTitle(), filterDto.getCities(), filterDto.getCategoriesList(), filterDto.getPrices().get(0), filterDto.getPrices().get(1), filterDto.getNbRooms().get(0), filterDto.getNbRooms().get(1), filterDto.getArea().get(0), filterDto.getArea().get(1), filterDto.getOrderByDate(), filterDto.getOrderByPrice(), filterDto.isAsc(), pageRequest);
 
+
+        return rentingPostRepo.findByCostumeFilter(filterDto.getTitle(), filterDto.getCities(), filterDto.getCategoriesList(), filterDto.getPrices().get(0), filterDto.getPrices().get(1), filterDto.getNbRooms().get(0), filterDto.getNbRooms().get(1), filterDto.getArea().get(0), filterDto.getArea().get(1), filterDto.getOrderByDate(), filterDto.getOrderByPrice(), filterDto.isAsc(), pageRequest);
 
     }
 
@@ -135,7 +134,70 @@ public class PostServiceImp implements PostService {
         List<Post> posts = postRepo.findAllPostsByUser(accountService.getAuthenticatedUser());
         return postMapper.MapPostToMyPostResponseDto(posts);
     }
-    /************************************************BUYING POST SERVICES ********************************************/
+
+
+    @Override
+    public RentingPost createRentingPost(long id_city,
+                                         long id_categorie,
+                                         MultipartFile[] file,
+                                         String RentingPost1) throws IOException {
+
+        RentingPost rentingPost = new ObjectMapper().readValue(RentingPost1, RentingPost.class);
+        rentingPost.setCities(cityService.findById(id_city));
+        rentingPost.setUser(accountService.getAuthenticatedUser());
+        RentingPost rentingPost1 = rentingPostRepo.save(rentingPost);
+        postImageService.saveImages(file, rentingPost1);
+
+
+        return rentingPost1;
+    }
+    @Override
+    public Post savePost(MultipartFile thumbnail, MultipartFile[] images, String post) throws IOException {
+        CreatePostDto createPostDto = new ObjectMapper().readValue(post,CreatePostDto.class);
+        RentingPost post1 = new RentingPost();
+        post1.setDuree(dureeRepository.findById(createPostDto.getDuree()).get());
+        post1.setCities(cityService.findById(createPostDto.getVille()));
+        post1.setCategories(categorieService.findById(createPostDto.getCategorie()));
+        post1.setAreaSize( createPostDto.getSurfacie());
+        post1.setUser(accountService.getAuthenticatedUser());
+        post1.setApproved(false);
+        post1.setLat(createPostDto.getLat());
+        post1.setLng(createPostDto.getLng());
+        post1.setClosed(false);
+        post1.setDate(new Date());
+        post1.setEtat(etatRepository.findById(createPostDto.getEtat()).get());
+        post1.setDescription(createPostDto.getDescription());
+        post1.setAvailableTill(createPostDto.getDateAvailabilty());
+
+
+        if(createPostDto.getFeatures()!=null){
+            List<Features> features = new ArrayList<>();
+            for(Long e:createPostDto.getFeatures()){
+                features.add(featuresRepo.findById(e).get());
+
+            }
+            post1.setFeatures(features);
+        }
+
+
+        post1.setTitle(createPostDto.getTitle());
+        post1.setNumberRoom(createPostDto.getNumberRoom());
+        post1.setSalleBain(createPostDto.getSalleBain());
+        post1.setPrice(createPostDto.getPrix());
+        post1.setAdress(createPostDto.getAddress());
+        /*now to the hard part how i can do this */
+        String Thumbnail = CommenFunctions.saveFile(Constants.thumbnailDir,thumbnail);
+        post1.setThumbnail(Thumbnail);
+
+        RentingPost p = rentingPostRepo.save(post1);
+        postImageService.saveImages(images, p);
+        //postImageService.saveImages(createPostDto.getImages(),p);
+return p;
+
+
+
+
+    }
 
 
 }

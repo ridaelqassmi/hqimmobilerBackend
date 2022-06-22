@@ -48,8 +48,9 @@ public abstract class Post {
     @Column
     private boolean isClosed;
     @ManyToOne
-    private Cities cities;
-    @OneToMany(mappedBy = "post")
+    private Ville cities;
+    @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
+
     private List<PostImages> images;
     @ManyToOne
     private Categories categories;
@@ -58,9 +59,16 @@ public abstract class Post {
     private String thumbnail;
     @ManyToOne
     private User user;
-    @OneToMany
+    @OneToMany(cascade = CascadeType.REMOVE)
+
     private List<review> comments;
 
+    private Date availableTill;
+
+    @OneToMany
+    private List<Features> features;
+    private int SalleBain;
+    private String adress;
     @OneToOne
     private Etat etat;
     @Transient
@@ -68,4 +76,7 @@ public abstract class Post {
         DiscriminatorValue val = this.getClass().getAnnotation( DiscriminatorValue.class );
         return val == null ? null : val.value();
     }
+
+
+
 }

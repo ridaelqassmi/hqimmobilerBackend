@@ -11,7 +11,7 @@
         <v-btn
           color="#003BDE"
           class="mt-14 white--text text-overline rounded-lg"
-          @click="reviewModal = true"
+          @click="showReviewModal"
           >write A review</v-btn
         >
       </v-col>
@@ -139,6 +139,7 @@
 <script>
 import CommentsDetail from "@/components/CommentsDetail.vue";
 import axios from "axios";
+import {mapMutations,mapState} from 'vuex';
 export default {
   components: { CommentsDetail },
   setup() {},
@@ -159,8 +160,21 @@ export default {
       ],
     };
   },
-
+  computed:{
+    ...mapState(["showAuthModal"])
+  },
+ 
   methods: {
+    ...mapMutations("toggleAuthModal"),
+    showReviewModal(){
+      this.toggleAuhModal;
+      this.$store.commit('toggleAuthModal')
+      if(this.$store.state.showAuthModal==false){
+        this.reviewModal = true;
+      }
+
+
+    },
     timeSince(x) {
       let date = new Date(x);
       const seconds = Math.floor((Date.now() - date.getTime()) / 1000);

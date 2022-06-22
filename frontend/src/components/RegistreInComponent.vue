@@ -195,6 +195,7 @@ export default {
       errorsArray: [],
     };
   },
+ 
 
   methods: {
     ...mapMutations(["toggleAuthentified", "setAuthentifiedUserDetails"]),

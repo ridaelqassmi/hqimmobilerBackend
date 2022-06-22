@@ -27,18 +27,23 @@ public PostImagesServiceImp(PostImagesRepo postImagesRepo) {
 
 public void saveImages(MultipartFile[] file, RentingPost rentingPost1) throws IOException {
     List<PostImages> postImages = new ArrayList<>();
-    for (MultipartFile o : file) {
+    if(file != null){
+        for (MultipartFile o : file) {
 
-        PostImages postImage = new PostImages();
+            PostImages postImage = new PostImages();
 
-        postImage.setPost(rentingPost1);
+            postImage.setPost(rentingPost1);
 
-        String uploadDir =  + rentingPost1.getId() + "/";
+            String uploadDir =   rentingPost1.getId() + "";
 
-        String ImagePath = CommenFunctions.saveFile(Constants.RentingPostPath +uploadDir, o);
-        postImage.setImagePath(ImagePath);
-        postImages.add(postImage);
+            String ImagePath = CommenFunctions.saveFile(Constants.RentingPostPath +uploadDir, o);
+            postImage.setImagePath(ImagePath);
+            postImages.add(postImage);
+        }
+        postImagesRepo.saveAll(postImages);
+    }else{
+        System.out.println("no object found");
     }
-    postImagesRepo.saveAll(postImages);
+
 }
 }

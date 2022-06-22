@@ -17,13 +17,10 @@ import java.util.List;
 public class AccountRestController {
    private final AccountService accountService;
    private final UserMapper userMapper;
-
     public AccountRestController(AccountService accountService, UserMapper userMapper) {
         this.accountService = accountService;
         this.userMapper = userMapper;
     }
-
-
     @GetMapping(path="/users")
     public List<User> appUsers(){
 

@@ -1,15 +1,21 @@
     package com.HQimmobillier.fpbm.controller;
 
+    import com.HQimmobillier.fpbm.dto.post.CreatePostDto;
     import com.HQimmobillier.fpbm.dto.user.FilterDto;
+    import com.HQimmobillier.fpbm.entity.Post;
     import com.HQimmobillier.fpbm.entity.RentingPost;
     import com.HQimmobillier.fpbm.repository.RentingPostRepo;
     import com.HQimmobillier.fpbm.services.PostService;
 
+    import com.fasterxml.jackson.core.JsonProcessingException;
+    import com.fasterxml.jackson.databind.ObjectMapper;
     import org.springframework.context.annotation.Bean;
     import org.springframework.data.domain.Page;
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.multipart.MultipartFile;
+    import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+    import javax.servlet.http.HttpServletRequest;
     import java.io.IOException;
     import java.util.Arrays;
 
@@ -94,7 +100,9 @@
 
        }
        @PostMapping("rent/filter")
-        public Page <RentingPost> getRentingPostFilters(@RequestBody FilterDto filter){
+        public Page <RentingPost> getRentingPostFilters(@RequestBody FilterDto filter) throws JsonProcessingException {
+           //FilterDto fDto = new ObjectMapper().readValue(filter,FilterDto.class);
+           System.out.println(filter.toString());
             return  postService.getRentingPostByFilter(filter);
        }
 
@@ -104,4 +112,14 @@
             title ="%"+title+"%";
             return rentingPostRepo.findByTitleLike(title);
        }
+       @PostMapping(value = "post/create",consumes =  "multipart/form-data")
+        public Post createPostTest(
+                                  @RequestParam(value = "images",required = false) MultipartFile[] images,
+                                   @RequestParam(value = "thumbnail",required = false) MultipartFile thumbnail,
+                                   @RequestParam("post") String post) throws IOException {
+
+           System.out.println(post);
+            return postService.savePost(thumbnail,images,post);
+       }
+
     }

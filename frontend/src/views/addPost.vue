@@ -53,7 +53,7 @@
                 class="mb-12"
                 
               >
-                <SecondStep  @nextStep="nextStep"/>
+                <SecondStep  @verfiyInputForSecondStep="verfiyInputForSecondStep"/>
               </v-card>
                <v-card
                 v-if="n == 3"
@@ -61,7 +61,7 @@
                 class="mb-12"
                 
               >
-                <ThridStep  @nextStep="nextStep"/>
+                <ThridStep  @checkThirdStep="checkThirdStep"/>
               </v-card>
 
                <v-card
@@ -70,7 +70,7 @@
                 class="mb-12"
                 
               >
-                <FourthStep  />
+                <FourthStep  @createPost="createPost"/>
               </v-card>
 
 
@@ -88,14 +88,18 @@ import FirstStep from '@/components/FirstStep.vue'
 import SecondStep from '@/components/SecondStep.vue'
 import ThridStep from '@/components/ThirdStep.vue'
 import FourthStep from '@/components/FourthStep.vue'
+import axios from 'axios'
 export default {
 components:{FirstStep,SecondStep,ThridStep,FourthStep},
   data() {
     return {
-      e1: 2,
+      e1: 1,
       steps: 4,
       errorsArray:[],
-      postData:[],
+      postData:{},
+      
+      selectedFiles:[],
+      thumbnailFile:{}
     };
   },
   
@@ -176,10 +180,15 @@ components:{FirstStep,SecondStep,ThridStep,FourthStep},
         this.errorsArray.push(fieldname+" not valid ");
       }
     },
+    checkforAlphanemericAndVirgule(field,fieldname){
+      if(!(/^[a-zA-Z0-9,]/.test(field))){
+        this.errorsArray.push(fieldname+" your code does't much the request patters a-zA-Z0-9,")
+      }
+
+    },
     /* end of verfication functions */
     verfiyInputForFirstStep(selectedType,title,surfacie,prix,selectedDuree,selectedCategorie,salleBain,valableUntil,description,etat,numberRoom){
-      console.log(selectedType);
-      console.log(selectedType,title,surfacie,prix,selectedDuree,selectedCategorie,salleBain,valableUntil,description);
+      
       /*verify */
       this.errorsArray=[];
       if(selectedType !=1 && selectedType !=2){
@@ -212,7 +221,8 @@ components:{FirstStep,SecondStep,ThridStep,FourthStep},
       this.postData.prix=prix;
       this.postData.categorie = selectedCategorie;
       this.postData.salleBain = salleBain;
-      this.postData.dateAvailability=valableUntil;
+      this.postData.dateAvailabilty=valableUntil;
+      
       this.postData.duree = selectedDuree;
       this.postData.description = description;
       this.postData.etat = etat;
@@ -221,6 +231,88 @@ components:{FirstStep,SecondStep,ThridStep,FourthStep},
       this.nextStep(1)
 
     },
+    verfiyInputForSecondStep(SelectedRegion,selectedCity,address,markerLatLng){
+      this.errorsArray =[];
+        console.log(SelectedRegion,selectedCity,address,markerLatLng);
+        this.checkifSelected(SelectedRegion,"region");
+        this.checkifSelected(selectedCity,"ville");
+        this.checkforAlphanemericAndVirgule(address,"address");
+        this.checkforSize(address,"address ",20,100);
+        if(markerLatLng[0]=="" || markerLatLng[1]==""){
+          this.errorsArray.push("tu doit ajouter un marker")
+        }
+        console.log(selectedCity);
+        if(this.errorsArray.length !=0){
+          return
+        }
+        this.postData.region = SelectedRegion;
+        this.postData.address=address;
+        this.postData.ville=selectedCity;
+        this.postData.lat = markerLatLng[0];
+        this.postData.lng = markerLatLng[1];
+        console.log(this.postData);
+        this.nextStep(2);
+    },
+    checkThirdStep(selectedFiles,thumbnailFile){
+      this.errorsArray=[];
+      if(!(selectedFiles.length <16 && selectedFiles.length>=4)){
+        this.errorsArray.push("tu doit selectionné au minimun 4 et au maximum 10")
+      }
+      console.log(selectedFiles);
+      console.log(thumbnailFile);
+
+
+      let ArrayOfAcceptedExstenstions = ["png","jpeg","jpg","webp"];
+      this.validate(thumbnailFile,ArrayOfAcceptedExstenstions);
+      selectedFiles.forEach(file=>{
+        this.validate(file,ArrayOfAcceptedExstenstions);
+      })
+      if(this.errorsArray.length !=0){
+        return;
+      }
+     
+      this.selectedFiles = selectedFiles;
+      this.thumbnailFile = thumbnailFile;
+
+   
+      this.nextStep(3);
+
+     
+    
+
+    },
+    validate(file,ArrayOfAcceptedExstenstions){
+
+      
+      let ext = file.name.split(".");
+      if(!ArrayOfAcceptedExstenstions.includes(ext[1])){
+        this.errorsArray.push("not supported format "+ ext);
+      }
+    },
+
+    createPost(){
+     
+     
+     
+     let f = new FormData();
+     
+     for(let i=0;i<this.selectedFiles.length;i++){
+       console.log("i am here")
+       f.append("images",this.selectedFiles[i]);
+     }
+     f.append("thumbnail",this.thumbnailFile);
+      f.append("post",JSON.stringify(this.postData));
+
+      axios({
+        url:"api/post/create",
+        method:"post",
+        headers:{'Content-type':'multipart/form-data'},
+        data:f
+      }).then((res)=>{
+        this.$router.push("rent/"+res.data.id);
+      })
+    },
+
     nextStep(n) {
       if (n === this.steps) {
         this.e1 = 1;

@@ -18,9 +18,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 
 @Configuration
@@ -56,7 +53,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/api/rent").permitAll()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/login").permitAll();
+                .antMatchers("/login").permitAll()
+                        .antMatchers("/api/categories").permitAll()
+                        .antMatchers("/api/cities").permitAll();
+        http.authorizeRequests().antMatchers("/api/cities/region/**").permitAll()
+                .antMatchers("/api/post/**/comment").permitAll()
+                        .antMatchers("/api/etat").permitAll()
+                        .antMatchers("/api/features").permitAll()
+                        .antMatchers("/api/regions").permitAll()
+                        .antMatchers("api/rent/**").permitAll();
+
         /*this is just during developpment phase*/
         http.authorizeRequests().antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()

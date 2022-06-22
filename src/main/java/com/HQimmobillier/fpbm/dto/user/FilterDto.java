@@ -1,7 +1,5 @@
 package com.HQimmobillier.fpbm.dto.user;
 
-import com.HQimmobillier.fpbm.entity.Categories;
-import com.HQimmobillier.fpbm.entity.Cities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -8,6 +8,7 @@
     import org.springframework.data.jpa.repository.JpaRepository;
     import org.springframework.data.jpa.repository.Query;
     import org.springframework.data.repository.query.Param;
+    import org.springframework.web.multipart.MultipartFile;
 
     import java.util.List;
 
@@ -28,13 +29,13 @@
 
         @Query(value = "SELECT * from post inner join renting_post on post.id = renting_post.id  " +
                 "where (COALESCE(:title,NULL) IS NULL OR post.title LIKE CONCAT('%',:title,'%'))" +
-                "AND (COALESCE(:cityId,NULL) IS NULL OR  post.cities_id=:cityId )" +
-                "AND (COALESCE(:Categories,NULL) IS NULL OR post.categories_id IN :Categories )" +
-                "AND (COALESCE(:priceMin,:priceMax,NULL) IS NULL OR renting_post.price BETWEEN :priceMin AND :priceMax)" +
-                "AND (COALESCE(:minRoom,:maxRoom,NULL) IS NULL OR post.number_room BETWEEN :minRoom AND :maxRoom)" +
-                "AND (COALESCE(:minArea,:maxArea) IS NULL OR post.area_size BETWEEN :minArea AND :maxArea)" +
-                "ORDER BY CASE when :sortByPrice = 1 AND :ASC=1 THEN renting_post.price END , " +
-                "CASE when :sortByPrice=1 AND :ASC=0 THEN renting_post.price END DESC, " +
+                "AND (COALESCE(NULLIF(:cityId, 0) ,NULL) IS NULL OR  post.cities_id=:cityId )" +
+                "AND (COALESCE(NULLIF(:Categories, 0) ,NULL) IS NULL OR post.categories_id IN :Categories )" +
+                "AND (COALESCE(NULLIF(:priceMin, 0) ,NULLIF(:priceMax, 0),NULL) IS NULL OR post.price BETWEEN :priceMin AND :priceMax)" +
+                "AND (COALESCE(NULLIF(:minRoom, 0) ,NULLIF(:maxRoom, 0) ,NULL) IS NULL OR post.number_room BETWEEN :minRoom AND :maxRoom)" +
+                "AND (COALESCE(NULLIF(:minArea, 0) ,NULLIF(:maxArea, 0),NULL ) IS NULL OR post.area_size BETWEEN :minArea AND :maxArea)" +
+                "ORDER BY CASE when :sortByPrice = 1 AND :ASC=1 THEN post.price END , " +
+                "CASE when :sortByPrice=1 AND :ASC=0 THEN post.price END DESC, " +
                 "CASE when :byDate = 1 And :ASC=1 THEN post.date END desc "
                 ,nativeQuery = true
         )
@@ -45,7 +46,6 @@
 
 
         List<RentingPost> findByTitleLike(String title);
-
 
 
 

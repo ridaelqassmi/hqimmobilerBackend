@@ -12,23 +12,13 @@ import javax.persistence.*;
 @Entity
 @DiscriminatorValue("RENT")
 public class RentingPost extends Post{
-
     @OneToOne
-
     private Duree duree;
-
-
-
-
-
     public Duree getDuree() {
         return duree;
     }
-
     public void setDuree(Duree duree) {
         this.duree = duree;
     }
-
-
 
 }

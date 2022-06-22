@@ -3,10 +3,11 @@ import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 //import RentView from '../views/Rent.vue'
 import HouseView from '../views/houses.vue'
-import CreatePost from '../views/CreatePost.vue'
+//import CreatePost from '../views/CreatePost.vue'
 import ShowPostVue from '../views/ShowPostVue.vue'
 import UserProfile from '../views/UserProfile.vue'
 import addPost from '@/views/addPost.vue'
+import PostsView from '@/views/PostsView.vue'
 
 Vue.use(VueRouter)
 
@@ -17,8 +18,8 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/rent',
-    name: 'rent',
+    path: '/createPost',
+    name: 'createPost',
     component: addPost
   
   },
@@ -29,12 +30,7 @@ const routes = [
   
   },
   
-  {
-    path: '/createPost',
-    name: 'createPost',
-    component: CreatePost
-  
-  },
+ 
   {
     path: '/rent/:postId',
     name: 'showPOST',
@@ -46,7 +42,13 @@ const routes = [
     name: 'UserProfile',
     component: UserProfile
   
+  },{
+    path:'/posts',
+  name:'post',
+  component:PostsView
   }
+  
+
 
 ]
 

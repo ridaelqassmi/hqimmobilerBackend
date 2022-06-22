@@ -15,6 +15,7 @@
           
           ref="file1"
           @change="onFileChange2"
+          accept=".jpg,.jpeg,.png"
         />
         </v-col>
       <v-col>
@@ -49,10 +50,11 @@
           multiple
           ref="file"
           @change="onFileChange"
+          accept=".jpg,.jpeg,.png"
         />
       </v-col>
     </v-row>
-    <v-btn color="primary"   class="mt-5" @click="nextStep(3)"> suivant </v-btn>
+    <v-btn color="primary"   class="mt-5" @click="nextStep()"> suivant </v-btn>
   </div>
 </template>
 
@@ -68,33 +70,35 @@ export default {
     };
   },
   methods:{
-     nextStep(n){
-        this.$emit("nextStep",n);
+     nextStep(){
+        this.$emit("checkThirdStep",this.selectedFiles,this.thumbnailFile);
       },
       onFileChange(e) {
       const file = e.target.files;
-      console.log(file);
+      
+
 
       for (let i = 0; i < file.length; i++) {
         this.urls.push(URL.createObjectURL(file[i]));
         this.selectedFiles.push(file[i]);
       }
-      console.log(this.selectedFiles);
+      
+
     },
      deleteImg(url, i) {
       this.urls = this.urls.filter((u) => u != url);
-      console.log(i + "before and the new  file is ");
+      
       this.selectedFiles.splice(i, 1);
-      console.log(this.selectedFiles);
+      
     },
     onFileChange2(e){
         const file = e.target.files;
         this.thumbnailUrl = [];
-        console.log(file[0]);
+        
         
         this.thumbnailUrl.push(URL.createObjectURL(file[0]));
         this.thumbnailFile = file[0];
-        console.log(this.thumbnailUrl);
+        
     }
   }
 };

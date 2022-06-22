@@ -1,16 +1,21 @@
 <template>
   <div class="parent">
+   
     <v-container class="background-- is-fullhd" color="#003BDE" fluid>
       <v-row dense class="align-center" >
         <v-col class="align-center">
-          <p class="text-body-2 font-weight-bold mt-4 white--text">
-            Home> {{ Post.cities.cityName }} >
+          <p class="text-body-2 font-weight-bold mt-4 white--text" >
+             <router-link class="text-body-2 font-weight-bold mt-4 white--text" :to="'/'" 
+            > Home ></router-link
+          > 
+          
+          <router-link :to="{name:'buy',query:{categorie:Post.categories.id}}" class="text-body-2 font-weight-bold mt-4 dark white--text"> {{ Post.cities.cityName }} ></router-link>
             {{ Post.categories.categorieName }}
           </p>
           <h1 class="text-h7 price-color font-weight-bold">
             {{ Post.price }} DH
             <span class="white--text text-body-2 font-weight-bold"
-              >| {{ Post.location }}</span
+              >| {{ Post.adress }}</span
             >
           </h1>
           <h1 class="text-h5 white--text font-weight-bold">
@@ -20,7 +25,7 @@
             >
           </h1>
           <p class="white--text">
-            {{ Post.numberRoom }} Rooms | 2 Bath | 100 m
+            {{ Post.numberRoom }} Chambre | {{Post.salleBain}} salle de bain | {{Post.areaSize}} m <sup>2</sup> | Etat: {{Post.etat.name}}
           </p>
         </v-col>
 
@@ -110,9 +115,12 @@
                   <strong>Numbers of Rooms : </strong> {{ Post.numberRoom }}
                 </p>
                 <p>
-                  <strong>AREA : </strong> {{ Post.areaSize }} m<sup>2</sup>
+                  <strong>nombre de salle de bain : </strong> {{ Post.salleBain }}
                 </p>
-                <p><strong>city : </strong> {{ Post.cities.cityName }}</p>
+                <p>
+                  <strong>surfacie : </strong> {{ Post.areaSize }} m<sup>2</sup>
+                </p>
+                <p><strong>ville : </strong> {{ Post.cities.cityName }}</p>
                 <p>
                   <strong>categorie : </strong>
                   {{ Post.categories.categorieName }}
@@ -207,8 +215,6 @@
         </v-col>
       </v-row>
     </v-container>
-
-    
   </div>
 </template>
 
@@ -229,10 +235,7 @@ export default {
   data() {
     return {
       gallery: false,
-     
-      
       favourite: false,
-     
       Post: "",
       images: [
         {

@@ -2,14 +2,12 @@
   <v-app>
     <v-navigation-drawer
       app
-
       v-model="drawer"
       class="pa-0 ma-0"
       disable-resize-watcher
-      
     >
-      <v-list dense >
-        <v-list-item 
+      <v-list dense>
+        <v-list-item
           v-for="(item, i) in items"
           :key="i"
           class="pa-2 rounded-lg mt-0"
@@ -35,62 +33,56 @@
     <v-app-bar app elevation="0" color="white">
       <v-app-bar-nav-icon
         class="pa-0 zindex"
-
         color="grey"
         @click="drawer = !drawer"
       ></v-app-bar-nav-icon>
-    <v-row >
-      <v-col  cols="6" >
-         <v-toolbar-title class="grey--text text--darken-2 text-xs-body-1  font-italic">
-        <span class="font-weight-bold ">HQ</span>immobilier</v-toolbar-title
-      >
-      </v-col>
-      <v-col cols="2"  class=" d-sm-none d-md-flex hidden-sm-and-down
+      <v-row>
+        <v-col cols="6">
+          <v-toolbar-title
+            class="
+              grey--text
+              text--darken-2 text-xs-body-1
+              d-flex
+              font-italic
+              align-center
+            "
+          >
+            <span class="font-weight-bold">HQ</span>immobilier</v-toolbar-title
+          >
+        </v-col>
+        <v-col cols="2" class="d-sm-none d-md-flex hidden-sm-and-down">
+          <v-btn
+            to="/createPost"
+            class="
+              light-blue
+              accent-4
+              white--text
+              rounded-pill
+              px-4
+              font-weight-meduim
+              elevation-0
+              text-capitalize
+            "
+            >ajouter une post
+          </v-btn>
+        </v-col>
+        <v-spacer></v-spacer>
 
- ">
-        <v-btn
-              to="/createPost"
-              class="
-                light-blue
-                accent-4
-                white--text
-                rounded-pill
-                px-4
-                font-weight-meduim
-                elevation-0
-                text-capitalize
-              "
-              >ajouter une post
-            </v-btn>
-      </v-col>
-      <v-spacer></v-spacer>
-   
-        <v-col  >
-            <v-btn
-              class="
-                
-                
-                elevation-0
-                transparent
-                
-               
-              "
-              @click="showRegistreInComponent = !showRegistreInComponent"
-              v-if="!userAuthentified"
-              > <v-icon>mdi-login</v-icon><p class="px-2 align-self-center mb-0">Se connecter</p> </v-btn
-            >
+        <v-col>
+          <v-btn
+            class="elevation-0 transparent"
+            @click="showRegistreInComponent = !showRegistreInComponent"
+            v-if="!userAuthentified"
+          >
+            <v-icon>mdi-login</v-icon>
+            <p class="px-2 align-self-center mb-0">Se connecter</p>
+          </v-btn>
 
-            <HeaderProfile v-if="userAuthentified" :key="i" />
-          
-      </v-col>
-      
-    </v-row>
-     
-      
-
+          <HeaderProfile v-if="userAuthentified" :key="i" />
+        </v-col>
+      </v-row>
     </v-app-bar>
     <!--test-->
-    
 
     <v-main class="main">
       <router-view />
@@ -128,6 +120,8 @@ export default {
       { text: "Buy", icon: "mdi-flag", to: "buy" },
       { text: "user", icon: "mdi-account", to: "/user/id" },
     ],
+
+    
   }),
   computed: {
     ...mapState(["userAuthentified", "AuthentifiedUserDetails"]),
@@ -179,7 +173,7 @@ html::-webkit-scrollbar {
   padding: 0;
   margin: 0;
 }
-.zindex{
+.zindex {
   z-index: 1000 !important;
 }
 </style>
@@ -188,14 +182,13 @@ html::-webkit-scrollbar {
 
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Serif&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300&display=swap");
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,400&display=swap");
 
 $font-family1: "IBM Plex Serif";
-$font-family:"Oxygen";
+$font-family: "Oxygen";
 
-$font-family:"Roboto";
+$font-family: "Roboto";
 .v-application {
-
   [class*="text-"] {
     color: #36405a;
     font-family: $font-family, sans-serif !important;
@@ -205,6 +198,5 @@ $font-family:"Roboto";
     color: #36405a;
     font-family: $font-family1, sans-serif !important;
   }
-
 }
 </style>
