@@ -47,7 +47,7 @@ export default {
                 if(element.id == id){
                   
                     this.items[index].checked = !this.items[index].checked;
-                    console.log(this.items[index]);  
+                    
                 }  
                 
                 

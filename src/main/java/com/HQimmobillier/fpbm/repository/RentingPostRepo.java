@@ -27,22 +27,18 @@
         List<RentingPost> findByAreaSizeBetween(float min, float max);
 
 
-        @Query(value = "SELECT * from post inner join renting_post on post.id = renting_post.id  " +
-                "where (COALESCE(:title,NULL) IS NULL OR post.title LIKE CONCAT('%',:title,'%'))" +
-                "AND (COALESCE(NULLIF(:cityId, 0) ,NULL) IS NULL OR  post.cities_id=:cityId )" +
-                "AND (COALESCE(NULLIF(:Categories, 0) ,NULL) IS NULL OR post.categories_id IN :Categories )" +
-                "AND (COALESCE(NULLIF(:priceMin, 0) ,NULLIF(:priceMax, 0),NULL) IS NULL OR post.price BETWEEN :priceMin AND :priceMax)" +
-                "AND (COALESCE(NULLIF(:minRoom, 0) ,NULLIF(:maxRoom, 0) ,NULL) IS NULL OR post.number_room BETWEEN :minRoom AND :maxRoom)" +
-                "AND (COALESCE(NULLIF(:minArea, 0) ,NULLIF(:maxArea, 0),NULL ) IS NULL OR post.area_size BETWEEN :minArea AND :maxArea)" +
-                "ORDER BY CASE when :sortByPrice = 1 AND :ASC=1 THEN post.price END , " +
-                "CASE when :sortByPrice=1 AND :ASC=0 THEN post.price END DESC, " +
-                "CASE when :byDate = 1 And :ASC=1 THEN post.date END desc "
+        @Query(value = "SELECT * from post p inner join renting_post rp on p.id = rp.id  " +
+                "where (COALESCE(:title,NULL) IS NULL OR p.title LIKE CONCAT('%',:title,'%'))" +
+                "AND (COALESCE(NULLIF(:cityId, 0) ,NULL) IS NULL OR  p.cities_id=:cityId )" +
+                "AND (COALESCE(NULLIF(:Categories, 0) ,NULL) IS NULL OR p.categories_id = :Categories )" +
+                "AND (COALESCE(NULLIF(:priceMin, 0) ,NULLIF(:priceMax, 0),NULL) IS NULL OR p.price BETWEEN :priceMin AND :priceMax)" +
+                "AND (COALESCE(NULLIF(:minRoom, 0) ,NULLIF(:maxRoom, 0) ,NULL) IS NULL OR p.number_room BETWEEN :minRoom AND :maxRoom)" +
+                "AND (COALESCE(NULLIF(:minArea, 0) ,NULLIF(:maxArea, 0),NULL ) IS NULL OR p.area_size BETWEEN :minArea AND :maxArea)"
                 ,nativeQuery = true
         )
-        Page<RentingPost>  findByCostumeFilter(@Param("title") String title,@Param("cityId") Long CityId,@Param("Categories") List<Long> categorieIds,
+        Page<RentingPost>  findByCostumeFilter(@Param("title") String title,@Param("cityId") Long CityId,@Param("Categories") Long categoryId,
                                                @Param("priceMin") double priceMin,@Param("priceMax") double priceMax, @Param("minRoom") int MinRoom,@Param("maxRoom")
-                                               int MaxRoom, @Param("minArea") float minArea, @Param("maxArea") float MaxArea,@Param("byDate") boolean OrderByDate
-                ,@Param("sortByPrice") Boolean OrderByPrice,@Param("ASC") boolean asc, Pageable pageRequest);
+                                               int MaxRoom, @Param("minArea") float minArea, @Param("maxArea") float MaxArea, Pageable pageRequest);
 
 
         List<RentingPost> findByTitleLike(String title);

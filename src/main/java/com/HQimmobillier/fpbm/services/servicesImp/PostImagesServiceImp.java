@@ -1,5 +1,6 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
+import com.HQimmobillier.fpbm.entity.Post;
 import com.HQimmobillier.fpbm.entity.PostImages;
 import com.HQimmobillier.fpbm.entity.RentingPost;
 import com.HQimmobillier.fpbm.repository.PostImagesRepo;
@@ -25,16 +26,16 @@ public PostImagesServiceImp(PostImagesRepo postImagesRepo) {
     this.postImagesRepo = postImagesRepo;
 }
 
-public void saveImages(MultipartFile[] file, RentingPost rentingPost1) throws IOException {
+public void saveImages(MultipartFile[] file, Post post) throws IOException {
     List<PostImages> postImages = new ArrayList<>();
     if(file != null){
         for (MultipartFile o : file) {
 
             PostImages postImage = new PostImages();
 
-            postImage.setPost(rentingPost1);
+            postImage.setPost(post);
 
-            String uploadDir =   rentingPost1.getId() + "";
+            String uploadDir =   post.getId() + "";
 
             String ImagePath = CommenFunctions.saveFile(Constants.RentingPostPath +uploadDir, o);
             postImage.setImagePath(ImagePath);

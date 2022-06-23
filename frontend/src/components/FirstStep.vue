@@ -158,7 +158,7 @@ export default {
       axios
         .get("/api/categories")
         .then((res) => (this.categoriesItem = res.data))
-        .then(() => console.log(this.categoriesItem));
+        
     },
     getAllDurations() {
       axios.get("/api/etat").then((res) => (this.etatItems = res.data));

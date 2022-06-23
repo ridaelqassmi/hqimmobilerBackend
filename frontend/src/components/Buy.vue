@@ -174,24 +174,24 @@ export default {
   methods: {
     onFileChange(e) {
       const file = e.target.files;
-      console.log(file);
+     
 
       for (let i = 0; i < file.length; i++) {
         this.urls.push(URL.createObjectURL(file[i]));
         this.selectedFiles.push(file[i]);
         
-      }console.log(this.selectedFiles);
+      }
     },
     AddMarker(e){
       
         this.markerLatLng = [e.latlng.lat,e.latlng.lng];
-        console.log(this.markerLatLng)
+        
     },
     deleteImg(url,i){
       this.urls = this.urls.filter(u=>u != url);
-      console.log(i+"before and the new  file is ");
+      
       this.selectedFiles.splice(i, 1);
-      console.log(this.selectedFiles);
+      
       
     }
   },

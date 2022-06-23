@@ -63,7 +63,6 @@ public class PostServiceImp implements PostService {
         this.etatRepository = etatRepository;
     }
 
-    /*********************************************RENTING POST SERVICES ****************************************/
 
     public RentingPost findRentingPostById(long id) {
         if (rentingPostRepo.findById(id).isPresent()) {
@@ -122,10 +121,18 @@ public class PostServiceImp implements PostService {
     }
 
     public Page<RentingPost> getRentingPostByFilter(FilterDto filterDto) {
-        Pageable pageRequest = PageRequest.of(filterDto.getPage(), 20);
+        Pageable pageRequest;
+
+        if(filterDto.getOrder() == 1){
+           pageRequest = PageRequest.of(filterDto.getPage(), 20,Sort.by(filterDto.getField()).ascending());
+        }
+        else{
+            pageRequest = PageRequest.of(filterDto.getPage(), 20,Sort.by(filterDto.getField()).descending());
+        }
 
 
-        return rentingPostRepo.findByCostumeFilter(filterDto.getTitle(), filterDto.getCities(), filterDto.getCategoriesList(), filterDto.getPrices().get(0), filterDto.getPrices().get(1), filterDto.getNbRooms().get(0), filterDto.getNbRooms().get(1), filterDto.getArea().get(0), filterDto.getArea().get(1), filterDto.getOrderByDate(), filterDto.getOrderByPrice(), filterDto.isAsc(), pageRequest);
+
+        return rentingPostRepo.findByCostumeFilter(filterDto.getTitle(), filterDto.getCityId(), filterDto.getCategorieId(), filterDto.getPriceMin(), filterDto.getPriceMax(), filterDto.getRoomMin(), filterDto.getRoomMax(), filterDto.getAreaMin(), filterDto.getAreaMax(), pageRequest);
 
     }
 
@@ -153,7 +160,64 @@ public class PostServiceImp implements PostService {
     }
     @Override
     public Post savePost(MultipartFile thumbnail, MultipartFile[] images, String post) throws IOException {
+
         CreatePostDto createPostDto = new ObjectMapper().readValue(post,CreatePostDto.class);
+        if(createPostDto.getType() == 2){
+            return saveRentingPost(thumbnail, images, createPostDto);
+        }else if(createPostDto.getType()==1){
+            return saveBuyingPost(thumbnail, images, createPostDto);
+        }
+        return null;
+
+
+
+
+    }
+
+    private Post saveBuyingPost(MultipartFile thumbnail, MultipartFile[] images, CreatePostDto createPostDto) throws IOException {
+        BuyingPost post1 = new BuyingPost();
+
+        post1.setCities(cityService.findById(createPostDto.getVille()));
+        post1.setCategories(categorieService.findById(createPostDto.getCategorie()));
+        post1.setAreaSize( createPostDto.getSurfacie());
+        post1.setUser(accountService.getAuthenticatedUser());
+        post1.setApproved(false);
+        post1.setLat(createPostDto.getLat());
+        post1.setLng(createPostDto.getLng());
+        post1.setClosed(false);
+        post1.setDate(new Date());
+        post1.setEtat(etatRepository.findById(createPostDto.getEtat()).get());
+        post1.setDescription(createPostDto.getDescription());
+        post1.setAvailableTill(createPostDto.getDateAvailabilty());
+
+
+        if(createPostDto.getFeatures()!=null){
+            List<Features> features = new ArrayList<>();
+            for(Long e:createPostDto.getFeatures()){
+                features.add(featuresRepo.findById(e).get());
+
+            }
+            post1.setFeatures(features);
+        }
+
+
+        post1.setTitle(createPostDto.getTitle());
+        post1.setNumberRoom(createPostDto.getNumberRoom());
+        post1.setSalleBain(createPostDto.getSalleBain());
+        post1.setPrice(createPostDto.getPrix());
+        post1.setAdress(createPostDto.getAddress());
+
+        String Thumbnail = CommenFunctions.saveFile(Constants.thumbnailDir,thumbnail);
+        post1.setThumbnail(Thumbnail);
+
+        BuyingPost p = buyingPostRepo.save(post1);
+        postImageService.saveImages(images, p);
+
+        return p;
+
+    }
+
+    public Post saveRentingPost(MultipartFile thumbnail,MultipartFile[] images,CreatePostDto createPostDto) throws IOException {
         RentingPost post1 = new RentingPost();
         post1.setDuree(dureeRepository.findById(createPostDto.getDuree()).get());
         post1.setCities(cityService.findById(createPostDto.getVille()));
@@ -185,16 +249,14 @@ public class PostServiceImp implements PostService {
         post1.setSalleBain(createPostDto.getSalleBain());
         post1.setPrice(createPostDto.getPrix());
         post1.setAdress(createPostDto.getAddress());
-        /*now to the hard part how i can do this */
+
         String Thumbnail = CommenFunctions.saveFile(Constants.thumbnailDir,thumbnail);
         post1.setThumbnail(Thumbnail);
 
         RentingPost p = rentingPostRepo.save(post1);
         postImageService.saveImages(images, p);
-        //postImageService.saveImages(createPostDto.getImages(),p);
-return p;
 
-
+        return p;
 
 
     }

@@ -34,7 +34,7 @@
 
     <!-----Filters--------------->
 
-    <RentPostFilterComponent />
+    <RentPostFilterComponent  @getDataByFilter="getDataByFilter"/>
 
     <!--end Filters---->
    
@@ -65,7 +65,7 @@
 <script>
 import axios from "axios";
 import Posts from "@/components/Posts.vue";
-import RentPostFilterComponent from "../components/RentPostFilterComponent.vue";
+import RentPostFilterComponent from "@/components/RentPostFilterComponent.vue";
 
 export default {
   components: { RentPostFilterComponent, Posts },
@@ -117,6 +117,24 @@ export default {
         "api/rent/categorie/" + id + "/page/" + this.correntPage
       );
     },
+    getDataByFilter(filters){
+      console.log(filters);
+      //filters.page = 0;
+      axios({
+        url: "api/rent/filter",
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        data: JSON.stringify(filters),
+      }).then((res) => {
+        this.posts = res.data.content;
+        this.correntPage = res.data.number;
+        this.numberPages = res.data.totalPages;
+        this.totalElements = res.data.totalElements;
+        this.numberOfElements = res.data.numberOfElements;
+      }).then(()=>console.log(this.posts));
+    }
 
   
     /*getPostByFilter() {

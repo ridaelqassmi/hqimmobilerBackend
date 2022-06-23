@@ -71,7 +71,7 @@ export default {
   let date =  new Date(x);
   const seconds =  Math.floor((Date.now() - date.getTime()) / 1000);
   const interval =  intervals.find(i => i.seconds < seconds);
-  console.log(interval);
+  
   const count = Math.floor(seconds / interval.seconds);
   return `${count} ${interval.label}${count !== 1 ? 's' : ''} ago`;
 }

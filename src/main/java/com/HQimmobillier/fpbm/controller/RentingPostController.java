@@ -1,21 +1,17 @@
     package com.HQimmobillier.fpbm.controller;
 
-    import com.HQimmobillier.fpbm.dto.post.CreatePostDto;
     import com.HQimmobillier.fpbm.dto.user.FilterDto;
     import com.HQimmobillier.fpbm.entity.Post;
     import com.HQimmobillier.fpbm.entity.RentingPost;
+    import com.HQimmobillier.fpbm.repository.PostRepository;
     import com.HQimmobillier.fpbm.repository.RentingPostRepo;
     import com.HQimmobillier.fpbm.services.PostService;
 
     import com.fasterxml.jackson.core.JsonProcessingException;
-    import com.fasterxml.jackson.databind.ObjectMapper;
-    import org.springframework.context.annotation.Bean;
     import org.springframework.data.domain.Page;
     import org.springframework.web.bind.annotation.*;
     import org.springframework.web.multipart.MultipartFile;
-    import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-    import javax.servlet.http.HttpServletRequest;
     import java.io.IOException;
     import java.util.Arrays;
 
@@ -32,11 +28,13 @@
         private final RentingPostRepo rentingPostRepo;
 
         private final PostService rentingPostService;
+        private final PostRepository postRepository;
 
-        public RentingPostController(PostService postService, RentingPostRepo rentingPostRepo, PostService rentingPostService) {
+        public RentingPostController(PostService postService, RentingPostRepo rentingPostRepo, PostService rentingPostService, PostRepository postRepository) {
             this.postService = postService;
             this.rentingPostRepo = rentingPostRepo;
             this.rentingPostService = rentingPostService;
+            this.postRepository = postRepository;
         }
 
 
@@ -86,9 +84,10 @@
         }
 
        @GetMapping("rent/{id}")
-        public RentingPost getRentingPostById(@PathVariable long id){
-            return rentingPostRepo.findById(id).get();
+        public Post getRentingPostById(@PathVariable long id){
+            return postRepository.findById(id).get();
        }
+
 
        @GetMapping("rent/filters/")
        public Page<RentingPost> getRentingPostByTitle(@PathVariable(value = "title") String title,

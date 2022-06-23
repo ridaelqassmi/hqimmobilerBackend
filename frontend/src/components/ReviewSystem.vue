@@ -179,7 +179,7 @@ export default {
       let date = new Date(x);
       const seconds = Math.floor((Date.now() - date.getTime()) / 1000);
       const interval = this.intervals.find((i) => i.seconds < seconds);
-      console.log(interval);
+      
       if (typeof interval == "undefined") {
         return "1 s ago";
       } else {
@@ -189,16 +189,16 @@ export default {
     },
     async submitReview() {
       //let commentDto = {message:this.messageContent,postid:this.$route.params.postId};
-      console.log(this.Ratingvalue,this.messageContent,this.$route.params.postId)
+      
       let response = await axios.post("/api/post/comment", {
         message: this.messageContent,
         postid: this.$route.params.postId,
         rating: this.Ratingvalue,
       });
-      console.log(response);
+      
       if (response.status == 200) {
         this.comments = [response.data, ...this.comments];
-        console.log(this.comments);
+        
         this.reviewModal = false;
       } else {
         console.log("you have to deal with this ");
@@ -216,7 +216,7 @@ export default {
     async deleteComment(id) {
       let response = await axios.delete("api/post/comment/" + id);
       if (response.status == 200) {
-        console.log("the post is deleted");
+        
         this.comments = this.comments.filter((comment) => comment.id != id);
       }
     },

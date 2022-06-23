@@ -100,18 +100,18 @@ export default {
   },
   methods:{
     nextStep(){
-      console.log("hahiya" +this.SelectedCity);
+      
         this.$emit("verfiyInputForSecondStep",this.SelectedRegion,this.SelectedCity,this.address,this.markerLatLng);
       },
       AddMarker(e) {
       this.markerLatLng = [e.latlng.lat, e.latlng.lng];
-      console.log(this.markerLatLng);
+      
     },
     /*getAllCitites(){
       axios.get('/api/cities').then((res) => this.CityItems = res.data).then(()=> console.log(this.CityItems));
     },*/
     getAllRegions(){
-      axios.get("/api/regions").then((res)=>this.RegionItems = res.data).then(()=>console.log(this.RegionItems));
+      axios.get("/api/regions").then((res)=>this.RegionItems = res.data);
     },
     getAllCititesByRegion(id){
       axios.get("/api/cities/region/"+id).then(res=> this.CityItems = res.data);

@@ -287,7 +287,7 @@ export default {
       this.required(this.loginEmail, "email");
       this.emailValidation(this.loginEmail);
       this.alphaNumericCheck(this.password, "password");
-      console.log(this.errorsArray);
+      
       if (this.errorsArray.length  != 0) {
         return;
       }
