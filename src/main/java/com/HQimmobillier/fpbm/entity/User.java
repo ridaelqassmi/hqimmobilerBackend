@@ -3,6 +3,7 @@ package com.HQimmobillier.fpbm.entity;
 import com.HQimmobillier.fpbm.utility.CommenFunctions;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.github.javafaker.PhoneNumber;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -44,7 +45,10 @@ public class User {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Roles> userRoles = new ArrayList<>();
 
-    public User(String firstName, String lastName, String password, String email, String phone, boolean is_enabled, Date creation_date, String photos) {
+
+
+
+    public User(String firstName, String lastName, String password, String email, String phone, boolean is_enabled, Date creation_date, String photos, List<Roles> userRoles) {
         this.firstName = firstName;
         LastName = lastName;
         Password = password;
@@ -53,7 +57,10 @@ public class User {
         this.is_enabled = is_enabled;
         this.creation_date = creation_date;
         this.photos = photos;
+        this.userRoles = userRoles;
     }
+
+
 
 
 }

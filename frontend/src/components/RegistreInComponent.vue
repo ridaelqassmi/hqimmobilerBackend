@@ -226,6 +226,7 @@ export default {
           firstName: this.RFirstName,
           lastName: this.RLastName,
           password: this.RPassword,
+          phoneNumber :this.RPhoneNumber,
         })
         .then(() => {
           this.message("you account created seccussfuly ", this.seccus);

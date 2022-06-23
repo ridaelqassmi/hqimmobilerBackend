@@ -219,7 +219,7 @@ export default {
     return {
       rida: 0,
 
-      dialog: true,
+      dialog: false,
       OrderItem: [
         { id: 1, name: "asc" },
         { id: 2, name: "desc" },

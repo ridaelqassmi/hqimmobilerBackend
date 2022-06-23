@@ -62,5 +62,10 @@ export default {
     setup() {
         
     },
+    data(){
+      return{
+        phoneNumber:""
+      }
+    }
 }
 </script>

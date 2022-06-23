@@ -27,4 +27,12 @@ public class review {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
+
+    public review(User user, String content, double rating, Timestamp createdAt, Post post) {
+        this.user = user;
+        this.content = content;
+        this.rating = rating;
+        this.createdAt = createdAt;
+        this.post = post;
+    }
 }

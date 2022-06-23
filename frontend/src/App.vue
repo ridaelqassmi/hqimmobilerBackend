@@ -122,12 +122,20 @@
         v-on:toggle-showModal="toggleRegistrationModel"
         v-if="showRegistreInComponent"
       />
+
+
+     
+      
+
     </v-main>
+
+
   </v-app>
 </template>
 
 <script>
 import HeaderProfile from "./components/HeaderProfile.vue";
+
 
 import RegistreInComponent from "@/components/RegistreInComponent.vue";
 import { mapState, mapMutations } from "vuex";
@@ -161,7 +169,7 @@ export default {
         text: "mon publication",
       },
       {
-        id:3,
+        to:'/inbox',
         icon: "mdi-inbox",
         text: "inbox",
       },

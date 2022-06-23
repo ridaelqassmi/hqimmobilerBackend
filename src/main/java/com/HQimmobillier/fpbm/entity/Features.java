@@ -20,5 +20,8 @@ public class Features {
     private String name;
     private String imageSrc;
 
-
+    public Features(String name, String imageSrc) {
+        this.name = name;
+        this.imageSrc = imageSrc;
+    }
 }

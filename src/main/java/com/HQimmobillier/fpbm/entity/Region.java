@@ -17,4 +17,7 @@ public class Region {
     @Column
     private String name;
 
+    public Region(String name) {
+        this.name = name;
+    }
 }

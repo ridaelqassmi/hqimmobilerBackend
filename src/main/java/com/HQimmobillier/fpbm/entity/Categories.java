@@ -17,16 +17,9 @@ public class Categories {
     private Long id;
     @Column(unique = false)
     private String categorieName;
-    @Column
-    private String categorieImage;
-    @Column
-    private String description;
 
 
-    public Categories( String categorieName, String categorieImage, String description) {
+    public Categories(String categorieName) {
         this.categorieName = categorieName;
-        this.categorieImage = categorieImage;
-        this.description = description;
     }
-
 }

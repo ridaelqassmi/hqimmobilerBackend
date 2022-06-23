@@ -20,12 +20,12 @@ function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 export default new Vuex.Store({
-  plugins: [createPersistedState()],
+ plugins: [createPersistedState()],
   state: {
     userAuthentified: false,
     AuthentifiedUserDetails: {},
     showAuthModal:false,
-    
+
   },
   mutations: {
     toggleAuthentified: (state) => {
@@ -60,6 +60,7 @@ export default new Vuex.Store({
     setAuthentifiedUserDetails: (state, user) => {
       state.AuthentifiedUserDetails = user;
     },
+ 
 
 
   }

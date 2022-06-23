@@ -83,7 +83,7 @@
       <v-dialog v-model="reviewModal" persistent max-width="600px">
         <v-card color="#f0f2f5" class="lighten-3 px-5">
           <v-card-title class="text-h5 font-weight-bold text-center">
-            <v-row justify="center my-5"> Rate your overall experience </v-row>
+            <v-row justify="center"> Rate your overall experience </v-row>
           </v-card-title>
           <v-card-text class="elevation-2 white px-2 pt-5">
             <div class="ma-5">

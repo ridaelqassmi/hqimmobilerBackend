@@ -77,6 +77,29 @@ public abstract class Post {
         return val == null ? null : val.value();
     }
 
-
-
+    public Post(String title, String location, int numberRoom, boolean hasAppliance, String description, double price, Date date, boolean approved, float areaSize, boolean isClosed, Ville cities, List<PostImages> images, Categories categories, double lat, double lng, String thumbnail, User user, List<review> comments, Date availableTill, List<Features> features, int salleBain, String adress, Etat etat) {
+        this.title = title;
+        this.location = location;
+        this.numberRoom = numberRoom;
+        this.hasAppliance = hasAppliance;
+        this.description = description;
+        this.price = price;
+        this.date = date;
+        this.approved = approved;
+        this.areaSize = areaSize;
+        this.isClosed = isClosed;
+        this.cities = cities;
+        this.images = images;
+        this.categories = categories;
+        this.lat = lat;
+        this.lng = lng;
+        this.thumbnail = thumbnail;
+        this.user = user;
+        this.comments = comments;
+        this.availableTill = availableTill;
+        this.features = features;
+        SalleBain = salleBain;
+        this.adress = adress;
+        this.etat = etat;
+    }
 }

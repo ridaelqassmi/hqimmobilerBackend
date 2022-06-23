@@ -5,19 +5,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Etat {
+public class Messages {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "name")
-    private String name;
+    private long id;
 
-    public Etat(String name) {
-        this.name = name;
-    }
+
+    @OneToOne
+    private User sender;
+    @OneToOne
+    private User recever;
+    @Column
+    private String content;
+    @OneToOne
+    private Post post;
+    private Date date;
+
 }

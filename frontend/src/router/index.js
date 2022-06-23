@@ -13,6 +13,8 @@ import EditProfile from '@/components/EditProfile.vue'
 import LogOut from '@/components/LogOut.vue'
 import store from '@/store/index.js';
 import Error from '@/components/ErrorComponent.vue';
+
+import inboxPge from '@/views/inboxPage.vue';
 Vue.use(VueRouter)
 
 const routes = [
@@ -69,6 +71,11 @@ const routes = [
     path:'/notAuthentified',
     name:'notAuthentified',
     component:Error
+  },
+  {
+    path:'/inbox',
+    name:'inbox',
+    component:inboxPge
   }
   
 

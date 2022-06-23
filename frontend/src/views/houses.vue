@@ -133,7 +133,7 @@ export default {
         this.numberPages = res.data.totalPages;
         this.totalElements = res.data.totalElements;
         this.numberOfElements = res.data.numberOfElements;
-      }).then(()=>console.log(this.posts));
+      });
     }
 
   

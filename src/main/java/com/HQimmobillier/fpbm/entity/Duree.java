@@ -19,5 +19,7 @@ public class Duree {
     private int id;
     private String name;
 
-
+    public Duree(String name) {
+        this.name = name;
+    }
 }

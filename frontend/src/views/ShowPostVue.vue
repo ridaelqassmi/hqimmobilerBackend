@@ -1,15 +1,24 @@
 <template>
   <div class="parent">
+    
    
     <v-container class="background-- is-fullhd" color="#003BDE" fluid>
-      <v-row dense class="align-center" >
+      <v-row dense class="align-center">
         <v-col class="align-center">
-          <p class="text-body-2 font-weight-bold mt-4 white--text" >
-             <router-link class="text-body-2 font-weight-bold mt-4 white--text" :to="'/'" 
-            > Home ></router-link
-          > 
-          
-          <router-link :to="{name:'buy',query:{categorie:Post.categories.id}}" class="text-body-2 font-weight-bold mt-4 dark white--text"> {{ Post.cities.cityName }} ></router-link>
+          <p class="text-body-2 font-weight-bold mt-4 white--text">
+            <router-link
+              class="text-body-2 font-weight-bold mt-4 white--text"
+              :to="'/'"
+            >
+              Home ></router-link
+            >
+
+            <router-link v-cloak
+              :to="{ name: 'buy', query: { categorie: Post.categoriesid} }"
+              class="text-body-2 font-weight-bold mt-4 dark white--text"
+            >
+              {{ Post.cities.cityName }} ></router-link
+            >
             {{ Post.categories.categorieName }}
           </p>
           <h1 class="text-h7 price-color font-weight-bold">
@@ -25,7 +34,8 @@
             >
           </h1>
           <p class="white--text">
-            {{ Post.numberRoom }} Chambre | {{Post.salleBain}} salle de bain | {{Post.areaSize}} m <sup>2</sup> | Etat: {{Post.etat.name}}
+            {{ Post.numberRoom }} Chambre | {{ Post.salleBain }} salle de bain |
+            {{ Post.areaSize }} m <sup>2</sup> | Etat: {{ Post.etat.name }}
           </p>
         </v-col>
 
@@ -115,7 +125,8 @@
                   <strong>Numbers of Rooms : </strong> {{ Post.numberRoom }}
                 </p>
                 <p>
-                  <strong>nombre de salle de bain : </strong> {{ Post.salleBain }}
+                  <strong>nombre de salle de bain : </strong>
+                  {{ Post.salleBain }}
                 </p>
                 <p>
                   <strong>surfacie : </strong> {{ Post.areaSize }} m<sup>2</sup>
@@ -160,11 +171,11 @@
           </v-expansion-panels>
 
           <!--here it goes reviews  -->
-         <ReviewSystem />
+          <ReviewSystem />
 
           <!--here it ends-->
         </v-col>
-        <v-col
+        <v-col v-if="Post.user.id != $store.state.AuthentifiedUserDetails.id"
           class="py-5 px-6 hidden-sm-only fixed f flat"
           cols="12"
           md="4"
@@ -195,26 +206,35 @@
               </h1>
               <hr />
               <b-field label="Message">
-                <b-input maxlength="200" type="textarea"></b-input>
+                <b-input
+                  maxlength="200"
+                  v-model="messageContent"
+                  type="textarea"
+                ></b-input>
               </b-field>
-              <b-field
-                label="Email"
-              
-              >
-                <b-input type="email"  maxlength="30"> </b-input>
+              <b-field label="Email">
+                <b-input type="email" v-model="Email" maxlength="30"> </b-input>
               </b-field>
 
               <b-field label="Phone Number">
-                <b-input placeholder="Number" type="number"> </b-input>
+                <b-input
+                  placeholder="Number"
+                  v-model="numberPhone"
+                  type="number"
+                >
+                </b-input>
               </b-field>
               <b-field>
-                <b-button expanded class="is-primary"> send </b-button>
+                <b-button expanded class="is-primary" @click="SubmitMessage()">
+                  send
+                </b-button>
               </b-field>
             </v-col>
           </v-row>
         </v-col>
       </v-row>
     </v-container>
+    <ModalMessages v-if="showMessageModal " :type="messageData.type" :message="messageData.message" @closeMessageModel="closeMessageModel"/>
   </div>
 </template>
 
@@ -223,7 +243,10 @@ import axios from "axios";
 import moment from "moment";
 import Vue from "vue";
 
-import ReviewSystem from '@/components/ReviewSystem.vue';
+import ReviewSystem from "@/components/ReviewSystem.vue";
+import ModalMessages from "@/components/ModalMessages.vue";
+
+import { mapState } from "vuex";
 Vue.filter("formatDate", function (value) {
   if (value) {
     return moment(String(value)).format("MMMM Do YYYY, h:mm:ss a ");
@@ -231,11 +254,12 @@ Vue.filter("formatDate", function (value) {
 });
 
 export default {
-  components: {ReviewSystem },
+  components: { ReviewSystem, ModalMessages },
   data() {
     return {
       gallery: false,
       favourite: false,
+      message: false,
       Post: "",
       images: [
         {
@@ -258,7 +282,16 @@ export default {
         },
       ],
       images2: [],
+      messageContent: "",
+      numberPhone: "",
+      Email: "",
+      errorsArray: [],
+      showMessageModal: false,
+      messageData: {},
     };
+  },
+  computed: {
+    ...mapState(["userAuthentified"]),
   },
   created() {
     axios
@@ -281,9 +314,46 @@ export default {
       }
     },
     toggleFavourite() {},
-    
+    required(field, fieldname) {
+      if (field == "") {
+        this.errorsArray.push(fieldname + " input is required ");
+      }
+    },
+
+    SubmitMessage() {
+      this.ErrorArray = [];
+      if (this.userAuthentified == false) {
+        this.errorsArray.push("you are not authentified please authenitfy");
+        this.showMessageModal = true,
+          this.messageData = { type: "seccus", message: "you are not authentified please authenitfy" };
+
+        return;
+      }
+
+      
+
+      this.required(this.messageContent, " message ");
+      if (this.errorsArray.length != 0) {
+        return;
+      }
+      console.log(this.Post.id);
+      axios
+        .post("/api/message/create", {
+          messageContent: this.messageContent,
+          postId: this.Post.id,
+          sendTo: this.Post.user.id,
+        })
+        .then(() => {
+          this.showMessageModal = true,
+          this.messageData = { type: "seccus", message: "message sent" };
+        });
+    },
+
+    closeMessageModel(){
+      this.showMessageModal =false;
+      this.messageData = {}
+    }
   },
-  
 };
 </script>
 <style scoped>
@@ -351,18 +421,21 @@ export default {
   background: #e7e7e7;
 }
 
-.tube{
+.tube {
   width: 100%;
- 
+
   background: rgb(209, 205, 205);
   height: 22px;
   border-radius: 10px;
-
 }
-.filledTube{
+.filledTube {
   width: 80%;
   background: #1e78dd;
   height: 100%;
   border-radius: 10px;
+}
+
+[v-cloak] {
+  display: none;
 }
 </style>

@@ -21,4 +21,9 @@ public class PostImages{
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Post post;
+
+    public PostImages(String imagePath, Post post) {
+        this.imagePath = imagePath;
+        this.post = post;
+    }
 }

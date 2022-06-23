@@ -57,4 +57,11 @@ public class Ville {
     public void setLng(double lng) {
         this.lng = lng;
     }
+
+    public Ville(String cityName, double lat, double lng, Region region) {
+        this.cityName = cityName;
+        this.lat = lat;
+        this.lng = lng;
+        this.region = region;
+    }
 }
