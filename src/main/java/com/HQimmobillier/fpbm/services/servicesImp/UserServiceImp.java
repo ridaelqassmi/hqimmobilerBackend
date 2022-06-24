@@ -38,8 +38,6 @@ public class UserServiceImp implements UserService {
 
         return savedUser;
     }
-
-
     @Override
     public User updateUser(long id, User u) {
         User user = userRepo.findById(id).get();
