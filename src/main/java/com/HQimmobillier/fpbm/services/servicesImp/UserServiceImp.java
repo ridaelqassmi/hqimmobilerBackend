@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -23,7 +24,7 @@ public class UserServiceImp implements UserService {
                        String u) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         User user = objectMapper.readValue(u,User.class);
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
 
 
         user.setPhotos(fileName);
