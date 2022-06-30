@@ -1,19 +1,19 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-//import RentView from '../views/Rent.vue'
+
 import HouseView from '../views/houses.vue'
-//import CreatePost from '../views/CreatePost.vue'
+
 import ShowPostVue from '../views/ShowPostVue.vue'
 import UserProfile from '../views/UserProfile.vue'
 import addPost from '@/views/addPost.vue'
 import OwnPosts from '@/components/OwnPosts.vue'
-//import PostsView from '@/views/PostsView.vue'
+
 import EditProfile from '@/components/EditProfile.vue'
 import LogOut from '@/components/LogOut.vue'
 import store from '@/store/index.js';
 import Error from '@/components/ErrorComponent.vue';
-
+import DashboardVue from '@/views/DashboardVue.vue'
 import inboxPge from '@/views/inboxPage.vue';
 Vue.use(VueRouter)
 
@@ -76,6 +76,11 @@ const routes = [
     path:'/inbox',
     name:'inbox',
     component:inboxPge
+  },
+  {
+    path:'/admin',
+    name:'admin',
+    component:DashboardVue
   }
   
 
@@ -94,7 +99,10 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'home' || to.name==='showPOST' || to.name==="buy"|| to.name==="post"|| to.name==="notAuthentified" ) {
     next() 
   
-  } else if(store.state.userAuthentified){
+  }else if( store.state.isAdmin &&  to.name=='admin'){
+    next()
+
+  }else if(store.state.userAuthentified){
     next()
   }else{
     next({path:'/notAuthentified'})

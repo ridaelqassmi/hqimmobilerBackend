@@ -1,6 +1,7 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
 import com.HQimmobillier.fpbm.dto.post.CreatePostDto;
+import com.HQimmobillier.fpbm.dto.post.EditPostDto;
 import com.HQimmobillier.fpbm.dto.post.MyPostsResponseDto;
 import com.HQimmobillier.fpbm.dto.user.FilterDto;
 import com.HQimmobillier.fpbm.entity.*;
@@ -9,7 +10,6 @@ import com.HQimmobillier.fpbm.repository.*;
 import com.HQimmobillier.fpbm.services.*;
 import com.HQimmobillier.fpbm.utility.CommenFunctions;
 import com.HQimmobillier.fpbm.utility.Constants;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -45,7 +46,9 @@ public class PostServiceImp implements PostService {
     private final DureeRepository dureeRepository;
     private final FeaturesRepo featuresRepo;
     private final EtatRepository etatRepository;
-    public PostServiceImp(RentingPostRepo rentingPostRepo, BuyingPostRepo buyingPostRepo, CategorieService categorieService, VilleService cityService, UserRepo userRepo, PostImagesRepo postImagesRepo, PostImageService postImageService, CategoriesRepo categoriesRepo, AccountService accountService, PostRepository postRepo, PostMapper postMapper, DureeRepository dureeRepository, FeaturesRepo featuresRepo, EtatRepository etatRepository) {
+    private final MessageRepository messageRepository;
+    private final ReviewRepo reviewRepo;
+    public PostServiceImp(RentingPostRepo rentingPostRepo, BuyingPostRepo buyingPostRepo, CategorieService categorieService, VilleService cityService, UserRepo userRepo, PostImagesRepo postImagesRepo, PostImageService postImageService, CategoriesRepo categoriesRepo, AccountService accountService, PostRepository postRepo, PostMapper postMapper, DureeRepository dureeRepository, FeaturesRepo featuresRepo, EtatRepository etatRepository, MessageRepository messageRepository, ReviewRepo reviewRepo) {
         this.rentingPostRepo = rentingPostRepo;
         this.buyingPostRepo = buyingPostRepo;
         this.categorieService = categorieService;
@@ -61,6 +64,9 @@ public class PostServiceImp implements PostService {
         this.featuresRepo = featuresRepo;
 
         this.etatRepository = etatRepository;
+        this.messageRepository = messageRepository;
+
+        this.reviewRepo = reviewRepo;
     }
 
 
@@ -131,8 +137,25 @@ public class PostServiceImp implements PostService {
         }
 
 
-
         return rentingPostRepo.findByCostumeFilter(filterDto.getTitle(), filterDto.getCityId(), filterDto.getCategorieId(), filterDto.getPriceMin(), filterDto.getPriceMax(), filterDto.getRoomMin(), filterDto.getRoomMax(), filterDto.getAreaMin(), filterDto.getAreaMax(), pageRequest);
+
+
+
+
+    }
+
+    @Override
+    public Page<BuyingPost> getBuyingPostByFilter(FilterDto filterDto) {
+        Pageable pageRequest;
+
+        if(filterDto.getOrder() == 1){
+            pageRequest = PageRequest.of(filterDto.getPage(), 20,Sort.by(filterDto.getField()).ascending());
+        }
+        else{
+            pageRequest = PageRequest.of(filterDto.getPage(), 20,Sort.by(filterDto.getField()).descending());
+        }
+
+        return  buyingPostRepo.findByCostumeFilter(filterDto.getTitle(), filterDto.getCityId(), filterDto.getCategorieId(), filterDto.getPriceMin(), filterDto.getPriceMax(), filterDto.getRoomMin(), filterDto.getRoomMax(), filterDto.getAreaMin(), filterDto.getAreaMax(), pageRequest);
 
     }
 
@@ -173,6 +196,72 @@ public class PostServiceImp implements PostService {
 
 
     }
+
+    @Override
+    public Post updatePost(EditPostDto editPostDto) {
+        System.out.println(editPostDto.toString());
+        Post post = postRepo.findById(editPostDto.getId()).get();
+        post.setAreaSize(editPostDto.getArea());
+        post.setNumberRoom(editPostDto.getNumberRoom());
+        post.setTitle(editPostDto.getTitle());
+        post.setCategories(categoriesRepo.findById(editPostDto.getCategorieId()).get());
+        post.setPrice(editPostDto.getPrice());
+
+        post.setSalleBain(editPostDto.getSalleBain());
+        return postRepo.save(post);
+
+    }
+
+    @Override
+    public void deletePost(Long id) {
+        System.out.println(id);
+        Post post = postRepo.findById(id).get();
+        //email is unique
+        if(accountService.getAuthenticatedUser().getId().equals( post.getUser().getId())){
+            //now we have to delete thumbnail image
+            File thumbnail = new File(Constants.defaultPath + post.getThumbnail());
+            if(thumbnail.delete()){
+                System.out.println("thumbnail deleted ");
+            }
+            //now we have to delte all images of post
+            List<PostImages> images = post.getImages();
+            for(PostImages e:images){
+                File image = new File(Constants.defaultPath + e.getImagePath());
+                if(image.delete()){
+                    System.out.println("image deleted");
+                }
+            }
+
+            postImagesRepo.deleteAllImagesForPost(post.getId());
+
+
+            List<Messages> messages = messageRepository.findAllByPost(post);
+            messageRepository.deleteAllInBatch(messages);
+            reviewRepo.deleteAllReviewForPost(post.getId());
+
+
+
+            if(post.getDiscriminatorValue().equals("BUY")){
+                buyingPostRepo.MydeleteById(post.getId());
+            }else if(post.getDiscriminatorValue().equals("RENT")){
+                rentingPostRepo.MydeleteById(post.getId());
+            }
+
+            postRepo.deleteBazaz(post.getId());
+
+            //postRepo.deleteBazaz(post.getId());
+
+        }
+
+    }
+
+    @Override
+    public Page<Post> findAllPost(int page) {
+        Pageable pageRequest = PageRequest.of(page,20,Sort.by("date").descending());
+        return postRepo.findAll(pageRequest);
+    }
+
+
 
     private Post saveBuyingPost(MultipartFile thumbnail, MultipartFile[] images, CreatePostDto createPostDto) throws IOException {
         BuyingPost post1 = new BuyingPost();

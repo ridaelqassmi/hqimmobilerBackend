@@ -1,5 +1,6 @@
 <template>
   <div class="parent">
+   
     
    
     <v-container class="background-- is-fullhd" color="#003BDE" fluid>
@@ -60,7 +61,7 @@
         <b-carousel-item v-for="(item, i) in images2.length" :key="i">
           <a class="image">
             <img
-              :src="require('../assets/' + getImgUrl(i))"
+              :src="require('@/assets/' + getImgUrl(i))"
               ratio=""
               class="myimage"
             />
@@ -75,7 +76,7 @@
           <figure class="al image" :draggable="false">
             <b-image
               :draggable="false"
-              :src="require('../assets/' + getImgUrl(props.i))"
+              :src="require('@/assets/' + getImgUrl(props.i))"
               :title="props.i"
               class="image-2"
             />
@@ -120,7 +121,7 @@
                 full details
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                <p><strong>location : </strong> {{ Post.location }}</p>
+                <p><strong>location : </strong> {{ Post.adress }}</p>
                 <p>
                   <strong>Numbers of Rooms : </strong> {{ Post.numberRoom }}
                 </p>

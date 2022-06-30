@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class AddFeaturesRequest {
+    public Long id;
     public MultipartFile file;
     public String name;
 }

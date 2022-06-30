@@ -1,11 +1,12 @@
 package com.HQimmobillier.fpbm.services;
 
 
+import com.HQimmobillier.fpbm.dto.post.EditPostDto;
 import com.HQimmobillier.fpbm.dto.post.MyPostsResponseDto;
 import com.HQimmobillier.fpbm.dto.user.FilterDto;
+import com.HQimmobillier.fpbm.entity.BuyingPost;
 import com.HQimmobillier.fpbm.entity.Post;
 import com.HQimmobillier.fpbm.entity.RentingPost;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -38,4 +39,13 @@ public interface PostService {
     public List<MyPostsResponseDto> findAllPostOfAuthentifiedUser();
 
     Post savePost(MultipartFile thumbnail, MultipartFile[] images, String post) throws IOException;
+
+    Post updatePost(EditPostDto editPostDto);
+
+    void deletePost(Long id);
+
+    Page<Post> findAllPost(int page);
+
+    Page<BuyingPost> getBuyingPostByFilter(FilterDto filter);
+
 }

@@ -6,4 +6,5 @@ public class Constants {
     public static String RentingPostPath="frontend/src/assets/postImages/rent/";
     public static String thumbnailDir ="frontend/src/assets/thumbnails";
 
+
 }

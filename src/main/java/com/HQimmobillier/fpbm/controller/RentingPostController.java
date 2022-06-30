@@ -1,5 +1,6 @@
     package com.HQimmobillier.fpbm.controller;
 
+    import com.HQimmobillier.fpbm.dto.post.EditPostDto;
     import com.HQimmobillier.fpbm.dto.user.FilterDto;
     import com.HQimmobillier.fpbm.entity.Post;
     import com.HQimmobillier.fpbm.entity.RentingPost;
@@ -35,6 +36,11 @@
             this.rentingPostRepo = rentingPostRepo;
             this.rentingPostService = rentingPostService;
             this.postRepository = postRepository;
+        }
+
+        @GetMapping("posts/page/{page}")
+        public Page<Post> getAllPost(@PathVariable("page") int page){
+            return  postService.findAllPost(page);
         }
 
 
@@ -100,12 +106,23 @@
        }
        @PostMapping("rent/filter")
         public Page <RentingPost> getRentingPostFilters(@RequestBody FilterDto filter) throws JsonProcessingException {
-           //FilterDto fDto = new ObjectMapper().readValue(filter,FilterDto.class);
-           System.out.println(filter.toString());
+
+
             return  postService.getRentingPostByFilter(filter);
        }
 
-       @GetMapping("/rent/search/by")
+       @PutMapping("/post/update")
+       public Post updateRentingPost(@RequestBody EditPostDto editPostDto){
+            return  postService.updatePost(editPostDto);
+       }
+       @DeleteMapping("/post/delete")
+       public void DeletePost(@RequestParam("id") Long id){
+            postService.deletePost(id);
+       }
+
+
+
+        @GetMapping("/rent/search/by")
 
         public List<RentingPost> getRentingPostByTitle(@RequestParam(name="title") String title){
             title ="%"+title+"%";

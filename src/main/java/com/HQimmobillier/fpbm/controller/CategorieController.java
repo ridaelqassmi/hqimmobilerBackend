@@ -1,8 +1,8 @@
 package com.HQimmobillier.fpbm.controller;
 
 import com.HQimmobillier.fpbm.entity.Categories;
+import com.HQimmobillier.fpbm.repository.CategoriesRepo;
 import com.HQimmobillier.fpbm.services.CategorieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,12 +11,23 @@ import java.util.List;
 @RequestMapping("api")
 @CrossOrigin
 public class CategorieController {
-    @Autowired
-    CategorieService categorieService;
+    private final CategoriesRepo categoriesRepo;
+    private final CategorieService categorieService;
+
+    public CategorieController(CategoriesRepo categoriesRepo, CategorieService categorieService) {
+        this.categoriesRepo = categoriesRepo;
+        this.categorieService = categorieService;
+    }
+
     @GetMapping("/categories")
     public List<Categories> getAll(){
 
         return categorieService.findAll();
+    }
+
+    @GetMapping("/categories/{id}")
+    public Categories getCategorieById(@PathVariable("id") Long id){
+        return categoriesRepo.findById(id).get();
     }
     @PostMapping("/categories")
     public Categories create(@RequestBody Categories categories){

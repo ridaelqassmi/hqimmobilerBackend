@@ -8,6 +8,7 @@ import com.HQimmobillier.fpbm.utility.CommenFunctions;
 import com.HQimmobillier.fpbm.utility.Constants;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 @Service
@@ -58,4 +59,34 @@ public class FeaturesServiceImpl implements FeaturesService {
     public Features getFeatureById(Long id) {
         return  featuresRepo.findById(id).get();
     }
+
+    @Override
+    public Features updateFeature(AddFeaturesRequest addFeaturesRequest) throws IOException {
+        Features features1 =  featuresRepo.findById(addFeaturesRequest.getId()).get();
+        //supprimer l'image physic
+        File f = new File(Constants.defaultPath+features1.getImageSrc());
+        if(f.delete()){
+            System.out.println("deleted secuudfie");
+        }
+        //save the new image
+        String filePath = CommenFunctions.saveFile(Constants.featuresImagesPath,addFeaturesRequest.getFile());
+
+
+        features1.setName(addFeaturesRequest.getName());
+        features1.setImageSrc(filePath);
+        return featuresRepo.save(features1);
+
+    }
+
+    @Override
+    public void deleteFeature(long id) {
+        Features features1 =  featuresRepo.findById(id).get();
+        File f = new File(Constants.defaultPath+features1.getImageSrc());
+        if(f.delete()){
+            System.out.println("deleted secuudfie");
+        }
+        featuresRepo.delete(features1);
+    }
+
+
 }

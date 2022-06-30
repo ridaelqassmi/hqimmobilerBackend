@@ -6,21 +6,53 @@
     <v-tab class="d">send</v-tab> 
     <v-tab class="d" >receved</v-tab></v-tabs>
         </v-col>
-        
-        <v-col cols="11" lg="8" md="8" sm="11" class="white messageDIv" v-for="messageEnvoye in messageEnvoyer" :key="messageEnvoye">
+        <div v-if="tab == 1" class="tab1">
+
+           <v-col cols="11" lg="8" md="8" sm="11" class="white messageDIv mx-auto" v-for="messageEnvoye in recevedMessages" :key="messageEnvoye">
           <div class="white messageDIv">
-             <p class="pa-0 ma-0 text-h6  grey--text text--darken-4 font-weight-bold">{{messageEnvoye.recever.firstName}} {{messageEnvoye.recever.lastName}}</p>
-             <p class="pa-0 ma-0 grey--text text--darken-4 text-body-2 mt-2 "><v-icon color="blue darken-3" class="pr-2">mdi-phone</v-icon>  0654101197</p>
-             <p class="pa-0 ma-0 grey--text text--darken-4 text-body-2 mt-2 "><v-icon color="blue darken-3" class="pr-2">mdi-email</v-icon> ridanewhh@gmail.com</p>
+             <p class="pa-0 ma-0 text-h6  grey--text text--darken-4 font-weight-bold">{{messageEnvoye.sender.firstName}} {{messageEnvoye.sender.lastName}}</p>
+             <p class="pa-0 ma-0 grey--text text--darken-4 text-body-2 mt-2 "><v-icon color="blue darken-3" class="pr-2">mdi-phone</v-icon>  {{messageEnvoye.sender.phone}}</p>
+             <p class="pa-0 ma-0 grey--text text--darken-4 text-body-2 mt-2 "><v-icon color="blue darken-3" class="pr-2">mdi-email</v-icon> {{messageEnvoye.sender.email}}</p>
              <p class="pa-0 ma-0 grey--text text--darken-4 text-body-2 mt-2 "><v-icon color="blue darken-3" class="pr-2" >mdi-post</v-icon> {{messageEnvoye.post.title}}</p>
              
-             <p class="pa-0 ma-0 grey--text text--darken-4 text-body-2 mt-2 "><v-icon color="blue darken-3" class="pr-2">mdi-message</v-icon> {{messageEnvoye.content}} </p>
+          
+
+             <p class="grey  lighten-2 pa-4  mt-5 dd"> {{messageEnvoye.content}}</p>
           </div>
           <div class="mt-2 d-flex justify-end ">
             <v-btn class="blue darken-2 white--text" :to="'rent/'+messageEnvoye.post.id">see post</v-btn>
           </div>
           
         </v-col>
+
+        </div>
+
+
+
+        <div v-if="tab == 0" class="tab1">
+
+           <v-col cols="11" lg="8" md="8" sm="11" class="white  mx-auto" v-for="messageEnvoye in messageEnvoyer" :key="messageEnvoye">
+          <div class="white messageDIv">
+             <p class="pa-0 ma-0 text-h6  grey--text text--darken-4 font-weight-bold">{{messageEnvoye.recever.firstName}} {{messageEnvoye.recever.lastName}}</p>
+   
+             <p class="pa-0 ma-0 grey--text text--darken-4 text-body-2 mt-2 "><v-icon color="blue darken-3" class="pr-2" >mdi-post</v-icon> {{messageEnvoye.post.title}}</p>
+             
+          
+
+             <p class="grey  lighten-2 pa-4  mt-5 dd"> {{messageEnvoye.content}}</p>
+
+              <div class="mt-2 d-flex justify-end ">
+            <v-btn class="blue darken-2 white--text" :to="'rent/'+messageEnvoye.post.id">see post</v-btn>
+          </div>
+          </div>
+         
+          
+        </v-col>
+
+        </div>
+       
+        
+       
         
                
          
@@ -30,6 +62,8 @@
         
 
       </v-row>
+
+      
     
     
 
@@ -73,12 +107,21 @@ export default {
 </script>
 
 <style scoped>
-.d {
+.d{
   background: #f0f2f5 !important;
 }
 .messageDIv{
     border-radius: 7px;
     background: #009688 !important;
     background: white !important;
+}
+.dd{
+  border: solid black 1px !important;
+  background: red !important;
+}
+
+.tab1{
+  width:100%;
+
 }
 </style>

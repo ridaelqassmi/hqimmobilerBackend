@@ -34,7 +34,7 @@
 
     <!-----Filters--------------->
 
-    <RentPostFilterComponent  @getDataByFilter="getDataByFilter"/>
+    <RentPostFilterComponent  @getDataByFilter="checkIfFilterIsApplied"/>
 
     <!--end Filters---->
    
@@ -72,6 +72,7 @@ export default {
 
   data() {
     return {
+      filtersIsApplied:false,
       posts: [],
       correntPage: 0,
       numberPages: 0,
@@ -80,11 +81,26 @@ export default {
       totalElements: 0,
       categories: [],
       categoriesId: 0,
+      filters: {
+        type:"",
+        areaMax: 0,
+        areaMin: 0,
+        categorieId: 0,
+        cityId: 0,
+        field: "date",
+        order: 2,
+        page: 0,
+        priceMax: 0,
+        priceMin: 0,
+        roomMax: 0,
+        roomMin: 0,
+        title: "",
+      },
 
     };
   },
   methods: {
-    makeGetRequestToApi(url) {
+   makeGetRequestToApi(url) {
       axios.get(url).then((res) => {
         this.posts = res.data.content;
         this.correntPage = res.data.number;
@@ -94,7 +110,7 @@ export default {
       });
     },
     getPage(page) {
-      console.log();
+      /*
       if (this.categoriesId != 0) {
         this.makeGetRequestToApi(
           "api/rent/categorie/" +
@@ -104,20 +120,58 @@ export default {
         );
       } else {
         this.makeGetRequestToApi("api/rent/page/" + (page - 1));
+      }*/
+
+      if(!this.filtersIsApplied ){
+        this.getAllPosts(page)
+        
+      }else{
+        this.filters.page = page;
+            if(this.filters.type == 1){
+          this.getDataByFilterBuy(this.filters);
+        }else if(this.filters.type == 2){
+          this.getDataByFilterRent(this.filters)
+        }
       }
     },
     getPostByCategorie(id) {
       this.categoriesId = id;
       if (id == 0) {
-        this.correntPage = 0;
-        return this.getPage(this.correntPage + 1);
+        this.filtersIsApplied = false;
+        this.getAllPosts(0)
       }
       this.correntPage = 0;
       this.makeGetRequestToApi(
         "api/rent/categorie/" + id + "/page/" + this.correntPage
       );
     },
-    getDataByFilter(filters){
+
+    checkIfFilterIsApplied(filters){
+     if(filters.type == 1){
+       this.getDataByFilterBuy(filters);
+     }else if(filters.type == 2){
+       this.getDataByFilterRent(filters)
+     }
+     else if(this.$route.query.type == 1 ){
+        this.filtersIsApplied = true;
+        this.filters.type = 1;
+        this.getDataByFilterBuy(filters)
+      }
+      else if(this.$route.query.type == 2){
+        
+        this.filtersIsApplied = true;
+        this.filters.type = 2;
+        this.getDataByFilterRent(filters);
+      }else{
+        this.getAllPosts(0);
+      }
+
+
+      
+
+    },
+    
+    getDataByFilterRent(filters){
       console.log(filters);
       //filters.page = 0;
       axios({
@@ -134,6 +188,33 @@ export default {
         this.totalElements = res.data.totalElements;
         this.numberOfElements = res.data.numberOfElements;
       });
+    },
+     getDataByFilterBuy(filters){
+      console.log(filters);
+      //filters.page = 0;
+      axios({
+        url: "api/buy/filter",
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        data: JSON.stringify(filters),
+      }).then((res) => {
+        this.posts = res.data.content;
+        this.correntPage = res.data.number;
+        this.numberPages = res.data.totalPages;
+        this.totalElements = res.data.totalElements;
+        this.numberOfElements = res.data.numberOfElements;
+      });
+    },
+    getAllPosts(page){
+      axios.get("api/posts/page/"+page).then(res=>{
+        this.posts = res.data.content;
+        this.correntPage = res.data.number;
+        this.numberPages = res.data.totalPages;
+        this.totalElements = res.data.totalElements;
+        this.numberOfElements = res.data.numberOfElements;
+      })
     }
 
   
@@ -146,8 +227,9 @@ export default {
     },*/
   },
   mounted() {
-    
-    this.makeGetRequestToApi("api/rent");
+    this.checkIfFilterIsApplied(this.filters);
+   
+    //this.makeGetRequestToApi("api/rent");
     axios
       .get("api/categories")
       .then((res) => (this.categories = res.data))
@@ -155,6 +237,8 @@ export default {
         let object = { id: 0, categorieName: "All" };
         this.categories.unshift(object);
       });
+
+    this.getDataByFilter(this.filters);
     
   },
 };

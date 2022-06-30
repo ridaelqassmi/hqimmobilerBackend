@@ -24,7 +24,8 @@ public class Messages {
     private User recever;
     @Column
     private String content;
-    @OneToOne
+    @ManyToOne
+
     private Post post;
     private Date date;
 

@@ -17,8 +17,4 @@ public class BuyingPost extends Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public BuyingPost(float price) {
-        this.price = price;
-    }
-
 }

@@ -1,10 +1,10 @@
 package com.HQimmobillier.fpbm.services.servicesImp;
 
 import com.HQimmobillier.fpbm.dto.user.CommentDto;
-import com.HQimmobillier.fpbm.entity.review;
+import com.HQimmobillier.fpbm.entity.Review;
 import com.HQimmobillier.fpbm.entity.Post;
 import com.HQimmobillier.fpbm.exception.ApiRequestException;
-import com.HQimmobillier.fpbm.repository.reviewRepo;
+import com.HQimmobillier.fpbm.repository.ReviewRepo;
 import com.HQimmobillier.fpbm.repository.PostRepository;
 import com.HQimmobillier.fpbm.services.AccountService;
 import com.HQimmobillier.fpbm.services.reviewService;
@@ -17,26 +17,26 @@ import java.util.List;
 
 @Service
 public class reviewServiceImpl implements reviewService {
-    private final reviewRepo commentsRepo;
+    private final ReviewRepo commentsRepo;
     private final PostRepository postRepository;
     private final AccountService accountService;
 
-    public reviewServiceImpl(reviewRepo commentsRepo, PostRepository postRepository, AccountService accountService) {
+    public reviewServiceImpl(ReviewRepo commentsRepo, PostRepository postRepository, AccountService accountService) {
         this.commentsRepo = commentsRepo;
         this.postRepository = postRepository;
         this.accountService = accountService;
     }
 
     @Override
-    public List<review> getCommentsByPostId(long id) {
+    public List<Review> getCommentsByPostId(long id) {
         Post post= postRepository.findById(id).get();
         return commentsRepo.findAllByPost(post);
     }
 
     @Override
-    public review addCommentToPost(CommentDto commentDto) {
+    public Review addCommentToPost(CommentDto commentDto) {
 
-        review comments = new review();
+        Review comments = new Review();
         Post post= postRepository.findById(commentDto.getPostid()).get();
         comments.setRating(commentDto.getRating());
         comments.setUser(accountService.getAuthenticatedUser());
@@ -52,7 +52,7 @@ public class reviewServiceImpl implements reviewService {
         /*we have to remove it only if the user is the authentified and it is his own
         * comments
         * */
-        review comments = commentsRepo.findById(id).get();
+        Review comments = commentsRepo.findById(id).get();
         if(comments.getUser() == accountService.getAuthenticatedUser()){
             commentsRepo.delete(comments);
         }
@@ -63,7 +63,7 @@ public class reviewServiceImpl implements reviewService {
     }
 
     @Override
-    public List<review> getReplyForAspecificComment(long CommmetId) {
+    public List<Review> getReplyForAspecificComment(long CommmetId) {
         return null;
     }
 }

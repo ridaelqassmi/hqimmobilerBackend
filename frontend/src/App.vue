@@ -6,7 +6,32 @@
       class="pa-0 ma-0"
       disable-resize-watcher
     >
+    
       <v-list dense>
+        <div v-if="isAdmin">
+<v-list-item
+          v-for="(item, i) in adminItem"
+          :key="i"
+         
+          class="pa-2 rounded-lg mt-0"
+          :to="item.to"
+        >
+          <v-list-item-icon>
+            <v-icon
+              color="#4A4A4A"
+              class="font-weight-bold"
+              v-text="item.icon"
+            ></v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title
+              color="#4A4A4A"
+              class="font-weight-bold text-capitalized"
+              v-text="item.text"
+            ></v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+</div>
         <v-list-item
           v-for="(item, i) in items"
           :key="i"
@@ -183,12 +208,19 @@ export default {
         icon: "mdi-logout",
         text: "log out",
       },
+    ],
+    adminItem:[
+      {
+        to:'/admin',
+        icon:"mdi-view-dashboard",
+        text:"dashboard"
+      }
     ]
 
     
   }),
   computed: {
-    ...mapState(["userAuthentified", "AuthentifiedUserDetails"]),
+    ...mapState(["userAuthentified", "AuthentifiedUserDetails","isAdmin"]),
   },
 
   watch: {

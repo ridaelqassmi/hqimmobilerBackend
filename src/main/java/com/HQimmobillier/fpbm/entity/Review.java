@@ -1,9 +1,11 @@
 package com.HQimmobillier.fpbm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -12,11 +14,14 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class review {
+@ToString
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @OneToOne
+
     private User user;
     private String content;
     @Column(columnDefinition="double(2,1)")
@@ -24,11 +29,13 @@ public class review {
     private double rating;
     @Column
     private Timestamp createdAt;
+
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
+
     private Post post;
 
-    public review(User user, String content, double rating, Timestamp createdAt, Post post) {
+    public Review(User user, String content, double rating, Timestamp createdAt, Post post) {
         this.user = user;
         this.content = content;
         this.rating = rating;

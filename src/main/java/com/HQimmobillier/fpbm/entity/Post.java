@@ -1,5 +1,6 @@
 package com.HQimmobillier.fpbm.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.AllArgsConstructor;
@@ -28,8 +29,7 @@ public abstract class Post {
 
     @Column
     private String title;
-    @Column
-    private String location;
+
     @Column
     private int numberRoom;
     @Column
@@ -51,7 +51,13 @@ public abstract class Post {
     private Ville cities;
     @OneToMany(mappedBy = "post",cascade = CascadeType.REMOVE)
 
+
     private List<PostImages> images;
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<Messages> messages;
+
+
     @ManyToOne
     private Categories categories;
     private double lat;
@@ -59,16 +65,16 @@ public abstract class Post {
     private String thumbnail;
     @ManyToOne
     private User user;
-    @OneToMany(cascade = CascadeType.REMOVE)
-
-    private List<review> comments;
-
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Review> reviews;
     private Date availableTill;
 
     @OneToMany
     private List<Features> features;
     private int SalleBain;
     private String adress;
+
+
     @OneToOne
     private Etat etat;
     @Transient
@@ -77,9 +83,9 @@ public abstract class Post {
         return val == null ? null : val.value();
     }
 
-    public Post(String title, String location, int numberRoom, boolean hasAppliance, String description, double price, Date date, boolean approved, float areaSize, boolean isClosed, Ville cities, List<PostImages> images, Categories categories, double lat, double lng, String thumbnail, User user, List<review> comments, Date availableTill, List<Features> features, int salleBain, String adress, Etat etat) {
+    public Post(String title, int numberRoom, boolean hasAppliance, String description, double price, Date date, boolean approved, float areaSize, boolean isClosed, Ville cities, List<PostImages> images, Categories categories, double lat, double lng, String thumbnail, User user, List<Review> comments, Date availableTill, List<Features> features, int salleBain, String adress, Etat etat) {
         this.title = title;
-        this.location = location;
+
         this.numberRoom = numberRoom;
         this.hasAppliance = hasAppliance;
         this.description = description;
@@ -95,7 +101,7 @@ public abstract class Post {
         this.lng = lng;
         this.thumbnail = thumbnail;
         this.user = user;
-        this.comments = comments;
+        this.reviews = comments;
         this.availableTill = availableTill;
         this.features = features;
         SalleBain = salleBain;

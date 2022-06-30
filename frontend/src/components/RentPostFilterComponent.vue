@@ -235,9 +235,10 @@ export default {
       ],
       RegionItems: [],
       CityItems: [],
-      selectedType: 0,
+      selectedType: 1,
       SelectedCity: "",
       filters: {
+        type:"",
         areaMax: 0,
         areaMin: 0,
         categorieId: 0,
@@ -252,7 +253,7 @@ export default {
         title: "",
       },
       Defaultfilters:{
-        
+        type:"",
         areaMax: 0,
         areaMin: 0,
         categorieId: 0,
@@ -356,6 +357,7 @@ export default {
       if(this.title!==""){
         filters.title = this.title;
       }
+      filters.type = this.selectedType;
       console.log("just before submited");
       console.log(filters);
       this.$emit("getDataByFilter",filters);

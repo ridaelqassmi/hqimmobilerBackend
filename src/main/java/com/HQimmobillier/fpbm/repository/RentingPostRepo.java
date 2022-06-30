@@ -1,15 +1,18 @@
     package com.HQimmobillier.fpbm.repository;
 
     import com.HQimmobillier.fpbm.entity.Categories;
+    import com.HQimmobillier.fpbm.entity.Post;
     import com.HQimmobillier.fpbm.entity.RentingPost;
     import com.HQimmobillier.fpbm.entity.User;
     import org.springframework.data.domain.Page;
     import org.springframework.data.domain.Pageable;
     import org.springframework.data.jpa.repository.JpaRepository;
+    import org.springframework.data.jpa.repository.Modifying;
     import org.springframework.data.jpa.repository.Query;
     import org.springframework.data.repository.query.Param;
     import org.springframework.web.multipart.MultipartFile;
 
+    import javax.transaction.Transactional;
     import java.util.List;
 
     public interface RentingPostRepo extends JpaRepository<RentingPost,Long> {
@@ -36,13 +39,16 @@
                 "AND (COALESCE(NULLIF(:minArea, 0) ,NULLIF(:maxArea, 0),NULL ) IS NULL OR p.area_size BETWEEN :minArea AND :maxArea)"
                 ,nativeQuery = true
         )
-        Page<RentingPost>  findByCostumeFilter(@Param("title") String title,@Param("cityId") Long CityId,@Param("Categories") Long categoryId,
-                                               @Param("priceMin") double priceMin,@Param("priceMax") double priceMax, @Param("minRoom") int MinRoom,@Param("maxRoom")
+        Page<RentingPost>  findByCostumeFilter(@Param("title") String title, @Param("cityId") Long CityId, @Param("Categories") Long categoryId,
+                                        @Param("priceMin") double priceMin, @Param("priceMax") double priceMax, @Param("minRoom") int MinRoom, @Param("maxRoom")
                                                int MaxRoom, @Param("minArea") float minArea, @Param("maxArea") float MaxArea, Pageable pageRequest);
 
 
         List<RentingPost> findByTitleLike(String title);
 
 
-
+        @Modifying
+        @Transactional
+        @Query(value = "DELETE From renting_post where id =:id",nativeQuery = true)
+        void MydeleteById(@Param("id") Long id);
     }

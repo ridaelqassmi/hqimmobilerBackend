@@ -25,14 +25,16 @@ export default new Vuex.Store({
     userAuthentified: false,
     AuthentifiedUserDetails: {},
     showAuthModal:false,
+    isAdmin :false
 
   },
   mutations: {
     toggleAuthentified: (state) => {
 
-
-
       if (localStorage.getItem("Autorization") != null && parseJwt(localStorage.getItem("Autorization")).exp > (Date.now() / 1000)) {
+        if(parseJwt(localStorage.getItem("Autorization")).roles.includes("ADMIN")){
+          state.isAdmin = true;
+        }
         state.userAuthentified = true;
         axios.defaults.headers.common['Authorization'] = localStorage.getItem("Autorization");
       } else {
@@ -53,6 +55,7 @@ export default new Vuex.Store({
      
     
       state.userAuthentified = false;
+      state.isAdmin = false;
       state.AuthentifiedUserDetails={},
       axios.defaults.headers.common['Authorization']="";
       localStorage.removeItem("Autorization");

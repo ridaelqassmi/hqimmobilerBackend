@@ -22,4 +22,8 @@ public interface FeaturesService {
 
     //get A feature by id
     public Features getFeatureById(Long id);
+
+    Features updateFeature(AddFeaturesRequest addFeaturesRequest) throws IOException;
+
+    void deleteFeature(long id);
 }
